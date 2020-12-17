@@ -36,8 +36,14 @@
       ff = "/Applications/Firefox.app/Contents/MacOS/firefox -P --no-remote&";
     };
 
+    shellGlobalAliases = {
+      python-default-shell = "nix-shell $HOME/.config/nixpkgs/python-default-shell.nix";
+      nodejs-default-shel = "nix-shell $HOME/.config/nixpkgs/nodejs-default-shell.nix";
+      ruby-default-shell = "nix-shell $HOME/.config/nixpkgs/ruby-default-shell.nix";
+    };
+
     initExtraBeforeCompInit = ''
-      . /Users/hadi.lashkari/.nix-profile/etc/profile.d/nix.sh
+      . $HOME/.nix-profile/etc/profile.d/nix.sh
     '';
 
     oh-my-zsh = {
