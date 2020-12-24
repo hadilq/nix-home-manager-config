@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
 
+let
+  homeDirectory = "/Users/hadi.lashkari";
+in
 {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -7,7 +10,7 @@
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "hadi.lashkari";
-  home.homeDirectory = "/Users/hadi.lashkari";
+  home.homeDirectory = homeDirectory;
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.android_sdk.accept_license = true;
@@ -19,6 +22,7 @@
     nix-zsh-completions
     jetbrains-mono
     openjdk8
+    (callPackage ./brew-installer-derivation { } homeDirectory)
   ];
 
   programs.zsh = {
