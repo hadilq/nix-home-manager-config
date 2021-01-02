@@ -16,6 +16,7 @@ in
   nixpkgs.config.android_sdk.accept_license = true;
 
   home.packages = with pkgs; [
+    gnupg
     htop
     screen
     zsh

@@ -9,6 +9,7 @@ let
     "keepassx"
     "openvpn-connect"
     "gimp"
+    "skype"
   ];
   apps = builtins.concatStringsSep " " appsList;
   myScript = pkgs.writeShellScriptBin "brew-installer-script" ''
