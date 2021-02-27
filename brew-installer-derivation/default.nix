@@ -10,6 +10,7 @@ let
     "openvpn-connect"
     "gimp"
     "skype"
+    "visual-studio-code"
   ];
   apps = builtins.concatStringsSep " " appsList;
   myScript = pkgs.writeShellScriptBin "brew-installer-script" ''

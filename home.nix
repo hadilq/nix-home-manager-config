@@ -43,7 +43,7 @@ in
 
     shellGlobalAliases = {
       python-default-shell = "nix-shell $HOME/.config/nixpkgs/python-default-shell.nix";
-      nodejs-default-shel = "nix-shell $HOME/.config/nixpkgs/nodejs-default-shell.nix";
+      nodejs-default-shell = "nix-shell $HOME/.config/nixpkgs/nodejs-default-shell.nix";
       ruby-default-shell = "nix-shell $HOME/.config/nixpkgs/ruby-default-shell.nix";
     };
 
@@ -70,6 +70,9 @@ in
       vim-flutter
       vim-flatbuffers
       vim-android
+      vim-tmux
+      vim-tmux-clipboard
+      vim-tmux-focus-events
       rust-vim
       vim-ruby
     ];
@@ -90,6 +93,31 @@ in
     '';
   };
 
+  programs.tmux = {
+    enable = true;
+    extraConfig = ''
+      set -g prefix ^A
+      set-window-option -g mode-keys vi
+      bind-key -T copy-mode-vi v send -X begin-selection
+      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
+      bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
+      bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
+    '';
+  };
+
+  programs.neovim = {
+    enable = true;
+    plugins = with pkgs.vimPlugins; [
+      vim-flutter
+      vim-flatbuffers
+      vim-android
+      vim-tmux
+      vim-tmux-clipboard
+      vim-tmux-focus-events
+      rust-vim
+      vim-ruby
+    ];
+  };
   home.file = {
     ".screenrc" = {
       text = ''
