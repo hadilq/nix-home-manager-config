@@ -62,6 +62,11 @@ in
     enable = true;
     userName = "Hadi";
     userEmail = "hadilashkari@gmail.com";
+    extraConfig = {
+      core = {
+        editor = "vim";
+      };
+    };
   };
 
   programs.vim = {
@@ -88,6 +93,8 @@ in
       " When indent with '>' use 2 spaces width
       set shiftwidth=2
       inoremap jj <Esc>
+      map <F2> :.w !pbcopy<CR><CR>
+      map <F3> :r !pbpaste<CR>
 
       " set clipboard=unnamed
     '';
