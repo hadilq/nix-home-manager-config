@@ -1,15 +1,15 @@
 { config, pkgs, ... }:
-
 let
-  homeDirectory = "/Users/hadi.lashkari";
-in
-{
+  localConfig = import ./.local/config.nix {};
+  userName = localConfig.userName;
+  homeDirectory = localConfig.homeDirectory;
+in {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "hadi.lashkari";
+  home.username = userName;
   home.homeDirectory = homeDirectory;
 
   nixpkgs.config.allowUnfree = true;
