@@ -31,7 +31,7 @@ in {
     enable = true;
     enableCompletion = true;
     initExtra = ''
-      export JAVA_HOME="/Users/hadi.lashkari/jdk"
+      export JAVA_HOME="/Users/${userName}/jdk"
       export PATH=$PATH:/usr/local/bin
 
       source $HOME/.zshrc-credentials
@@ -126,6 +126,7 @@ in {
       vim-ruby
     ];
   };
+
   home.file = {
     ".screenrc" = {
       text = ''
