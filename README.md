@@ -20,10 +20,9 @@ You can repeate it as the selling point of `nix` is being repeatable. You just n
 {}:
 let
   userName = "your user name";
-  homeDirectory = "/Users/${userName}";
 in {
   userName = userName;
-  homeDirectory = homeDirectory;
+  homeDirectory =  "/Users/${userName}";
 }
 ```
 Then run `home-manager switch` and done! All my packages/apps are in your machine with the same configuration.
