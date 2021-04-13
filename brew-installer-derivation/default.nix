@@ -4,6 +4,7 @@
 let
   appsList = [
     "firefox"
+    "thunderbird"
     "chromium"
     "clipy"
     "keepassx"
