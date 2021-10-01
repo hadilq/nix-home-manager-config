@@ -18,6 +18,8 @@ in {
   home.packages = with pkgs; [
     gnupg
     curl
+    nmap
+    telnet
     htop
     screen
     zsh
@@ -35,7 +37,6 @@ in {
       export PATH=$PATH:/usr/local/bin
 
       source $HOME/.zshrc-credentials
-
     '';
 
     shellAliases = {
@@ -135,7 +136,6 @@ in {
     };
 
     "jdk".source = "${pkgs.openjdk8}";
-    "jdk8".source = "${pkgs.openjdk8}";
   };
 
   # This value determines the Home Manager release that your
@@ -148,3 +148,4 @@ in {
   # changes in each release.
   home.stateVersion = "21.03";
 }
+

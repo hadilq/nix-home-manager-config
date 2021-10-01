@@ -8,7 +8,6 @@ let
     "chromium"
     "clipy"
     "keepassx"
-    "openvpn-connect"
     "gimp"
     "skype"
     "visual-studio-code"
