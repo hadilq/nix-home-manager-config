@@ -25,7 +25,7 @@ in {
     zsh
     nix-zsh-completions
     jetbrains-mono
-    openjdk8
+    jdk11
     (callPackage ./brew-installer-derivation { } homeDirectory)
   ];
 
@@ -105,7 +105,6 @@ in {
   programs.tmux = {
     enable = true;
     extraConfig = ''
-      set -g prefix ^A
       set-window-option -g mode-keys vi
       bind-key -T copy-mode-vi v send -X begin-selection
       bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
@@ -135,7 +134,7 @@ in {
       '';
     };
 
-    "jdk".source = "${pkgs.openjdk8}";
+    "jdk".source = "${pkgs.jdk11}";
   };
 
   # This value determines the Home Manager release that your
