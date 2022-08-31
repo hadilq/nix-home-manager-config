@@ -1,8 +1,22 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   localConfig = import ./.local/config.nix {};
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
+  inherit (pkgs) stdenv;
+
+  androidComposition = lib.optionals stdenv.isLinux pkgs.androidenv.composeAndroidPackages {
+    platformToolsVersion = "31.0.3";
+    buildToolsVersions = [ "30.0.3" "31.0.0" ];
+    includeEmulator = false;
+    platformVersions = [ "28" "29" "30" ];
+    includeSources = true;
+    includeSystemImages = false;
+    cmakeVersions = [ "3.10.2" ];
+    includeNDK = true;
+    ndkVersions = ["22.0.7026061"];
+    useGoogleAPIs = false;
+  };
 in {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -19,24 +33,56 @@ in {
     gnupg
     curl
     nmap
-    telnet
+    inetutils # telnet
     htop
     screen
-    zsh
+    vimPlugins.rust-vim
     nix-zsh-completions
     jetbrains-mono
+    zsh
+    patchelf
     jdk11
-    (callPackage ./brew-installer-derivation { } homeDirectory)
+    android-studio
+    androidStudioPackages.canary
+    jetbrains.idea-community
+    jetbrains.pycharm-community
+    python38Packages.conda
+    rustc
+    rustfmt
+    rustPackages.clippy
+    cargo
+    cargo-make
+    flatbuffers
+    bitwarden
+    bitwarden-cli
+  ] ++ lib.optionals stdenv.isDarwin [
+    (import ./brew-installer-derivation { inherit stdenv; inherit pkgs; } homeDirectory)
+  ] ++ lib.optionals stdenv.isLinux [
+    aspell
+    aspellDicts.en
+    aspellDicts.ca
+    firefox
+    thunderbird
+    vlc
+    keepassx
+    keepassxc
+    texlive.combined.scheme-medium
+    libreoffice
+    gimp
+    yakuake
+    gdrive
+    flutter
   ];
 
   programs.zsh = {
     enable = true;
+    autocd = true;
+    dotDir = ".config/zsh";
     enableCompletion = true;
+    enableAutosuggestions = true;
     initExtra = ''
-      export JAVA_HOME="/Users/${userName}/jdk"
+      export JAVA_HOME="${homeDirectory}/jdk"
       export PATH=$PATH:/usr/local/bin
-
-      source $HOME/.zshrc-credentials
     '';
 
     shellAliases = {
@@ -49,7 +95,7 @@ in {
       ruby-default-shell = "nix-shell $HOME/.config/nixpkgs/ruby-default-shell.nix";
     };
 
-    initExtraBeforeCompInit = ''
+    initExtraBeforeCompInit = lib.mkIf stdenv.isDarwin ''
       . $HOME/.nix-profile/etc/profile.d/nix.sh
     '';
 
@@ -135,6 +181,7 @@ in {
     };
 
     "jdk".source = "${pkgs.jdk11}";
+    "AndroidSdk".source = lib.mkIf stdenv.isLinux "${androidComposition.androidsdk}/libexec/android-sdk";
   };
 
   # This value determines the Home Manager release that your
