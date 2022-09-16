@@ -42,10 +42,6 @@ in {
     zsh
     patchelf
     jdk11
-    android-studio
-    androidStudioPackages.canary
-    jetbrains.idea-community
-    jetbrains.pycharm-community
     python38Packages.conda
     rustc
     rustfmt
@@ -72,6 +68,10 @@ in {
     yakuake
     gdrive
     flutter
+    android-studio
+    androidStudioPackages.canary
+    jetbrains.idea-community
+    jetbrains.pycharm-community
   ];
 
   programs.zsh = {
