@@ -49,7 +49,6 @@ in {
     cargo
     cargo-make
     flatbuffers
-    bitwarden
     bitwarden-cli
   ] ++ lib.optionals stdenv.isDarwin [
     (import ./brew-installer-derivation { inherit stdenv; inherit pkgs; } homeDirectory)
@@ -72,6 +71,7 @@ in {
     androidStudioPackages.canary
     jetbrains.idea-community
     jetbrains.pycharm-community
+    bitwarden
   ];
 
   programs.zsh = {
@@ -181,7 +181,9 @@ in {
     };
 
     "jdk".source = "${pkgs.jdk11}";
-    "AndroidSdk".source = lib.mkIf stdenv.isLinux "${androidComposition.androidsdk}/libexec/android-sdk";
+    "AndroidSdk" = lib.mkIf stdenv.isLinux { 
+      source = "${androidComposition.androidsdk}/libexec/android-sdk";
+    };
   };
 
   # This value determines the Home Manager release that your
