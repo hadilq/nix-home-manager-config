@@ -4,19 +4,6 @@ let
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
   inherit (pkgs) stdenv;
-
-  androidComposition = lib.optionals stdenv.isLinux pkgs.androidenv.composeAndroidPackages {
-    platformToolsVersion = "31.0.3";
-    buildToolsVersions = [ "30.0.3" "31.0.0" ];
-    includeEmulator = false;
-    platformVersions = [ "28" "29" "30" ];
-    includeSources = true;
-    includeSystemImages = false;
-    cmakeVersions = [ "3.10.2" ];
-    includeNDK = true;
-    ndkVersions = ["22.0.7026061"];
-    useGoogleAPIs = false;
-  };
 in {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -36,19 +23,9 @@ in {
     inetutils # telnet
     htop
     screen
-    vimPlugins.rust-vim
     nix-zsh-completions
-    jetbrains-mono
     zsh
     patchelf
-    jdk11
-    python38Packages.conda
-    rustc
-    rustfmt
-    rustPackages.clippy
-    cargo
-    cargo-make
-    flatbuffers
     bitwarden-cli
   ] ++ lib.optionals stdenv.isDarwin [
     (import ./brew-installer-derivation { inherit stdenv; inherit pkgs; } homeDirectory)
@@ -59,6 +36,7 @@ in {
     firefox
     thunderbird
     vlc
+    audacity
     keepassx
     keepassxc
     texlive.combined.scheme-medium
@@ -66,12 +44,8 @@ in {
     gimp
     yakuake
     gdrive
-    flutter
-    android-studio
-    androidStudioPackages.canary
-    jetbrains.idea-community
-    jetbrains.pycharm-community
     bitwarden
+    virt-manager
   ];
 
   programs.zsh = {
@@ -80,8 +54,7 @@ in {
     dotDir = ".config/zsh";
     enableCompletion = true;
     enableAutosuggestions = true;
-    initExtra = ''
-      export JAVA_HOME="${homeDirectory}/jdk"
+    initExtra = lib.mkIf stdenv.isDarwin ''
       export PATH=$PATH:/usr/local/bin
     '';
 
@@ -93,6 +66,7 @@ in {
       python-default-shell = "nix-shell $HOME/.config/nixpkgs/python-default-shell.nix";
       nodejs-default-shell = "nix-shell $HOME/.config/nixpkgs/nodejs-default-shell.nix";
       ruby-default-shell = "nix-shell $HOME/.config/nixpkgs/ruby-default-shell.nix";
+      jupyter-default-shell = "nix-shell $HOME/.config/nixpkgs/jupyter-default-shell.nix";
     };
 
     initExtraBeforeCompInit = lib.mkIf stdenv.isDarwin ''
@@ -115,6 +89,12 @@ in {
         editor = "vim";
       };
     };
+
+    includes = [{
+        contents = {
+          init.defaultBranch = "main";
+        };
+    }];
   };
 
   programs.vim = {
@@ -173,16 +153,30 @@ in {
     ];
   };
 
+  programs.helix = {
+    enable = true;
+    languages =[{
+      name = "rust";
+    } {
+      name = "nix";
+    }];
+    settings = {
+      keys.normal = {
+        C-s = ":w"; # Maps the Ctrl-s to the typable command :w which is an alias for :write (save file)
+        a = "move_char_left"; # Maps the 'a' key to the move_char_left command
+        w = "move_line_up"; # Maps the 'w' key move_line_up
+      };
+      keys.insert = {
+        j = { j = "normal_mode"; };
+      };
+    };
+  };
+
   home.file = {
     ".screenrc" = {
       text = ''
         defscrollback 5000
       '';
-    };
-
-    "jdk".source = "${pkgs.jdk11}";
-    "AndroidSdk" = lib.mkIf stdenv.isLinux { 
-      source = "${androidComposition.androidsdk}/libexec/android-sdk";
     };
   };
 
