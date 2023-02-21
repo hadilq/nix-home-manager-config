@@ -27,7 +27,17 @@ in {
     zsh
     patchelf
     bitwarden-cli
-  ] ++ lib.optionals stdenv.isDarwin [
+    font-awesome
+    font-awesome_4
+  ] ++ (with xorg; [
+    fontbh75dpi
+    fontbh100dpi
+    fonttosfnt
+    fontalias
+    fontbhttf
+    fontsunmisc
+    fontbhtype1
+  ]) ++ lib.optionals stdenv.isDarwin [
     (import ./brew-installer-derivation { inherit stdenv; inherit pkgs; } homeDirectory)
   ] ++ lib.optionals stdenv.isLinux [
     aspell
@@ -39,7 +49,6 @@ in {
     audacity
     keepassx
     keepassxc
-    texlive.combined.scheme-medium
     libreoffice
     gimp
     yakuake
@@ -47,6 +56,8 @@ in {
     bitwarden
     virt-manager
   ];
+
+  fonts.fontconfig.enable = true;
 
   programs.zsh = {
     enable = true;
