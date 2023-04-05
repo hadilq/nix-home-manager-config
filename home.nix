@@ -150,6 +150,7 @@ in {
     enable = true;
     extraConfig = ''
       set-window-option -g mode-keys vi
+      set-option -g history-limit 20000
       bind-key -T copy-mode-vi v send -X begin-selection
       bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
       bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"

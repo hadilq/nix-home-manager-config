@@ -11,6 +11,7 @@ let
     "gimp"
     "skype"
     "visual-studio-code"
+    "libreoffice"
   ];
   apps = builtins.concatStringsSep " " appsList;
   myScript = pkgs.writeShellScriptBin "brew-installer-script" ''
