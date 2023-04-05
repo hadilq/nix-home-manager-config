@@ -29,6 +29,12 @@ in {
     bitwarden-cli
     font-awesome
     font-awesome_4
+    kotlin-language-server
+    jdt-language-server
+    rust-analyzer
+    rnix-lsp
+    cmake-language-server
+    yaml-language-server
   ] ++ (with xorg; [
     fontbh75dpi
     fontbh100dpi
@@ -56,6 +62,7 @@ in {
     bitwarden
     virt-manager
     krfb
+    python-language-server
   ];
 
   fonts.fontconfig.enable = true;
@@ -178,8 +185,18 @@ in {
       name = "rust";
     } {
       name = "nix";
+    } {
+      name = "kotlin";
+    } {
+      name = "java";
     }];
     settings = {
+      editor = {
+        shell = [ "zsh" "-c" ];
+        lsp = {
+          display-messages = true;
+        };
+      };
       keys.normal = {
       };
       keys.insert = {
@@ -193,8 +210,7 @@ in {
     settings = {
       scroll_buffer_size = 20000;
       scrollback_editor = "hx";
-      disable_mouse_mode = true;
-      copy_command = "xclip -selection clipboard";
+      copy_command = if stdenv.isDarwin then "pbcopy" else "xclip -selection clipboard";
     };
   };
 
