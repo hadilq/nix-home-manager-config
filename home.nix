@@ -103,7 +103,7 @@ in {
     enable = true;
     extraConfig = {
       core = {
-        editor = "vim";
+        editor = "hx";
       };
     };
 
