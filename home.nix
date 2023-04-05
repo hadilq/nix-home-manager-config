@@ -55,6 +55,7 @@ in {
     gdrive
     bitwarden
     virt-manager
+    krfb
   ];
 
   fonts.fontconfig.enable = true;
@@ -93,8 +94,6 @@ in {
 
   programs.git = {
     enable = true;
-    userName = "Hadi";
-    userEmail = "hadilashkari@gmail.com";
     extraConfig = {
       core = {
         editor = "vim";
@@ -104,6 +103,14 @@ in {
     includes = [{
         contents = {
           init.defaultBranch = "main";
+          user = {
+            email = "hadilashkari@gmail.com";
+            name = "Hadi";
+            signingKey = "416AD9E8E372C075";
+          };
+          commit = {
+            gpgSign = true;
+          };
         };
     }];
   };
@@ -173,13 +180,20 @@ in {
     }];
     settings = {
       keys.normal = {
-        C-s = ":w"; # Maps the Ctrl-s to the typable command :w which is an alias for :write (save file)
-        a = "move_char_left"; # Maps the 'a' key to the move_char_left command
-        w = "move_line_up"; # Maps the 'w' key move_line_up
       };
       keys.insert = {
         j = { j = "normal_mode"; };
       };
+    };
+  };
+
+  programs.zellij = {
+    enable = true;
+    settings = {
+      scroll_buffer_size = 20000;
+      scrollback_editor = "hx";
+      disable_mouse_mode = true;
+      copy_command = "xclip -selection clipboard";
     };
   };
 
