@@ -29,6 +29,7 @@ in {
     bitwarden-cli
     font-awesome
     font-awesome_4
+    nerdfonts
     kotlin-language-server
     jdt-language-server
     rust-analyzer
@@ -189,6 +190,9 @@ in {
       name = "kotlin";
     } {
       name = "java";
+    } {
+      name = "python";
+      language-server = { command = "python-language-server"; };
     }];
     settings = {
       editor = {
@@ -196,8 +200,6 @@ in {
         lsp = {
           display-messages = true;
         };
-      };
-      keys.normal = {
       };
       keys.insert = {
         j = { j = "normal_mode"; };
