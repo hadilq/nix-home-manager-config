@@ -111,7 +111,7 @@ in {
         contents = {
           init.defaultBranch = "main";
           user = {
-            email = "hadilashkari@gmail.com";
+            email = "hadilq.dev@gmail.com";
             name = "Hadi";
             signingKey = "416AD9E8E372C075";
           };
