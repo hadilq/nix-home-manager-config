@@ -17,7 +17,6 @@ in {
   nixpkgs.config.android_sdk.accept_license = true;
 
   home.packages = with pkgs; [
-    gnupg
     curl
     nmap
     inetutils # telnet
@@ -31,11 +30,14 @@ in {
     font-awesome_4
     nerdfonts
     kotlin-language-server
-    jdt-language-server
-    rust-analyzer
-    rnix-lsp
+    jdt-language-server # java language server
+    rust-analyzer # rust language server
+    rnix-lsp # nix language server
     cmake-language-server
     yaml-language-server
+    texlab # latex language server
+    ltex-ls # markdown language server
+    taplo-lsp # toml lanugae server
   ] ++ (with xorg; [
     fontbh75dpi
     fontbh100dpi
@@ -67,6 +69,19 @@ in {
   ];
 
   fonts.fontconfig.enable = true;
+  
+  programs.gpg = {
+    enable = true;
+  };
+
+  services.gpg-agent = {
+    enable = true;
+    enableSshSupport = true;
+    pinentryFlavor = "curses";
+    defaultCacheTtl = 2592000;
+    defaultCacheTtlSsh = 2592000;
+    maxCacheTtl = 2592000;
+  };
 
   programs.zsh = {
     enable = true;
@@ -187,9 +202,18 @@ in {
     } {
       name = "nix";
     } {
+      name = "latex";
+    } {
+      name = "markdown";
+      language-server = { command = "ltex-ls"; };
+    } {
+      name = "toml";
+    } {
       name = "kotlin";
     } {
       name = "java";
+      file-types = [ "java" "gradle" ];
+      language-server = { command = "jdt-language-server"; };
     } {
       name = "python";
       language-server = { command = "python-language-server"; };
@@ -213,14 +237,6 @@ in {
       scroll_buffer_size = 20000;
       scrollback_editor = "hx";
       copy_command = if stdenv.isDarwin then "pbcopy" else "xclip -selection clipboard";
-    };
-  };
-
-  home.file = {
-    ".screenrc" = {
-      text = ''
-        defscrollback 5000
-      '';
     };
   };
 
