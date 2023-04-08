@@ -66,10 +66,11 @@ in {
     virt-manager
     krfb
     python-language-server
+    nodePackages.bash-language-server
   ];
 
   fonts.fontconfig.enable = true;
-  
+
   programs.gpg = {
     enable = true;
   };
@@ -204,6 +205,8 @@ in {
     } {
       name = "latex";
     } {
+      name = "bash";
+    }  {
       name = "markdown";
       language-server = { command = "ltex-ls"; };
     } {
