@@ -38,6 +38,7 @@ in {
     texlab # latex language server
     ltex-ls # markdown language server
     taplo-lsp # toml lanugae server
+    solargraph # ruby language server
   ] ++ (with xorg; [
     fontbh75dpi
     fontbh100dpi
@@ -67,6 +68,7 @@ in {
     krfb
     python-language-server
     nodePackages.bash-language-server
+    neovim-qt
   ];
 
   fonts.fontconfig.enable = true;
@@ -184,15 +186,42 @@ in {
 
   programs.neovim = {
     enable = true;
+    extraConfig = builtins.concatStringsSep "\n" [
+      (lib.strings.fileContents ./neovim/nvim-config.vim)
+      ''
+        lua << EOF
+        ${lib.strings.fileContents ./neovim/nvim-config.lua}
+        ${lib.strings.fileContents ./neovim/nvim-lsp.lua}
+        EOF
+      ''
+    ];
+
     plugins = with pkgs.vimPlugins; [
       vim-flutter
       vim-flatbuffers
       vim-android
-      vim-tmux
-      vim-tmux-clipboard
-      vim-tmux-focus-events
       rust-vim
       vim-ruby
+      vim-devicons
+      vim-snippets
+      nerdtree
+      vim-startify
+      nvim-lspconfig
+      lsp-format-nvim
+      (nvim-treesitter.withPlugins (p: [
+        p.javascript
+        p.json
+        p.vim
+        p.nix
+        p.html
+        p.yaml
+        p.dockerfile
+        p.java
+        p.rust
+        p.kotlin
+        p.ruby
+        p.python
+      ]))
     ];
   };
 
