@@ -217,6 +217,7 @@ in {
         p.yaml
         p.dockerfile
         p.java
+        p.kotlin
         p.rust
         p.kotlin
         p.ruby

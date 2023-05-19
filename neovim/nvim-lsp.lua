@@ -1,9 +1,15 @@
--- Setup language servers.
-local lspconfig = require('lspconfig')
-lspconfig.pyright.setup {}
-lspconfig.rust_analyzer.setup {}
-lspconfig.rnix.setup {}
+-- Setup language servers and lsp-format-nvim
 
+local lspconfig = require('lspconfig')
+local lsp_format = require("lsp-format")
+
+lspconfig.pyright.setup { on_attach = lsp_format.on_attach }
+lspconfig.rust_analyzer.setup { on_attach = lsp_format.on_attach }
+lspconfig.rnix.setup { on_attach =  lsp_format.on_attach }
+lspconfig.kotlin_language_server.setup { on_attach = lsp_format.on_attach }
+lspconfig.ltex.setup { on_attach = lsp_format.on_attach }
+lspconfig.bashls.setup { on_attach = lsp_format.on_attach }
+lspconfig.jsonls.setup { on_attach = lsp_format.on_attach }
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -43,10 +49,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
--- Setup lsp-format-nvim
-require("lsp-format").setup {}
-require("lspconfig").gopls.setup { on_attach = require("lsp-format").on_attach }
-
 -- Setup nvim-treesitter
 require'nvim-treesitter.configs'.setup {
   sync_install = false,
@@ -56,5 +58,4 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
 }
-
 
