@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> { } }:
 let
   userHome = "${builtins.toString ./.user-home}";
   jupyter = pkgs.python3.withPackages (ps: with ps; [

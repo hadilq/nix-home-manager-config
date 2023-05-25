@@ -1,10 +1,11 @@
 { config, pkgs, lib, ... }:
 let
-  localConfig = import ./.local/config.nix {};
+  localConfig = import ./.local/config.nix { };
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
   inherit (pkgs) stdenv;
-in {
+in
+{
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -77,7 +78,7 @@ in {
     enable = true;
   };
 
-  services.gpg-agent = {
+  services.gpg-agent = lib.optionalAttrs stdenv.isLinux {
     enable = true;
     enableSshSupport = true;
     pinentryFlavor = "curses";
@@ -127,17 +128,17 @@ in {
     };
 
     includes = [{
-        contents = {
-          init.defaultBranch = "main";
-          user = {
-            email = "hadilq.dev@gmail.com";
-            name = "Hadi";
-            signingKey = "416AD9E8E372C075";
-          };
-          commit = {
-            gpgSign = true;
-          };
+      contents = {
+        init.defaultBranch = "main";
+        user = {
+          email = "hadilq.dev@gmail.com";
+          name = "Hadi";
+          signingKey = "416AD9E8E372C075";
         };
+        commit = {
+          gpgSign = true;
+        };
+      };
     }];
   };
 
@@ -228,29 +229,37 @@ in {
 
   programs.helix = {
     enable = true;
-    languages =[{
+    languages = [{
       name = "rust";
-    } {
-      name = "nix";
-    } {
-      name = "latex";
-    } {
-      name = "bash";
-    }  {
-      name = "markdown";
-      language-server = { command = "ltex-ls"; };
-    } {
-      name = "toml";
-    } {
-      name = "kotlin";
-    } {
-      name = "java";
-      file-types = [ "java" "gradle" ];
-      language-server = { command = "jdt-language-server"; };
-    } {
-      name = "python";
-      language-server = { command = "python-language-server"; };
-    }];
+    }
+      {
+        name = "nix";
+      }
+      {
+        name = "latex";
+      }
+      {
+        name = "bash";
+      }
+      {
+        name = "markdown";
+        language-server = { command = "ltex-ls"; };
+      }
+      {
+        name = "toml";
+      }
+      {
+        name = "kotlin";
+      }
+      {
+        name = "java";
+        file-types = [ "java" "gradle" ];
+        language-server = { command = "jdt-language-server"; };
+      }
+      {
+        name = "python";
+        language-server = { command = "python-language-server"; };
+      }];
     settings = {
       editor = {
         shell = [ "zsh" "-c" ];

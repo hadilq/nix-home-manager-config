@@ -28,7 +28,7 @@ stdenv.mkDerivation rec {
 
   builder = "${pkgs.bash}/bin/bash";
   args = [ "${myScript}/bin/brew-installer-script" ];
-  buildInputs = [];
+  buildInputs = [ ];
   system = builtins.currentSystem;
 }
 

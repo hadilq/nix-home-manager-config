@@ -25,7 +25,7 @@ In the end, I installed [home-manager](https://github.com/nix-community/home-man
 ## Both NixOS and MacOS
 After installing [home-manager](https://github.com/nix-community/home-manager),
 clone this repository into `~/.config/nixpkgs`. Next step is creating `.local/config.nix`
-file with your user name and home directory with a content similar to the following one.
+file with your username and home directory with a content similar to the following one.
 
 ```
 {}:

@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> { } }:
 let
   userHome = "${builtins.toString ./.user-home}";
 in
@@ -10,7 +10,7 @@ in
     python38Packages.pyyaml
     python38Packages.jsonschema
     ncurses6
-  ];
+  ]);
   runScript = "bash";
   profile = ''
     export HOME=${userHome}
