@@ -58,7 +58,6 @@ in
     thunderbird
     vlc
     audacity
-    keepassx
     keepassxc
     libreoffice
     gimp
@@ -67,7 +66,7 @@ in
     bitwarden
     virt-manager
     krfb
-    python-language-server
+    python311Packages.python-lsp-server
     nodePackages.bash-language-server
     neovim-qt
   ];
@@ -229,37 +228,41 @@ in
 
   programs.helix = {
     enable = true;
-    languages = [{
-      name = "rust";
-    }
-      {
-        name = "nix";
-      }
-      {
-        name = "latex";
-      }
-      {
-        name = "bash";
-      }
-      {
-        name = "markdown";
-        language-server = { command = "ltex-ls"; };
-      }
-      {
-        name = "toml";
-      }
-      {
-        name = "kotlin";
-      }
-      {
-        name = "java";
-        file-types = [ "java" "gradle" ];
-        language-server = { command = "jdt-language-server"; };
-      }
-      {
-        name = "python";
-        language-server = { command = "python-language-server"; };
-      }];
+    languages = {
+      language = [
+        {
+          name = "rust";
+        }
+        {
+          name = "nix";
+        }
+        {
+          name = "latex";
+        }
+        {
+          name = "bash";
+        }
+        {
+          name = "markdown";
+          language-server = { command = "ltex-ls"; };
+        }
+        {
+          name = "toml";
+        }
+        {
+          name = "kotlin";
+        }
+        {
+          name = "java";
+          file-types = [ "java" "gradle" ];
+          language-server = { command = "jdt-language-server"; };
+        }
+        {
+          name = "python";
+          language-server = { command = "python-lsp-server"; };
+        }
+      ];
+    };
     settings = {
       editor = {
         shell = [ "zsh" "-c" ];
