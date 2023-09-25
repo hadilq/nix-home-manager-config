@@ -1,5 +1,6 @@
 { config, pkgs, lib, ... }:
 let
+  mkTuple = lib.hm.gvariant.mkTuple;
   localConfig = import ./.local/config.nix { };
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
@@ -69,6 +70,10 @@ in
     python311Packages.python-lsp-server
     nodePackages.bash-language-server
     neovim-qt
+    gnome.gnome-tweaks
+    gnome-extensions-cli
+    gnomeExtensions.pop-shell
+    gnomeExtensions.clipboard-indicator
   ];
 
   fonts.fontconfig.enable = true;
@@ -84,6 +89,73 @@ in
     defaultCacheTtl = 2592000;
     defaultCacheTtlSsh = 2592000;
     maxCacheTtl = 2592000;
+  };
+
+  dconf.settings = lib.optionalAttrs stdenv.isLinux {
+    "org/gnome/shell" = {
+      disable-user-extensions = false;
+      enabled-extensions = [
+        "clipboard-indicator@tudmotu.com"
+        "pop-shell@system76.com"
+      ];
+    };
+
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+      enable-hot-corners = true;
+    };
+
+    "org/gnome/desktop/wm/preferences" = {
+      num-workspaces = 8;
+    };
+
+    "org/gnome/shell/app-switcher" = {
+      current-workspace-only = true;
+    };
+
+    "org/gnome/shell" = {
+      last-selected-power-profile = "performance";
+    };
+
+    "org/gnome/settings-daemon/plugins/color" = {
+      night-light-enabled = true;
+    };
+
+    "org/gnome/desktop/peripherals/touchpad" = {
+      speed = 0.56060606060606055;
+      tap-to-click = true;
+      two-finger-scrolling-enabled = true;
+      edge-scrolling-enabled = false;
+      natural-scroll = true;
+    };
+
+    "org/gnome/desktop/input-sources" = {
+      sources = [ (mkTuple [ "xkb" "us" ]) (mkTuple [ "xkb" "ir" ]) ];
+    };
+
+    "org/gnome/desktop/wm/keybindings" = {
+      move-to-workspace-right = [ "<Shift><Control><Super>Right" ];
+      move-to-workspace-left = [ "<Shift><Control><Super>Left" ];
+      switch-to-workspace-right = [ "<Control><Super>Right" ];
+      switch-to-workspace-left = [ "<Control><Super>Left" ];
+    };
+
+    "org/gnome/desktop/background" = {
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/fold-l.webp";
+      picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/fold-d.webp";
+      primary-color = "#26a269";
+      secondary-color = "#000000";
+    };
+
+    "org/gnome/desktop/screensaver" = {
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/fold-d.webp";
+      primary-color = "#26a269";
+      secondary-color = "#000000";
+    };
+
+    "org/gnome/shell/extensions/clipboard-indicator" = {
+      history-size = 100;
+    };
   };
 
   programs.zsh = {
