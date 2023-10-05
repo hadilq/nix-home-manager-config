@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   mkTuple = lib.hm.gvariant.mkTuple;
+  mkUint32 = lib.hm.gvariant.mkUint32;
   localConfig = import ./.local/config.nix { };
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
@@ -9,6 +10,11 @@ in
 {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  nix = {
+    package = pkgs.nix;
+    settings.experimental-features = [ "nix-command" "flakes" ];
+  };
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -31,6 +37,7 @@ in
     font-awesome
     font-awesome_4
     nerdfonts
+    imagemagick
     kotlin-language-server
     jdt-language-server # java language server
     rust-analyzer # rust language server
@@ -70,6 +77,7 @@ in
     python311Packages.python-lsp-server
     nodePackages.bash-language-server
     neovim-qt
+    inkscape
     gnome.gnome-tweaks
     gnome-extensions-cli
     gnomeExtensions.pop-shell
@@ -103,6 +111,7 @@ in
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
       enable-hot-corners = true;
+      show-battery-percentage = true;
     };
 
     "org/gnome/desktop/wm/preferences" = {
@@ -154,7 +163,15 @@ in
     };
 
     "org/gnome/shell/extensions/clipboard-indicator" = {
+      toggle-menu = [ "<Shift><Alt>v" ];
+      prev-entry = [ "<Shift><Alt>p" ];
+      next-entry = [ "<Shift><Alt>n" ];
       history-size = 100;
+    };
+
+    "org/gnome/desktop/peripherals/keyboard" = {
+      delay = mkUint32 110;
+      repeat-interval = mkUint32 18;
     };
   };
 
