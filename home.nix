@@ -38,6 +38,7 @@ in
     font-awesome_4
     nerdfonts
     imagemagick
+    direnv
     kotlin-language-server
     jdt-language-server # java language server
     rust-analyzer # rust language server
@@ -78,10 +79,14 @@ in
     nodePackages.bash-language-server
     neovim-qt
     inkscape
+    pulseaudioFull
     gnome.gnome-tweaks
     gnome-extensions-cli
     gnomeExtensions.pop-shell
-    gnomeExtensions.clipboard-indicator
+    gnomeExtensions.pano
+    gnomeExtensions.simple-timer
+    gsound
+    libgda6
   ];
 
   fonts.fontconfig.enable = true;
@@ -103,8 +108,9 @@ in
     "org/gnome/shell" = {
       disable-user-extensions = false;
       enabled-extensions = [
-        "clipboard-indicator@tudmotu.com"
         "pop-shell@system76.com"
+        "pano@elhan.io"
+        "simple-timer@majortomvr.github.com"
       ];
     };
 
@@ -150,28 +156,26 @@ in
     };
 
     "org/gnome/desktop/background" = {
-      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/fold-l.webp";
-      picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/fold-d.webp";
-      primary-color = "#26a269";
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/adwaita-l.jpg";
+      picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/adwaita-l.jpg";
+      primary-color = "#3071AE";
       secondary-color = "#000000";
     };
 
     "org/gnome/desktop/screensaver" = {
-      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/fold-d.webp";
-      primary-color = "#26a269";
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/adwaita-l.jpg";
+      primary-color = "#3071AE";
       secondary-color = "#000000";
-    };
-
-    "org/gnome/shell/extensions/clipboard-indicator" = {
-      toggle-menu = [ "<Shift><Alt>v" ];
-      prev-entry = [ "<Shift><Alt>p" ];
-      next-entry = [ "<Shift><Alt>n" ];
-      history-size = 100;
     };
 
     "org/gnome/desktop/peripherals/keyboard" = {
       delay = mkUint32 110;
-      repeat-interval = mkUint32 18;
+      repeat-interval = mkUint32 50;
+    };
+
+    "org/gnome/shell/extensions/pano" = {
+      history-length = 100;
+      play-audio-on-copy = false;
     };
   };
 
@@ -241,6 +245,7 @@ in
       vim-tmux-focus-events
       rust-vim
       vim-ruby
+      undotree
     ];
     settings = { ignorecase = true; };
     extraConfig = ''
@@ -254,8 +259,10 @@ in
       " When indent with '>' use 2 spaces width
       set shiftwidth=2
       inoremap jj <Esc>
-      map <F2> :.w !pbcopy<CR><CR>
-      map <F3> :r !pbpaste<CR>
+      let mapleader = ","
+      nnoremap <leader>u :UndotreeToggle<CR>
+      " map <F2> :.w !pbcopy<CR><CR>
+      " map <F3> :r !pbpaste<CR>
 
       " set clipboard=unnamed
     '';
@@ -294,6 +301,7 @@ in
       vim-devicons
       vim-snippets
       nerdtree
+      undotree
       vim-startify
       nvim-lspconfig
       lsp-format-nvim
@@ -333,7 +341,7 @@ in
         }
         {
           name = "markdown";
-          language-server = { command = "ltex-ls"; };
+          language-servers = [ "ltex-ls" ];
         }
         {
           name = "toml";
@@ -344,11 +352,11 @@ in
         {
           name = "java";
           file-types = [ "java" "gradle" ];
-          language-server = { command = "jdt-language-server"; };
+          language-servers = [ "jdt-language-server" ];
         }
         {
           name = "python";
-          language-server = { command = "python-lsp-server"; };
+          language-servers = [ "python-lsp-server" ];
         }
       ];
     };

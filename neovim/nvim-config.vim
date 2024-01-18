@@ -34,9 +34,24 @@ set shiftwidth=2
 
 " Keybindings"
 :inoremap jj <Esc>
+let mapleader = ","
 nmap <A-1> :NERDTreeToggle<CR>
+nnoremap <leader>u :UndotreeToggle<CR>
 
 " copies filepath to clipboard by pressing yf
 :nnoremap <silent> yf :let @+=expand('%:p')<CR>
 " copies pwd to clipboard: command yd
 :nnoremap <silent> yd :let @+=expand('%:p:h')<CR>
+
+function! ToggleVerbose()
+    if !&verbose
+        set verbosefile=~/.config/nvim/verbose.log
+        set verbose=15
+    else
+        set verbose=0
+        set verbosefile=
+    endif
+endfunction
+
+call ToggleVerbose()
+
