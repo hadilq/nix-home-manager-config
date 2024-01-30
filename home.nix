@@ -29,6 +29,7 @@ in
     nmap
     inetutils # telnet
     htop
+    fd
     screen
     nix-zsh-completions
     zsh
@@ -288,6 +289,7 @@ in
         lua << EOF
         ${lib.strings.fileContents ./neovim/nvim-config.lua}
         ${lib.strings.fileContents ./neovim/nvim-lsp.lua}
+        ${lib.strings.fileContents ./neovim/nvim-fugitive.lua}
         EOF
       ''
     ];
@@ -300,6 +302,10 @@ in
       vim-ruby
       vim-devicons
       vim-snippets
+      telescope-nvim
+      trouble-nvim
+      vim-fugitive
+      refactoring-nvim
       nerdtree
       undotree
       vim-startify
