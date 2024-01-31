@@ -295,20 +295,12 @@ in
     ];
 
     plugins = with pkgs.vimPlugins; [
-      vim-flutter
-      vim-flatbuffers
-      vim-android
-      rust-vim
-      vim-ruby
-      vim-devicons
-      vim-snippets
       telescope-nvim
       trouble-nvim
       vim-fugitive
       refactoring-nvim
       nerdtree
       undotree
-      vim-startify
       nvim-lspconfig
       lsp-format-nvim
       (nvim-treesitter.withPlugins (p: [
