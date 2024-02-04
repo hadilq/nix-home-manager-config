@@ -1,15 +1,6 @@
--- Setup language servers and lsp-format-nvim
+-- Setup language servers
 
 local lspconfig = require('lspconfig')
-local lsp_format = require("lsp-format")
-
-lspconfig.pyright.setup { on_attach = lsp_format.on_attach }
-lspconfig.rust_analyzer.setup { on_attach = lsp_format.on_attach }
-lspconfig.rnix.setup { on_attach =  lsp_format.on_attach }
-lspconfig.kotlin_language_server.setup { on_attach = lsp_format.on_attach }
-lspconfig.ltex.setup { on_attach = lsp_format.on_attach }
-lspconfig.bashls.setup { on_attach = lsp_format.on_attach }
-lspconfig.jsonls.setup { on_attach = lsp_format.on_attach }
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

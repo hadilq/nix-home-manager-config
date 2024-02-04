@@ -30,6 +30,7 @@ in
     inetutils # telnet
     htop
     fd
+    ripgrep
     screen
     nix-zsh-completions
     zsh
@@ -212,6 +213,11 @@ in
     };
   };
 
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
   programs.git = {
     enable = true;
     extraConfig = {
@@ -296,13 +302,15 @@ in
 
     plugins = with pkgs.vimPlugins; [
       telescope-nvim
+      telescope-fzy-native-nvim
       trouble-nvim
       vim-fugitive
       refactoring-nvim
       nerdtree
       undotree
       nvim-lspconfig
-      lsp-format-nvim
+      nvim-lint
+      conform-nvim
       (nvim-treesitter.withPlugins (p: [
         p.javascript
         p.json
