@@ -36,6 +36,8 @@ in
     zsh
     patchelf
     bitwarden-cli
+    glab
+    gh
     font-awesome
     font-awesome_4
     nerdfonts
@@ -196,10 +198,10 @@ in
     };
 
     shellGlobalAliases = {
-      python-default-shell = "nix-shell $HOME/.config/nixpkgs/python-default-shell.nix";
-      nodejs-default-shell = "nix-shell $HOME/.config/nixpkgs/nodejs-default-shell.nix";
-      ruby-default-shell = "nix-shell $HOME/.config/nixpkgs/ruby-default-shell.nix";
-      jupyter-default-shell = "nix-shell $HOME/.config/nixpkgs/jupyter-default-shell.nix";
+      python-default-shell = "nix-shell $HOME/.config/home-manager/python-default-shell.nix";
+      nodejs-default-shell = "nix-shell $HOME/.config/home-manager/nodejs-default-shell.nix";
+      ruby-default-shell = "nix-shell $HOME/.config/home-manager/ruby-default-shell.nix";
+      jupyter-default-shell = "nix-shell $HOME/.config/home-manager/jupyter-default-shell.nix";
     };
 
     initExtraBeforeCompInit = lib.mkIf stdenv.isDarwin ''
@@ -230,9 +232,9 @@ in
       contents = {
         init.defaultBranch = "main";
         user = {
-          email = "hadilq.dev@gmail.com";
-          name = "Hadi";
-          signingKey = "416AD9E8E372C075";
+          email = localConfig.gitEmail;
+          name = localConfig.gitName;
+          signingKey = localConfig.gitSigningKey;
         };
         commit = {
           gpgSign = true;
@@ -301,6 +303,8 @@ in
     ];
 
     plugins = with pkgs.vimPlugins; [
+      vim-grammarous
+      vim-abolish
       telescope-nvim
       telescope-fzy-native-nvim
       trouble-nvim

@@ -2,6 +2,15 @@
 
 local lspconfig = require('lspconfig')
 
+lspconfig.pyright.setup {}
+lspconfig.rust_analyzer.setup {}
+lspconfig.rnix.setup {}
+lspconfig.kotlin_language_server.setup {}
+lspconfig.ltex.setup {}
+lspconfig.bashls.setup {}
+lspconfig.jsonls.setup {}
+
+
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)

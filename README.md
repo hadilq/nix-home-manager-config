@@ -33,6 +33,9 @@ let
   userName = "your user name";
 in {
   userName = userName;
+  gitEmail = "your git email";
+  gitName = "your git name";
+  gitSigningKey = "your siging key for git";
   homeDirectory =  "/Users/${userName}";
 }
 ```
