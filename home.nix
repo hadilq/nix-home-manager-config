@@ -38,11 +38,10 @@ in
     bitwarden-cli
     glab
     gh
-    font-awesome
-    font-awesome_4
     nerdfonts
     imagemagick
     direnv
+    lua-language-server
     kotlin-language-server
     jdt-language-server # java language server
     rust-analyzer # rust language server
@@ -295,9 +294,12 @@ in
       (lib.strings.fileContents ./neovim/nvim-config.vim)
       ''
         lua << EOF
+        ${lib.strings.fileContents ./neovim/nvim-colors.lua}
         ${lib.strings.fileContents ./neovim/nvim-config.lua}
-        ${lib.strings.fileContents ./neovim/nvim-lsp.lua}
         ${lib.strings.fileContents ./neovim/nvim-fugitive.lua}
+        ${lib.strings.fileContents ./neovim/nvim-lsp.lua}
+        ${lib.strings.fileContents ./neovim/nvim-telescope.lua}
+        ${lib.strings.fileContents ./neovim/nvim-treesitter.lua}
         EOF
       ''
     ];
@@ -313,9 +315,14 @@ in
       nerdtree
       undotree
       nvim-lspconfig
+      nvim-cmp
+      lsp-zero-nvim
       nvim-lint
       conform-nvim
+      rose-pine
       (nvim-treesitter.withPlugins (p: [
+        p.c
+        p.lua
         p.javascript
         p.json
         p.vim
