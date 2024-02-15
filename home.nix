@@ -215,6 +215,9 @@ in
     enable = true;
     enableBashIntegration = true;
     enableZshIntegration = true;
+    options = [
+      "--cmd cd"
+    ];
   };
 
   programs.fzf = {
@@ -397,15 +400,6 @@ in
       keys.insert = {
         j = { j = "normal_mode"; };
       };
-    };
-  };
-
-  programs.zellij = {
-    enable = true;
-    settings = {
-      scroll_buffer_size = 20000;
-      scrollback_editor = "hx";
-      copy_command = if stdenv.isDarwin then "pbcopy" else "xclip -selection clipboard";
     };
   };
 
