@@ -9,6 +9,8 @@ let
     "keepassx"
     "gimp"
     "libreoffice"
+    "jetbrains-toolbox"
+    "slack"
   ];
   apps = builtins.concatStringsSep " " appsList;
   myScript = pkgs.writeShellScriptBin "brew-installer-script" ''
