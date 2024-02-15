@@ -5,12 +5,9 @@ let
   appsList = [
     "firefox"
     "thunderbird"
-    "chromium"
     "clipy"
     "keepassx"
     "gimp"
-    "skype"
-    "visual-studio-code"
     "libreoffice"
   ];
   apps = builtins.concatStringsSep " " appsList;

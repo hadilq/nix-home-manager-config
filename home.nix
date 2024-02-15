@@ -238,6 +238,7 @@ in
       core = {
         editor = "hx";
       };
+      credential.helper = lib.optionals stdenv.isDarwin "osxkeychain";
     };
 
     includes = [{
