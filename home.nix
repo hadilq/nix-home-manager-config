@@ -31,19 +31,16 @@ in
     htop
     fd
     ripgrep
-    screen
-    nix-zsh-completions
     zsh
-    patchelf
     bitwarden-cli
     glab
     gh
     nerdfonts
     imagemagick
-    direnv
     lua-language-server
     kotlin-language-server
     jdt-language-server # java language server
+    vscode-langservers-extracted
     rust-analyzer # rust language server
     rnix-lsp # nix language server
     cmake-language-server
@@ -210,13 +207,26 @@ in
     oh-my-zsh = {
       enable = true;
       theme = "amuse";
-      plugins = [ "git" "sudo" "docker" "kubectl" ];
+      plugins = [ "git" "docker" "kubectl" ];
     };
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
   };
 
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    enableBashIntegration = true;
+  };
+
+  programs.direnv  = {
+    enable = true;
+    enableZshIntegration = true;
+    enableBashIntegration = true;
   };
 
   programs.git = {
