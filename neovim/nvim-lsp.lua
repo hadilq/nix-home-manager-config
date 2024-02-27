@@ -11,6 +11,7 @@ lspconfig.ltex.setup {}
 lspconfig.bashls.setup {}
 lspconfig.jsonls.setup {}
 lspconfig.lua_ls.setup {}
+lspconfig.zls.setup {}
 
 local cmp = require('cmp')
 local cmp_action = lsp.cmp_action()

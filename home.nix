@@ -42,6 +42,7 @@ in
     jdt-language-server # java language server
     vscode-langservers-extracted
     rust-analyzer # rust language server
+    zls # zig language server
     rnix-lsp # nix language server
     cmake-language-server
     yaml-language-server
@@ -259,14 +260,6 @@ in
   programs.vim = {
     enable = true;
     plugins = with pkgs.vimPlugins; [
-      vim-flutter
-      vim-flatbuffers
-      vim-android
-      vim-tmux
-      vim-tmux-clipboard
-      vim-tmux-focus-events
-      rust-vim
-      vim-ruby
       undotree
     ];
     settings = { ignorecase = true; };
@@ -347,6 +340,7 @@ in
         p.java
         p.kotlin
         p.rust
+        p.zig
         p.kotlin
         p.ruby
         p.python
@@ -358,6 +352,9 @@ in
     enable = true;
     languages = {
       language = [
+        {
+          name = "zig";
+        }
         {
           name = "rust";
         }
