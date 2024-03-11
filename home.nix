@@ -319,11 +319,12 @@ in
       trouble-nvim
       vim-fugitive
       refactoring-nvim
-      nerdtree
       undotree
-      nvim-lspconfig
       nvim-cmp
-      lsp-zero-nvim
+      vim-vsnip
+      cmp-buffer
+      cmp-nvim-lsp
+      nvim-lspconfig
       nvim-lint
       conform-nvim
       rose-pine
@@ -331,6 +332,7 @@ in
         p.c
         p.lua
         p.javascript
+        p.java
         p.json
         p.vim
         p.nix

@@ -35,7 +35,6 @@ set shiftwidth=2
 " Keybindings"
 :inoremap jj <Esc>
 let mapleader = ","
-nmap <A-1> :NERDTreeToggle<CR>
 nnoremap <leader>u :UndotreeToggle<CR>
 
 " copies filepath to clipboard by pressing yf
