@@ -307,6 +307,7 @@ in
         ${lib.strings.fileContents ./neovim/nvim-lsp.lua}
         ${lib.strings.fileContents ./neovim/nvim-telescope.lua}
         ${lib.strings.fileContents ./neovim/nvim-treesitter.lua}
+        ${lib.strings.fileContents ./neovim/nvim-rustaceanvim.lua}
         EOF
       ''
     ];
@@ -328,6 +329,8 @@ in
       nvim-lint
       conform-nvim
       rose-pine
+      rustaceanvim
+      lsp-inlayhints-nvim
       (nvim-treesitter.withPlugins (p: [
         p.c
         p.lua
