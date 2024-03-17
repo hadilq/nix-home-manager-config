@@ -61,7 +61,7 @@ local lspconfig_opts = {
 }
 lspconfig.pyright.setup(lspconfig_opts )
 lspconfig.rust_analyzer.setup(lspconfig_opts)
-lspconfig.rnix.setup(lspconfig_opts)
+lspconfig.nixd.setup(lspconfig_opts)
 lspconfig.kotlin_language_server.setup(lspconfig_opts)
 lspconfig.jdtls.setup(lspconfig_opts)
 lspconfig.ltex.setup(lspconfig_opts)

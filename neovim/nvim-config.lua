@@ -19,10 +19,27 @@ require('lint').linters_by_ft = {
 }
 
 -- Srtup conform-nvim
-require("conform").formatters.lua_format = {
-  command = "lua-format",
-  stdin = true
-}
+local conform = require("conform")
+conform.setup({
+  formatters_by_ft = {
+    lua = { "stylua" },
+    java = { "google-java-format" },
+    kotlin = { "ktlint" },
+    markdown = { { "prettierd", "prettier" } },
+    rust = { "rustfmt" },
+    yaml = { "yamlfix" },
+    toml = { "taplo" },
+  },
+})
+
+vim.keymap.set({ "n", "v" }, "<leader>l", function()
+    conform.format({
+      lsp_fallback = true,
+      async = false,
+      timeout_ms = 500,
+    })
+  end
+)
 
 -- Grammarous
 vim.g["grammarous#jar_url"] = 'https://www.languagetool.org/download/LanguageTool-5.9.zip'

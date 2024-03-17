@@ -42,8 +42,9 @@ in
     jdt-language-server # java language server
     vscode-langservers-extracted
     rust-analyzer # rust language server
+    rustfmt
     zls # zig language server
-    rnix-lsp # nix language server
+    nixd # nix language server
     cmake-language-server
     yaml-language-server
     texlab # latex language server
