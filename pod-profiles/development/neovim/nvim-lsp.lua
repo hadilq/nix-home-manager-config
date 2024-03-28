@@ -5,8 +5,8 @@ local cmp_select = {behavior = cmp.SelectBehavior.Select}
 
 cmp.setup({
   window = {
-    completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered(),
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
   },
   snippet = {
     expand = function(args)
@@ -59,8 +59,16 @@ local lspconfig_opts = {
   on_attach = on_attach,
   capabilities = capabilities,
 }
+lspconfig.pyright.setup(lspconfig_opts )
+lspconfig.rust_analyzer.setup(lspconfig_opts)
 lspconfig.nixd.setup(lspconfig_opts)
+lspconfig.kotlin_language_server.setup(lspconfig_opts)
+lspconfig.jdtls.setup(lspconfig_opts)
+lspconfig.ltex.setup(lspconfig_opts)
+lspconfig.bashls.setup(lspconfig_opts)
+lspconfig.jsonls.setup(lspconfig_opts)
 lspconfig.lua_ls.setup(lspconfig_opts)
+lspconfig.zls.setup(lspconfig_opts)
 
 vim.lsp.set_log_level("debug")
 

@@ -38,33 +38,14 @@ in
     nerdfonts
     imagemagick
     lua-language-server
-    kotlin-language-server
-    jdt-language-server # java language server
-    vscode-langservers-extracted
-    rust-analyzer # rust language server
-    rustfmt
-    zls # zig language server
     nixd # nix language server
-    cmake-language-server
-    yaml-language-server
-    texlab # latex language server
-    ltex-ls # markdown language server
-    taplo-lsp # toml lanugae server
-    solargraph # ruby language server
-  ] ++ (with xorg; [
-    fontbh75dpi
-    fontbh100dpi
-    fonttosfnt
-    fontalias
-    fontbhttf
-    fontsunmisc
-    fontbhtype1
-  ]) ++ lib.optionals stdenv.isDarwin [
+  ] ++ lib.optionals stdenv.isDarwin [
     (import ./brew-installer-derivation { inherit stdenv; inherit pkgs; } homeDirectory)
   ] ++ lib.optionals stdenv.isLinux [
     aspell
     aspellDicts.en
     aspellDicts.ca
+    xorg.xhost
     firefox
     thunderbird
     vlc
@@ -277,22 +258,19 @@ in
       inoremap jj <Esc>
       let mapleader = ","
       nnoremap <leader>u :UndotreeToggle<CR>
-      " map <F2> :.w !pbcopy<CR><CR>
-      " map <F3> :r !pbpaste<CR>
-
-      " set clipboard=unnamed
     '';
   };
 
   programs.tmux = {
     enable = true;
+    terminal = "screen-256color";
     extraConfig = ''
       set-window-option -g mode-keys vi
       set-option -g history-limit 20000
+
       bind-key -T copy-mode-vi v send -X begin-selection
-      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
-      bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
-      bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
+      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "${if stdenv.isDarwin then "pbcopy" else  "xclip -in -selection clipboard"}"
+      bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "${if stdenv.isDarwin then "pbcopy" else  "xclip -in -selection clipboard"}"
     '';
   };
 
@@ -356,50 +334,9 @@ in
 
   programs.helix = {
     enable = true;
-    languages = {
-      language = [
-        {
-          name = "zig";
-        }
-        {
-          name = "rust";
-        }
-        {
-          name = "nix";
-        }
-        {
-          name = "latex";
-        }
-        {
-          name = "bash";
-        }
-        {
-          name = "markdown";
-          language-servers = [ "ltex-ls" ];
-        }
-        {
-          name = "toml";
-        }
-        {
-          name = "kotlin";
-        }
-        {
-          name = "java";
-          file-types = [ "java" "gradle" ];
-          language-servers = [ "jdt-language-server" ];
-        }
-        {
-          name = "python";
-          language-servers = [ "python-lsp-server" ];
-        }
-      ];
-    };
     settings = {
       editor = {
         shell = [ "zsh" "-c" ];
-        lsp = {
-          display-messages = true;
-        };
       };
       keys.insert = {
         j = { j = "normal_mode"; };
@@ -415,6 +352,6 @@ in
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "21.03";
+  home.stateVersion = "23.11";
 }
 

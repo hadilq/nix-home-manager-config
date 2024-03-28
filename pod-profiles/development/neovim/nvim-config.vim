@@ -30,7 +30,7 @@ set tabstop=2
 set softtabstop=2
 " When indent with '>' use 2 spaces width
 set shiftwidth=2
-set termguicolors
+
 
 " Keybindings"
 :inoremap jj <Esc>
