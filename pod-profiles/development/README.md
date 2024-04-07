@@ -13,19 +13,15 @@ $ nix-build pod.nix &&\
 To build the image. To launch the container use the following:
 
 ```shell
-$ export UID=$(id -u) && export GID=$(id -g)
 $ podman run -td --rm --volume=${PWD}:/home/dev/src \
-  --user $UID:$GID --userns keep-id:uid=$UID,gid=$GID dev-machine:latest
+  --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
+  --name=dev-pod dev-machine:latest
 ```
 
 I prefer to have my development environemtn in tmux so I usually run
 
 ```shell
-$ podman ps
-CONTAINER ID   IMAGE                    COMMAND                  CREATED         STATUS         PORTS     NAMES
-61d6f161ab76   dev-machine:latest       "/nix/var/nix/profil…"   2 hours ago     Up 2 hours               infallible_hugle
-
-$ tmux neww podman exec -it d077a03af772 zsh
+$ tmux neww podman exec -it dev-pod zsh
 ```
 
 if you don't want tmux, you just only remove the `tmux neww` part.
@@ -37,7 +33,7 @@ The good thing about them is that they are ordinary Nixos, and home-manager, con
 
 Don't forget to stop and possibly remove the container.
 ```shell
-$ podman stop `podman ps -q -l`
+$ podman stop dev-pod
 ```
 
 enjoy!

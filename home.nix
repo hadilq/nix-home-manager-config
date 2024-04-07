@@ -5,9 +5,26 @@ let
   localConfig = import ./.local/config.nix { };
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
+  zsh-nix = import ./common/zsh.nix {
+    initExtra = lib.mkIf stdenv.isDarwin ''
+      export PATH=$PATH:/usr/local/bin
+      HISTSIZE=10000
+    '';
+  };
+  neovim-nix = import ./common/neovim.nix { };
+  helix-nix = import ./common/helix.nix { };
   inherit (pkgs) stdenv;
 in
 {
+  imports = [
+    ./common/vim.nix
+    ./common/gpg.nix
+    ./common/shell-tools.nix
+    ./common/tmux.nix
+    zsh-nix
+    neovim-nix
+    helix-nix
+  ];
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -31,7 +48,6 @@ in
     htop
     fd
     ripgrep
-    zsh
     bitwarden-cli
     glab
     gh
@@ -73,19 +89,6 @@ in
   ];
 
   fonts.fontconfig.enable = true;
-
-  programs.gpg = {
-    enable = true;
-  };
-
-  services.gpg-agent = lib.optionalAttrs stdenv.isLinux {
-    enable = true;
-    enableSshSupport = true;
-    pinentryFlavor = "curses";
-    defaultCacheTtl = 2592000;
-    defaultCacheTtlSsh = 2592000;
-    maxCacheTtl = 2592000;
-  };
 
   dconf.settings = lib.optionalAttrs stdenv.isLinux {
     "org/gnome/shell" = {
@@ -163,15 +166,6 @@ in
   };
 
   programs.zsh = {
-    enable = true;
-    autocd = true;
-    dotDir = ".config/zsh";
-    enableCompletion = true;
-    enableAutosuggestions = true;
-    initExtra = lib.mkIf stdenv.isDarwin ''
-      export PATH=$PATH:/usr/local/bin
-    '';
-
     shellAliases = {
       ff = "/Applications/Firefox.app/Contents/MacOS/firefox -P --no-remote&";
     };
@@ -186,33 +180,6 @@ in
     initExtraBeforeCompInit = lib.mkIf stdenv.isDarwin ''
       . $HOME/.nix-profile/etc/profile.d/nix.sh
     '';
-
-    oh-my-zsh = {
-      enable = true;
-      theme = "amuse";
-      plugins = [ "git" "docker" "kubectl" ];
-    };
-  };
-
-  programs.zoxide = {
-    enable = true;
-    enableBashIntegration = true;
-    enableZshIntegration = true;
-    options = [
-      "--cmd cd"
-    ];
-  };
-
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-    enableBashIntegration = true;
-  };
-
-  programs.direnv  = {
-    enable = true;
-    enableZshIntegration = true;
-    enableBashIntegration = true;
   };
 
   programs.git = {
@@ -237,111 +204,6 @@ in
         };
       };
     }];
-  };
-
-  programs.vim = {
-    enable = true;
-    plugins = with pkgs.vimPlugins; [
-      undotree
-    ];
-    settings = { ignorecase = true; };
-    extraConfig = ''
-      syntax on
-      filetype plugin indent on
-      " On pressing tab, insert 2 spaces
-      set expandtab
-      " Show existing tabl with 2 space width
-      set tabstop=2
-      set softtabstop=2
-      " When indent with '>' use 2 spaces width
-      set shiftwidth=2
-      inoremap jj <Esc>
-      let mapleader = ","
-      nnoremap <leader>u :UndotreeToggle<CR>
-    '';
-  };
-
-  programs.tmux = {
-    enable = true;
-    terminal = "screen-256color";
-    extraConfig = ''
-      set-window-option -g mode-keys vi
-      set-option -g history-limit 20000
-
-      bind-key -T copy-mode-vi v send -X begin-selection
-      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "${if stdenv.isDarwin then "pbcopy" else  "xclip -in -selection clipboard"}"
-      bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "${if stdenv.isDarwin then "pbcopy" else  "xclip -in -selection clipboard"}"
-    '';
-  };
-
-  programs.neovim = {
-    enable = true;
-    extraConfig = builtins.concatStringsSep "\n" [
-      (lib.strings.fileContents ./neovim/nvim-config.vim)
-      ''
-        lua << EOF
-        ${lib.strings.fileContents ./neovim/nvim-colors.lua}
-        ${lib.strings.fileContents ./neovim/nvim-config.lua}
-        ${lib.strings.fileContents ./neovim/nvim-fugitive.lua}
-        ${lib.strings.fileContents ./neovim/nvim-lsp.lua}
-        ${lib.strings.fileContents ./neovim/nvim-telescope.lua}
-        ${lib.strings.fileContents ./neovim/nvim-treesitter.lua}
-        ${lib.strings.fileContents ./neovim/nvim-rustaceanvim.lua}
-        EOF
-      ''
-    ];
-
-    plugins = with pkgs.vimPlugins; [
-      vim-grammarous
-      vim-abolish
-      telescope-nvim
-      telescope-fzy-native-nvim
-      trouble-nvim
-      vim-fugitive
-      refactoring-nvim
-      undotree
-      nvim-cmp
-      vim-vsnip
-      cmp-buffer
-      cmp-nvim-lsp
-      nvim-lspconfig
-      nvim-lint
-      conform-nvim
-      rose-pine
-      rustaceanvim
-      lsp-inlayhints-nvim
-      (nvim-treesitter.withPlugins (p: [
-        p.c
-        p.lua
-        p.javascript
-        p.java
-        p.json
-        p.vim
-        p.nix
-        p.html
-        p.yaml
-        p.dockerfile
-        p.java
-        p.kotlin
-        p.rust
-        p.zig
-        p.kotlin
-        p.ruby
-        p.python
-      ]))
-    ];
-  };
-
-  programs.helix = {
-    enable = true;
-    settings = {
-      editor = {
-        shell = [ "zsh" "-c" ];
-      };
-      keys.insert = {
-        j = { j = "normal_mode"; };
-      };
-    };
   };
 
   # This value determines the Home Manager release that your

@@ -4,7 +4,7 @@
     inherit system;
   }
 , home-manager-source ? builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/2f9728fb7eeddfec67cb167b86118564eda33e62.tar.gz"
-, name ? "firefox-machine"
+, name ? "jupyter-machine"
 , nixosConfiguration ? ./configuration.nix
 , homeManagerConfiguration ? ./home.nix
 , nixpkgsChannelURL ? "https://nixos.org/channels/nixos-23.11-small"
@@ -77,7 +77,6 @@
         man
         cacert
         vim
-        nmap
       ];
 
       fonts.fonts = with pkgs; [

@@ -14,5 +14,11 @@
       inherit pkgs;
     };
   };
+
+  security.pki = {
+    installCACerts = true;
+    certificateFiles = [ "/etc/ipsec.d/cacerts" ];
+  };
 }
+
 
