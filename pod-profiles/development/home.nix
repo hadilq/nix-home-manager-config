@@ -19,7 +19,7 @@ let
       nvim-lint
       rustaceanvim
     ];
-    extra-treesitter-plugins = pkgs.vimPlugins.vim-treesitter.withPlugins (p: [
+    extra-treesitter-plugins = p: [
         p.c
         p.javascript
         p.java
@@ -35,7 +35,7 @@ let
         p.kotlin
         p.ruby
         p.python
-      ]);
+      ];
   };
 
   helix-nix = import ./../../common/helix.nix {

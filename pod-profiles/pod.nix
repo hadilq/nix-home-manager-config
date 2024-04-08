@@ -14,6 +14,7 @@
 , bundleNixpkgs ? true
 , username ? "dev"
 , userHome ? "/home/dev"
+, mountingDir ? "${userHome}/src"
 , userConfig ? {
     uid = 1000;
     shell = "${pkgs.zsh}/bin/zsh";
@@ -21,6 +22,9 @@
     gid = 1000;
     groups = [ username ];
     description = "A normal user";
+  }
+, groupConfig ? {
+    gid = 1000;
   }
 , maxLayers ? 100
 , nixos ? (import  "${pkgs.path}/nixos" {
@@ -51,13 +55,13 @@
       boot.loader.systemd-boot.enable = lib.mkForce false;
       services.journald.console = "/dev/console";
 
-      #start workaround: Dependency "cairo-xlib" not found, tried pkgconfig
       environment.noXlibs = lib.mkForce false;
-      services.xserver.enable = true;
-      services.xserver.layout = "us";
-      services.xserver.displayManager.lightdm.enable = false;
-      services.xserver.displayManager.startx.enable = true;
-      #end workaround: Dependency "cairo-xlib" not found, tried pkgconfig
+      services.xserver = {
+        enable = true;
+        layout = "us";
+        displayManager.lightdm.enable = false;
+        displayManager.startx.enable = false;
+      };
 
       users = {
         mutableUsers = true;
@@ -163,7 +167,7 @@ let
 
   groups = {
     root.gid = 0;
-    users.gid = 100;
+    ${username} = groupConfig;
     nixbld.gid = 30000;
     nobody.gid = 65534;
   };
@@ -250,7 +254,7 @@ let
   endpointScript = ''
     #!${pkgs.bashInteractive}/bin/bash
 
-    /bin/nix daemon &> /dev/null &
+    /bin/nix-daemon &> /dev/null &
 
     # exec runuser -u ${username} "$@"
     /nix/var/nix/profiles/default/bin/tail -f /dev/null
@@ -261,7 +265,7 @@ let
     "${pkgs.zsh}/bin/zsh"
   ];
 
-  userGroupIds = "${toString users.${username}.uid}:${toString groups.users.gid}";
+  userGroupIds = "${toString users.${username}.uid}:${toString groups.${username}.gid}";
   
   baseSystem =
     let
@@ -272,6 +276,13 @@ let
           ln -s ${nixpkgs} $out/nixpkgs
           echo "[]" > $out/manifest.nix
         fi
+      '';
+      nix-channels = pkgs.runCommand "nix-channels" {} ''
+        mkdir $out
+        cat > $out/.nix-channels <<EOF
+        ${nixpkgsChannelURL} ${nixpkgsChannelName}
+        ${homeChannelURL} ${homeChannelName}
+        EOF
       '';
       rootEnv = pkgs.buildPackages.buildEnv {
         name = "root-profile-env";
@@ -343,7 +354,6 @@ let
       cat $endpointScriptPath > $out/etc/endpoint.sh
       ln -s /nix/var/nix/profiles $out/etc/profiles
 
-      mkdir -p $out/root
       mkdir -p $out/usr
       ln -s /nix/var/nix/profiles/share $out/usr/
 
@@ -356,18 +366,24 @@ let
       mkdir -p $out/etc/nix
       cat $nixConfContentsPath > $out/etc/nix/nix.conf
 
-      mkdir -p $out${userHome}
-      mkdir -p $out/nix/var/nix/profiles/per-user/${username}
+      mkdir -p $out/root
+      mkdir -p $out/nix/var/nix/profiles/per-user/root
 
       ln -s ${profile} $out/nix/var/nix/profiles/default-1-link
       ln -s $out/nix/var/nix/profiles/default-1-link $out/nix/var/nix/profiles/default
+      ln -s /nix/var/nix/profiles/default $out/root/.nix-profile
 
+      ln -s ${channel} $out/nix/var/nix/profiles/per-user/root/channels-1-link
+      ln -s $out/nix/var/nix/profiles/per-user/root/channels-1-link $out/nix/var/nix/profiles/per-user/root/channels
+
+      mkdir -p $out/root/.nix-defexpr
+      ln -s $out/nix/var/nix/profiles/per-user/root/channels $out/root/.nix-defexpr/channels
+      ln -s ${nix-channels}/.nix-channels $out/root/.nix-channels
+
+      mkdir -p $out${userHome}
       mkdir -p $out${userHome}/.nix-defexpr
-
-      cat > $out${userHome}/.nix-channels <<EOF
-      ${nixpkgsChannelURL} ${nixpkgsChannelName}
-      ${homeChannelURL} ${homeChannelName}
-      EOF
+      ln -s $out/nix/var/nix/profiles/per-user/root/channels $out${userHome}/.nix-defexpr/channels
+      ln -s ${nix-channels}/.nix-channels $out${userHome}/.nix-channels
 
       mkdir -p $out/bin $out/usr/bin
       ln -s ${pkgs.coreutils}/bin/env $out/usr/bin/env
@@ -416,15 +432,15 @@ pkgs.dockerTools.buildLayeredImageWithNixDb {
 
     ${nixos.config.system.build.etcActivationCommands}
 
-    # It's a symblink, so let's give home-manager a chance to make it properly.
-    rm /nix/var/nix/profiles/per-user/${username}
+    # FIXME(hacky!) It's a symblink, so let's give home-manager a chance to make it properly.
+    mv /nix/var/nix/profiles/per-user/{${username},root}
     mv /nix/var/nix/profiles/per-user/{${username}-tmp,${username}}
 
     HOME_ACTIVATION=${nixos.config.home-manager.users.${username}.home.activationPackage}
     mkdir -p /build
     $HOME_ACTIVATION/activate
 
-    # It's pointing to the per-user/root directory, so this fix it.
+    # FIXME(hacky!) It's pointing to the per-user/root directory, so this fix it.
     rm ${userHome}/.nix-profile
     ln -s /nix/var/nix/profiles/per-user/${username} ${userHome}/.nix-profile
 
@@ -432,7 +448,7 @@ pkgs.dockerTools.buildLayeredImageWithNixDb {
     chown -R ${ userGroupIds} /nix/var/nix/profiles/per-user/${username}
     chown ${ userGroupIds} ${userHome}
     find ${userHome} -type d | while read dir; do
-      if [[ $dir != "${username}/src" ]] && [[ $dir != ${userHome}/src/* ]]; then
+      if [[ $dir != "${mountingDir}" ]] && [[ $dir != ${mountingDir}/* ]]; then
         chown ${ userGroupIds} $dir
       fi
     done
@@ -459,9 +475,9 @@ pkgs.dockerTools.buildLayeredImageWithNixDb {
         "${userHome}/.nix-profile/share/man"
         "/nix/var/nix/profiles/default/share/man"
       ]}"
-      "SSL_CERT_FILE=/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
-      "GIT_SSL_CAINFO=/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
-      "NIX_SSL_CERT_FILE=/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
+      "SSL_CERT_FILE=/etc/ssl/certs/ca-bundle.crt"
+      "GIT_SSL_CAINFO=/etc/ssl/certs/ca-bundle.crt"
+      "NIX_SSL_CERT_FILE=/etc/ssl/certs/ca-bundle.crt"
       "NIX_PATH=/nix/var/nix/profiles/per-user/${username}/channels:${userHome}/.nix-defexpr/channels"
       "FONTCONFIG_FILE=${pkgs.fontconfig.out}/etc/fonts/fonts.conf"
       "FONTCONFIG_PATH=${pkgs.fontconfig.out}/etc/fonts/"

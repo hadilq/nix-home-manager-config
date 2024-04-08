@@ -1,6 +1,6 @@
 { extra-lua-config-files ? []
 , extra-plugins ? []
-, extra-treesitter-plugins ? []
+, extra-treesitter-plugins ? p: []
 }:
 { config, pkgs, lib, ... }:
 {
@@ -39,7 +39,7 @@
       (nvim-treesitter.withPlugins (p: [
         p.lua
         p.nix
-      ] ++ extra-treesitter-plugins))
+      ] ++ (extra-treesitter-plugins p)))
     ];
   };
 
