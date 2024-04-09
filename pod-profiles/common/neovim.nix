@@ -17,7 +17,7 @@
         ${lib.strings.fileContents ./neovim/nvim-lsp-primary-lang-setup.lua}
         ${lib.strings.fileContents ./neovim/nvim-telescope.lua}
         ${lib.strings.fileContents ./neovim/nvim-treesitter.lua}
-        ${lib.concatStringsSep "\n" extra-lua-config-files}
+        ${lib.concatStringsSep "\n" (builtins.map lib.strings.fileContents extra-lua-config-files)}
         EOF
       ''
     ];
@@ -40,7 +40,7 @@
         p.lua
         p.nix
       ] ++ (extra-treesitter-plugins p)))
-    ];
+    ] ++ extra-plugins;
   };
 
 }

@@ -24,7 +24,14 @@ I prefer to have my development environemtn in tmux so I usually run
 $ tmux neww podman exec -it dev-pod zsh
 ```
 
-if you don't want tmux, you just only remove the `tmux neww` part.
+If you don't want tmux, you only need to remove the `tmux neww` part.
+Even though the `endpoint.sh` script runs the `nix-daemon --daemon` command,
+but it's not getting launched! I'll try to fix it in the future,
+but for now just run it in the root shell like
+
+```shell
+$ tmux neww podman exec -it -ueer root dev-pod zsh
+```
 
 Now you have my configuration for Tmux, Neovim, etc. So let's develop!
 But if you are interested on other configurations, which has a high chance,

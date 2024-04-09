@@ -63,6 +63,7 @@ in
   home.packages = with pkgs; [
     jupyter
     sageWithDoc
+    nerdfonts
   ];
 
   programs.firefox = {

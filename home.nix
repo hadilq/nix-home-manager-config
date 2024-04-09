@@ -5,22 +5,22 @@ let
   localConfig = import ./.local/config.nix { };
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
-  zsh-nix = import ./common/zsh.nix {
+  zsh-nix = import ./pod-profiles/common/zsh.nix {
     initExtra = lib.mkIf stdenv.isDarwin ''
       export PATH=$PATH:/usr/local/bin
       HISTSIZE=10000
     '';
   };
-  neovim-nix = import ./common/neovim.nix { };
-  helix-nix = import ./common/helix.nix { };
+  neovim-nix = import ./pod-profiles/common/neovim.nix { };
+  helix-nix = import ./pod-profiles/common/helix.nix { };
   inherit (pkgs) stdenv;
 in
 {
   imports = [
-    ./common/vim.nix
-    ./common/gpg.nix
-    ./common/shell-tools.nix
-    ./common/tmux.nix
+    ./pod-profiles/common/vim.nix
+    ./pod-profiles/common/gpg.nix
+    ./pod-profiles/common/shell-tools.nix
+    ./pod-profiles/common/tmux.nix
     zsh-nix
     neovim-nix
     helix-nix
@@ -165,6 +165,7 @@ in
     };
   };
 
+  # The rest of the configurations are inside the zsh.nix file
   programs.zsh = {
     shellAliases = {
       ff = "/Applications/Firefox.app/Contents/MacOS/firefox -P --no-remote&";

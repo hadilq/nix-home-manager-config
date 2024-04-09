@@ -6,11 +6,11 @@
   ...
 }:
 let
-  zsh-nix = import ./../../common/zsh.nix {};
-  neovim-nix = import ./../../common/neovim.nix {
+  zsh-nix = import ./../common/zsh.nix {};
+  neovim-nix = import ./../common/neovim.nix {
     extra-lua-config-files = [
-      ./../../common/neovim/nvim-config-development.lua
-      ./../../common/neovim/nvim-lsp-development-lang-setup.lua
+      ./../common/neovim/nvim-config-development.lua
+      ./../common/neovim/nvim-lsp-development-lang-setup.lua
     ];
     extra-plugins =  with pkgs.vimPlugins; [
       vim-grammarous
@@ -38,7 +38,7 @@ let
       ];
   };
 
-  helix-nix = import ./../../common/helix.nix {
+  helix-nix = import ./../common/helix.nix {
     languages = {
       language = [
         {
@@ -83,9 +83,9 @@ in
 {
 
   imports = [
-    ./../../common/vim.nix
-    ./../../common/shell-tools.nix
-    ./../../common/tmux.nix
+    ./../common/vim.nix
+    ./../common/shell-tools.nix
+    ./../common/tmux.nix
     zsh-nix
     neovim-nix
     helix-nix
@@ -117,21 +117,6 @@ in
   ];
 
   fonts.fontconfig.enable = true;
-
-  programs.zsh = {
-    enable = true;
-    autocd = true;
-    dotDir = ".config/zsh";
-    enableCompletion = true;
-    enableAutosuggestions = true;
-    initExtra = "HISTSIZE=10000";
-
-    oh-my-zsh = {
-      enable = true;
-      theme = "amuse";
-      plugins = [ "git" "docker" "kubectl" ];
-    };
-  };
 
   programs.git = {
     enable = true;

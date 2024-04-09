@@ -4,6 +4,9 @@
   lib,
   ...
 }: {
+  home.packages = with pkgs; [
+    nerdfonts
+  ];
 
   programs.firefox = {
     enable = true;
