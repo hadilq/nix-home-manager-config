@@ -114,6 +114,8 @@ in
     ltex-ls # markdown language server
     taplo-lsp # toml lanugae server
     solargraph # ruby language server
+    python311Packages.python-lsp-server
+    nodePackages.bash-language-server
   ];
 
   fonts.fontconfig.enable = true;

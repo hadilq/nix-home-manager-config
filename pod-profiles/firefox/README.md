@@ -26,13 +26,13 @@ $ podman run -td --rm --volume=${DOWNLOAD_DIR}:/home/dev/Download\
   --volume=/tmp/.X11-unix/:/tmp/.X11-unix/ --volume="$XAUTH:$XAUTH"\
   -e DISPLAY=$DISPLAY -e XAUTHORITY="$XAUTH"\
   --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
-  --name=firefox-test-pod firefox-machine:latest
+  --name=firefox firefox-machine:latest
 ```
 
 To launch the firefox run
 
 ```shell
-$ tmux neww podman exec -it firefox-pod firefox
+$ tmux neww podman exec -it firefox firefox
 ```
 
 Now you have an isolated firefox!
@@ -40,7 +40,7 @@ If you don't use `tmux` just remove `tmux neww` and you are good to go.
 
 Don't forget to stop and possibly remove the container.
 ```shell
-$ podman stop firefox-pod
+$ podman stop firefox
 ```
 
 Enjoy!

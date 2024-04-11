@@ -61,7 +61,6 @@ in
     aspell
     aspellDicts.en
     aspellDicts.ca
-    xorg.xhost
     firefox
     thunderbird
     vlc
@@ -74,8 +73,6 @@ in
     bitwarden
     virt-manager
     krfb
-    python311Packages.python-lsp-server
-    nodePackages.bash-language-server
     neovim-qt
     inkscape
     pulseaudioFull
