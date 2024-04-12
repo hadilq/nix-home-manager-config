@@ -1,6 +1,6 @@
 # nix-home-manager-config
 
-This is my configuraton of nix package manager in MacOS and NixOS.
+This is my configuration of nix package manager in MacOS and NixOS.
 
 ## NixOS
 Just install the [home-manager](https://github.com/nix-community/home-manager).

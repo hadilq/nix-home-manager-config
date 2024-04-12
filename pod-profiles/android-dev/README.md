@@ -1,5 +1,5 @@
 # Pod for development
-The code in this directory can create a pod(docker or podman) image and integrate Nixos,
+The code in this directory can create a container(Docker or Podman) image and integrate NixOS,
 and home-manager, into it. The way I use it is explained below.
 
 # Usage
@@ -10,7 +10,7 @@ $ nix-build pod.nix &&\
   podman load < result
 ```
 
-To build the image. Befor launching the container you need to authorize podman to use display.
+To build the image. Before launching the container you need to authorize Podman to use display.
 So you have to run
 
 ```shell
