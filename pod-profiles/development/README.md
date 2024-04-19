@@ -43,5 +43,5 @@ Don't forget to stop and possibly remove the container.
 $ podman stop dev
 ```
 
-enjoy!
+Enjoy!
 

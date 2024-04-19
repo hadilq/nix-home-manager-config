@@ -4,12 +4,13 @@ let
   podProfileDirPath = ./.;
   etcActivation = false;
   homeActivation = true;
+  nixosConfigurationSource = ./configuration.nix;
+  homeManagerConfigurationSource = ./home.nix;
 in
 {
-  inherit (common-pod-configs) nixEffectSource pkgsSource homeManagerSource nixosConfigurationSource
-    system podCommonDirPath
-    homeManagerConfigurationSource channelsList
-    username userHome mountingDir;
-  inherit name podProfileDirPath etcActivation homeActivation;
+  inherit (common-pod-configs) nixEffectSource pkgsSource homeManagerSource
+    system podCommonDirPath channelsList username userHome mountingDir;
+  inherit name podProfileDirPath etcActivation homeActivation
+    nixosConfigurationSource homeManagerConfigurationSource;
 }
 
