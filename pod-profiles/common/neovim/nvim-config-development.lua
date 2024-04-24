@@ -11,6 +11,3 @@ require('lint').linters_by_ft = {
   rust = { "rustfmt" }
 }
 
--- Grammarous
-vim.g["grammarous#jar_url"] = 'https://www.languagetool.org/download/LanguageTool-5.9.zip'
-

@@ -29,3 +29,18 @@ lspconfig.ltex.setup(lspconfig_opts)
 lspconfig.bashls.setup(lspconfig_opts)
 lspconfig.jsonls.setup(lspconfig_opts)
 lspconfig.zls.setup(lspconfig_opts)
+lspconfig.grammar_guard.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    ltex = {
+      enabled = { "latex", "tex", "bib", "markdown" },
+      language = "en-GB",
+      diagnosticSeverity = "info",
+      checkFrequency = "save",
+      additionalRules = {
+        enablePickyRules = false,
+      },
+    },
+  },
+})
