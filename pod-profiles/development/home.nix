@@ -13,7 +13,7 @@ let
       ./../common/neovim/nvim-lsp-development-lang-setup.lua
     ];
     extra-plugins =  with pkgs.vimPlugins; [
-      vim-grammarous
+      grammar-guard-nvim
       vim-abolish
       refactoring-nvim
       nvim-lint
@@ -96,7 +96,6 @@ in
   home.packages = with pkgs; [
     curl
     ripgrep
-    xclip
     zsh
     glab
     gh
@@ -117,8 +116,6 @@ in
     python311Packages.python-lsp-server
     nodePackages.bash-language-server
   ];
-
-  fonts.fontconfig.enable = true;
 
   programs.git = {
     enable = true;

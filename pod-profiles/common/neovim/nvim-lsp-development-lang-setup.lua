@@ -29,9 +29,13 @@ lspconfig.ltex.setup(lspconfig_opts)
 lspconfig.bashls.setup(lspconfig_opts)
 lspconfig.jsonls.setup(lspconfig_opts)
 lspconfig.zls.setup(lspconfig_opts)
+
+require('grammar-guard').init()
+
 lspconfig.grammar_guard.setup({
   on_attach = on_attach,
   capabilities = capabilities,
+  cmd = { "/home/dev/.nix-profile/bin/ltex-ls" },
   settings = {
     ltex = {
       enabled = { "latex", "tex", "bib", "markdown" },
@@ -44,3 +48,4 @@ lspconfig.grammar_guard.setup({
     },
   },
 })
+

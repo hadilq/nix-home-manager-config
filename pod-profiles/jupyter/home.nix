@@ -52,7 +52,7 @@ let
     pathos
   ]);
 
-  zsh-nix = import ./../../common/zsh.nix { };
+  zsh-nix = import ./../common/zsh.nix { };
 in
 {
 
