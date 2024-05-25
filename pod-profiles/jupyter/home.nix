@@ -50,6 +50,16 @@ let
     numpy
     sympy
     pathos
+    tensorflow
+    keras
+    sklearn-deap
+    sentencepiece
+    datasets
+    transformers
+    ipywidgets
+    jupyterlab-widgets
+    widgetsnbextension
+    pip
   ]);
 
   zsh-nix = import ./../common/zsh.nix { };
@@ -64,6 +74,7 @@ in
     jupyter
     sageWithDoc
     nerdfonts
+    git-lfs
   ];
 
   programs.firefox = {

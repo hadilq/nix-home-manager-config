@@ -21,7 +21,7 @@ local lspconfig_opts = {
   on_attach = on_attach,
   capabilities = capabilities,
 }
-lspconfig.pyright.setup(lspconfig_opts )
+lspconfig.pylsp.setup(lspconfig_opts )
 lspconfig.rust_analyzer.setup(lspconfig_opts)
 lspconfig.kotlin_language_server.setup(lspconfig_opts)
 lspconfig.jdtls.setup(lspconfig_opts)
@@ -48,4 +48,16 @@ lspconfig.grammar_guard.setup({
     },
   },
 })
+
+lspconfig.ccls.setup {
+  init_options = {
+    compilationDatabaseDirectory = "build";
+    index = {
+      threads = 0;
+    };
+    clang = {
+      excludeArgs = { "-frounding-math"} ;
+    };
+  }
+}
 

@@ -96,6 +96,7 @@ in
   home.packages = with pkgs; [
     curl
     ripgrep
+    fd
     zsh
     glab
     gh
@@ -115,6 +116,16 @@ in
     solargraph # ruby language server
     python311Packages.python-lsp-server
     nodePackages.bash-language-server
+    nodePackages.nodejs
+    google-java-format
+    ktlint
+    rubyPackages.prettier
+    prettierd
+    stylua
+    yamlfix
+    tree-sitter
+    llvmPackages_9.libcxxClang
+    ccls # c/c++ language server
   ];
 
   programs.git = {
