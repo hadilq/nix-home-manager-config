@@ -1,12 +1,12 @@
 { initExtra ? "HISTSIZE=10000" }:
-{ config, pkgs, lib, ... }:
+{ lib, ... }:
 {
   programs.zsh = {
     enable = true;
     autocd = true;
     dotDir = ".config/zsh";
     enableCompletion = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     initExtra = initExtra;
 
     oh-my-zsh = {

@@ -126,6 +126,7 @@ in
     tree-sitter
     llvmPackages_9.libcxxClang
     ccls # c/c++ language server
+    nerdfonts
   ];
 
   programs.git = {
