@@ -50,6 +50,8 @@ in
     ripgrep
     bitwarden-cli
     glab
+    git-crypt
+    git-lfs
     gh
     nerdfonts
     imagemagick

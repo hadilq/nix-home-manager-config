@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 let
   inherit (pkgs) stdenv;
 in
@@ -10,7 +10,7 @@ in
   services.gpg-agent = lib.optionalAttrs stdenv.isLinux {
     enable = true;
     enableSshSupport = true;
-    pinentryPackage = pkgs.gcr;
+    pinentryPackage = pkgs.pinentry-tty;
     defaultCacheTtl = 2592000;
     defaultCacheTtlSsh = 2592000;
     maxCacheTtl = 2592000;
