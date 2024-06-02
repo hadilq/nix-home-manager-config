@@ -1,14 +1,14 @@
 let
   system =  "x86_64-linux";
   nixEffectSource = builtins.fetchTarball "https://github.com/hadilq/nix-effect-pod/archive/957e0c053f11dddf381cda7d14503f07b55f5d8e.tar.gz";
-  # release-23.11
-  pkgsSource = builtins.fetchTarball "https://github.com/NixOS/nixpkgs/archive/d7329da4b1cd24f4383455071346f4f81b7becba.tar.gz";
-  # release-23.11
-  homeManagerSource = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/d6bb9f934f2870e5cbc5b94c79e9db22246141ff.tar.gz";
+  # release-24.05
+  pkgsSource = builtins.fetchTarball "https://github.com/NixOS/nixpkgs/archive/805a384895c696f802a9bf5bf4720f37385df547.tar.gz";
+  # release-24.05
+  homeManagerSource = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/a631666f5ec18271e86a5cde998cba68c33d9ac6.tar.gz";
   podCommonDirPath = ./.;
   channelsList = [
-    { name = "nixpkgs"; url= "https://nixos.org/channels/nixos-23.11-small"; }
-    { name = "home-manager"; url= "https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz"; }
+    { name = "nixpkgs"; url= "https://nixos.org/channels/nixos-24.05-small"; }
+    { name = "home-manager"; url= "https://github.com/nix-community/home-manager/archive/release-24.05.tar.gz"; }
   ];
   username = "dev";
   userHome = "/home/dev";

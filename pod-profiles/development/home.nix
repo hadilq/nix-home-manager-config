@@ -124,9 +124,8 @@ in
     stylua
     yamlfix
     tree-sitter
-    llvmPackages_9.libcxxClang
     ccls # c/c++ language server
-    nerdfonts
+    powerline-fonts
   ];
 
   programs.git = {
