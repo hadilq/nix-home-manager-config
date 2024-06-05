@@ -9,6 +9,7 @@
 
   outputs = inputs@{ nixpkgs, home-manager, ... }:
     let
+      localConfig = import ./.local/config.nix { };
       mkHomeConfig = system: home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           inherit system;
@@ -19,11 +20,12 @@
         ];
 
         extraSpecialArgs = {
-          inherit inputs system;
+          inherit system;
+          inputs = inputs // { inherit localConfig; };
         };
       };
     in {
-      homeConfigurations."hadi" = mkHomeConfig "x86_64-linux";
+      homeConfigurations."${localConfig.userName}" = mkHomeConfig localConfig.system;
     };
 }
 

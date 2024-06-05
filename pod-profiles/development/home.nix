@@ -128,6 +128,8 @@ in
     powerline-fonts
   ];
 
+  fonts.fontconfig.enable = true;
+
   programs.git = {
     enable = true;
 
