@@ -1,6 +1,5 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, localConfig, ... }:
 let
-  localConfig = import ./.local/config.nix { };
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
   zsh-nix = import ./pod-profiles/common/zsh.nix {
