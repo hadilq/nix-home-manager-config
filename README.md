@@ -37,6 +37,7 @@ in {
   gitName = "your git name";
   gitSigningKey = "your siging key for git";
   homeDirectory =  "/Users/${userName}";
+  system = "x86_64-linux";
 }
 ```
 
