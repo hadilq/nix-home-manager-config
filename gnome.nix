@@ -5,7 +5,7 @@ let
   inherit (pkgs) stdenv;
 in
 {
-  home.packages = (with pkgs; lib.optionals stdenv.isLinux [
+  home.packages = with pkgs; lib.optionals stdenv.isLinux ([
     wayland
     gnome.gnome-shell
     gnome.gnome-session
@@ -17,7 +17,7 @@ in
     gnomeExtensions.pop-shell
     gnomeExtensions.pano
     gnomeExtensions.simple-timer
-  ]) ++ (with pkgs.gnome; [
+  ] ++ (with pkgs.gnome; [
     cheese # webcam tool
     gnome-music
     gnome-terminal
@@ -32,7 +32,7 @@ in
     atomix # puzzle game
     yelp # Help view
     gnome-contacts
-  ]);
+  ]));
 
   dconf.settings = lib.optionalAttrs stdenv.isLinux {
     "org/gnome/shell" = {
