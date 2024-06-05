@@ -20,9 +20,8 @@
         ];
 
         extraSpecialArgs = {
-          inherit system;
-          inputs = inputs // { inherit localConfig; };
-        };
+          inherit inputs system;
+        } // { inherit localConfig; };
       };
     in {
       homeConfigurations."${localConfig.userName}" = mkHomeConfig localConfig.system;
