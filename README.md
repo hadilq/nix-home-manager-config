@@ -38,6 +38,8 @@ in {
   gitSigningKey = "your siging key for git";
   homeDirectory =  "/Users/${userName}";
   system = "x86_64-linux";
+  ml-dir = "/home/...";
+  crawler-dir = "/home/...";
 }
 ```
 

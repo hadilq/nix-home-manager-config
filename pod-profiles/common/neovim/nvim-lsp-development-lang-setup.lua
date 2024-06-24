@@ -21,7 +21,7 @@ local lspconfig_opts = {
   on_attach = on_attach,
   capabilities = capabilities,
 }
-lspconfig.pylsp.setup(lspconfig_opts )
+lspconfig.pylsp.setup(lspconfig_opts)
 lspconfig.rust_analyzer.setup(lspconfig_opts)
 lspconfig.kotlin_language_server.setup(lspconfig_opts)
 lspconfig.jdtls.setup(lspconfig_opts)

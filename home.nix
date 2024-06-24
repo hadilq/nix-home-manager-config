@@ -2,6 +2,8 @@
 let
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
+
+  pod-commands = import ./pod-commands.nix { inherit pkgs localConfig; };
   zsh-nix = import ./pod-profiles/common/zsh.nix {
     initExtra = lib.mkIf stdenv.isDarwin ''
       export PATH=$PATH:/usr/local/bin
@@ -15,6 +17,7 @@ in
 {
   imports = [
     ./gnome.nix
+    ./hyprland.nix
     ./pod-profiles/common/vim.nix
     ./pod-profiles/common/gpg.nix
     ./pod-profiles/common/shell-tools.nix
@@ -79,10 +82,15 @@ in
     pulseaudioFull
     gsound
     libgda6
+    pod-commands.launch-firefox-container
+    pod-commands.launch-ml-container
+    pod-commands.launch-crawler-container
+    pod-commands.stop-firefox-container
+    pod-commands.stop-ml-container
+    pod-commands.stop-crawler-container
   ];
 
   fonts.fontconfig.enable = true;
-
 
   # The rest of the configurations are inside the zsh.nix file
   programs.zsh = {

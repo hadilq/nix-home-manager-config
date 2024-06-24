@@ -1,5 +1,5 @@
 ## This file will be copied to the /etc/nixos directory of the image,
-## so it cannot have dependencies out of pod-configs.
+## so it cannot have dependencies out of nixpkgs, home-manager, nix-effect-pod, and pod-configs.
 {
   config,
   pkgs,
