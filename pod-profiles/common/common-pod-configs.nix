@@ -1,6 +1,10 @@
 let
   system =  "x86_64-linux";
-  nixEffectSource = builtins.fetchTarball "https://github.com/hadilq/nix-effect-pod/archive/957e0c053f11dddf381cda7d14503f07b55f5d8e.tar.gz";
+  nixEffectSource = builtins.fetchTarball "https://github.com/hadilq/nix-effect-pod/archive/b92244d540e6de7d1a1f44fa2c3fa9893b0f9697.tar.gz";
+  #nixEffectSource = builtins.fetchGit  {
+  #  url = "";
+  #  rev = "b92244d540e6de7d1a1f44fa2c3fa9893b0f9697";
+  #};
   # release-24.05
   pkgsSource = builtins.fetchTarball "https://github.com/NixOS/nixpkgs/archive/805a384895c696f802a9bf5bf4720f37385df547.tar.gz";
   # release-24.05
