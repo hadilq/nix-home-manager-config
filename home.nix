@@ -82,13 +82,7 @@ in
     pulseaudioFull
     gsound
     libgda6
-    pod-commands.launch-firefox-container
-    pod-commands.launch-ml-container
-    pod-commands.launch-crawler-container
-    pod-commands.stop-firefox-container
-    pod-commands.stop-ml-container
-    pod-commands.stop-crawler-container
-  ];
+  ] ++ pod-commands.commands;
 
   fonts.fontconfig.enable = true;
 
