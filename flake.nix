@@ -25,6 +25,8 @@
       };
     in {
       homeConfigurations."${localConfig.userName}" = mkHomeConfig localConfig.system;
+      # To be used in other distributions like Ubuntu.
+      defaultPackage = home-manager.defaultPackage;
     };
 }
 

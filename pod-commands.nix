@@ -120,5 +120,7 @@ in
   commands = firefox-commands  ++ crawler-commands ++ tensorflow-commands
   ++ (mkDevContainerCommands localConfig.ml-dir "ml")
   ++ (mkDevContainerCommands localConfig.cv-dir "cv")
+  ++ (mkDevContainerCommands localConfig.lightening-dir "lightening")
+  ++ (mkDevContainerCommands localConfig.zig-metaphor-dir "zm")
   ++ (mkIdeaDevContainerCommands localConfig.hair-colorization-dir "hc");
 }

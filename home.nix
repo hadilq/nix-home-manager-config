@@ -59,6 +59,7 @@ in
     imagemagick
     lua-language-server
     nixd # nix language server
+    chromium
   ] ++ lib.optionals stdenv.isDarwin [
     (import ./brew-installer-derivation { inherit stdenv; inherit pkgs; } homeDirectory)
   ] ++ lib.optionals stdenv.isLinux [
