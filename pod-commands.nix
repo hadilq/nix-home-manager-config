@@ -101,6 +101,21 @@ let
     '')
   ];
 
+  mkDevCudaContainerCommands = dir: name: [
+    (pkgs.writeShellScriptBin "launch-${name}-container" ''
+      podman run -td --rm --volume=${dir}:/home/dev/src \
+        --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
+        --name=${name}-dev dev-cuda-machine:latest
+
+      podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
+    '')
+
+    (pkgs.writeShellScriptBin "stop-${name}-container" ''
+      podman stop ${name}-dev || true
+      podman rm ${name}-dev || true
+    '')
+  ];
+
   mkDevContainerCommands = dir: name: [
     (pkgs.writeShellScriptBin "launch-${name}-container" ''
       podman run -td --rm --volume=${dir}:/home/dev/src \
@@ -120,7 +135,7 @@ in
   commands = firefox-commands  ++ crawler-commands ++ tensorflow-commands
   ++ (mkDevContainerCommands localConfig.ml-dir "ml")
   ++ (mkDevContainerCommands localConfig.cv-dir "cv")
-  ++ (mkDevContainerCommands localConfig.lightening-dir "lightening")
+  ++ (mkDevCudaContainerCommands localConfig.lightening-dir "lightening")
   ++ (mkDevContainerCommands localConfig.zig-metaphor-dir "zm")
   ++ (mkIdeaDevContainerCommands localConfig.hair-colorization-dir "hc");
 }

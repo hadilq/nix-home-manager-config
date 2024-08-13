@@ -1,6 +1,6 @@
 let
   common-pod-configs = import ../common/common-pod-configs.nix;
-  name = "dev-machine";
+  name = "dev-cuda-machine";
   podProfileDirPath = ./.;
   etcActivation = false;
   homeActivation = true;
