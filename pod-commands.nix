@@ -118,7 +118,7 @@ let
 
   mkDevContainerCommands = dir: name: [
     (pkgs.writeShellScriptBin "launch-${name}-container" ''
-      podman run -td --rm --volume=${dir}:/home/dev/src \
+      podman run -td --volume=${dir}:/home/dev/src \
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
         --name=${name}-dev dev-machine:latest
 
