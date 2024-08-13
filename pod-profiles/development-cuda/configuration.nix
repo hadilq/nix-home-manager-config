@@ -11,6 +11,13 @@ let
   configuration = import "${pod-configs.nixEffectSource}/configuration.nix" {
     inherit (pod-configs) homeManagerConfigurationSource homeManagerSource username userHome;
   };
+  nvidia_x11 = config.boot.kernelPackages.nvidiaPackages.stable.overrideAttrs {
+    src = pkgs.fetchurl {
+      url = "https://download.nvidia.com/XFree86/Linux-x86_64/535.183.01/NVIDIA-Linux-x86_64-535.183.01.run";
+      hash = "sha256-9nB6+92pQH48vC5RKOYLy82/AvrimVjHL6+11AXouIM=";
+    };
+  };
+
 in
 {
   imports = [ configuration ];
@@ -19,8 +26,15 @@ in
     zsh.enable = true;
     git.enable = true;
   };
-  hardware.opengl.enable = true;
-  services.xserver.videoDrivers = lib.mkDefault [ "nvidia" ];
-  hardware.nvidia.modesetting.enable = lib.mkDefault true;
+
+  environment = {
+    systemPackages = with pkgs; [
+      nvidia_x11
+    ];
+
+    variables = {
+      LD_LIBRARY_PATH = "/usr/lib64"; # It's needed by nvidia-smi
+    };
+  };
 }
 

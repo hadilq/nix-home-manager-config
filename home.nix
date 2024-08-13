@@ -60,6 +60,8 @@ in
     lua-language-server
     nixd # nix language server
     chromium
+    rclone
+    pass
   ] ++ lib.optionals stdenv.isDarwin [
     (import ./brew-installer-derivation { inherit stdenv; inherit pkgs; } homeDirectory)
   ] ++ lib.optionals stdenv.isLinux [
