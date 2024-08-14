@@ -17,7 +17,9 @@ in
 {
   imports = [
     ./gnome.nix
-    ./hyprland.nix
+    #./hyprland.nix
+    #./proton-drive.nix
+    #./sops.nix
     ./pod-profiles/common/vim.nix
     ./pod-profiles/common/gpg.nix
     ./pod-profiles/common/shell-tools.nix

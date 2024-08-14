@@ -11,6 +11,7 @@ let
     extra-lua-config-files = [
       ./../common/neovim/nvim-config-development.lua
       ./../common/neovim/nvim-lsp-development-lang-setup.lua
+      ./../common/neovim/nvim-rustaceanvim.lua
     ];
     extra-plugins =  with pkgs.vimPlugins; [
       grammar-guard-nvim

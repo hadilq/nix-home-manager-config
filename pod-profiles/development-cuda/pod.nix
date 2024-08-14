@@ -3,7 +3,7 @@ let
   image = (import "${pod-configs.nixEffectSource}/pod.nix" {
     inherit (pod-configs) system pkgsSource name nixosConfigurationSource
       channelsList podProfileDirPath podCommonDirPath username userHome
-      etcActivation homeActivation;
+      etcActivation homeActivation extraSubstituters extraTrustedPublicKeys;
   });
 in
 image
