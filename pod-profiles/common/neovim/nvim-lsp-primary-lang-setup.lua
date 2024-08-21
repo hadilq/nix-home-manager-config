@@ -24,3 +24,4 @@ local lspconfig_opts = {
 
 lspconfig.nixd.setup(lspconfig_opts)
 lspconfig.lua_ls.setup(lspconfig_opts)
+

@@ -12,6 +12,7 @@ let
       ./../common/neovim/nvim-config-development.lua
       ./../common/neovim/nvim-lsp-development-lang-setup.lua
       ./../common/neovim/nvim-rustaceanvim.lua
+      ./../common/neovim/nvim-clangd.lua
     ];
     extra-plugins =  with pkgs.vimPlugins; [
       grammar-guard-nvim
@@ -19,6 +20,7 @@ let
       refactoring-nvim
       nvim-lint
       rustaceanvim
+      clangd_extensions-nvim
     ];
     extra-treesitter-plugins = p: [
         p.c
@@ -115,18 +117,19 @@ in
     ltex-ls # markdown language server
     taplo-lsp # toml lanugae server
     solargraph # ruby language server
-    python311Packages.python-lsp-server
+    python312Packages.python-lsp-server
     nodePackages.bash-language-server
     nodePackages.nodejs
     google-java-format
     ktlint
     rubyPackages.prettier
+    python312Packages.prettier
     prettierd
     stylua
     yamlfix
     tree-sitter
-    ccls # c/c++ language server
     powerline-fonts
+    clang-tools # includes clangd
   ];
 
   fonts.fontconfig.enable = true;
