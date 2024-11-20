@@ -18,6 +18,8 @@ vim.g.rustaceanvim = {
       vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
       vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
       vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+      vim.keymap.set("n", "]|", vim.diagnostic.goto_next)
+      vim.keymap.set("n", "[|", vim.diagnostic.goto_prev)
 
       vim.keymap.set("n", "<leader>ca", function() vim.cmd.RustLsp('codeAction') end, opts)
       vim.keymap.set("n", "<leader>ws", function() vim.cmd.RustLsp('workspaceSymbol') end, opts)

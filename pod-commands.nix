@@ -5,13 +5,10 @@ let
   firefox-commands = [
     (pkgs.writeShellScriptBin "launch-firefox-container" ''
       export DOWNLOAD_DIR=$(mktemp -d /tmp/firefox-download-XXXX)
-      XAUTH=$(mktemp -d /tmp/container_xauth-XXXX)/xauth && touch $XAUTH
-      xauth nextract - "$DISPLAY" | sed -e 's/^..../ffff/' | xauth -f "$XAUTH" nmerge - >> out 2>&1
-
       echo "DOWNLOAD_DIR=$DOWNLOAD_DIR"
 
       podman run -td --rm --volume=''${DOWNLOAD_DIR}:/home/dev/Downloads\
-        --volume=/tmp/.X11-unix/:/tmp/.X11-unix/ --volume="$XAUTH:$XAUTH" -e DISPLAY=$DISPLAY -e XAUTHORITY="$XAUTH"\
+        --volume=/tmp/.X11-unix/:/tmp/.X11-unix/ -e DISPLAY=$DISPLAY\
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
         --name=firefox firefox-machine:latest
 
@@ -82,22 +79,20 @@ let
     '')
   ];
 
-  mkIdeaDevContainerCommands = dir: name: [
-    (pkgs.writeShellScriptBin "launch-${name}-idea-container" ''
-      XAUTH=$(mktemp -d /tmp/container_xauth-XXXX)/xauth && touch $XAUTH
-      xauth nextract - "$DISPLAY" | sed -e 's/^..../ffff/' | xauth -f "$XAUTH" nmerge - >> out 2>&1
+  mkXauthDevContainerCommands = dir: name: [
+    (pkgs.writeShellScriptBin "launch-${name}-container" ''
 
       podman run -td --rm --volume=${dir}:/home/dev/src\
-        --volume=/tmp/.X11-unix/:/tmp/.X11-unix/ --volume="$XAUTH:$XAUTH" -e DISPLAY=$DISPLAY -e XAUTHORITY="$XAUTH"\
+        --volume=/tmp/.X11-unix/:/tmp/.X11-unix/ -e DISPLAY=$DISPLAY -e \
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
-        --name=${name}-idea-dev dev-machine:latest
+        --name=${name}-dev dev-machine:latest
 
-      podman exec -it --user root ${name}-idea-dev nix-daemon &>/dev/null &
+      podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
     '')
 
-    (pkgs.writeShellScriptBin "stop-${name}-idea-container" ''
-      podman stop ${name}-idea-dev || true
-      podman rm ${name}-idea-dev || true
+    (pkgs.writeShellScriptBin "stop-${name}-container" ''
+      podman stop ${name}-dev || true
+      podman rm ${name}-dev || true
     '')
   ];
 
@@ -137,5 +132,9 @@ in
   ++ (mkDevContainerCommands localConfig.cv-dir "cv")
   ++ (mkDevCudaContainerCommands localConfig.lightening-dir "lightening")
   ++ (mkDevContainerCommands localConfig.zig-metaphor-dir "zm")
-  ++ (mkIdeaDevContainerCommands localConfig.hair-colorization-dir "hc");
+  ++ (mkXauthDevContainerCommands localConfig.hair-colorization-dir "hc")
+  ++ (mkXauthDevContainerCommands localConfig.note-dir "note")
+  ++ (mkDevContainerCommands localConfig.opea-dir "opea")
+  ++ (mkDevContainerCommands localConfig.trustycity-dir "trustycity")
+  ++ (mkDevCudaContainerCommands localConfig.health-data-nexus-dir "health-data-nexus");
 }

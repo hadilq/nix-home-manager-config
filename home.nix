@@ -12,14 +12,11 @@ let
   };
   neovim-nix = import ./pod-profiles/common/neovim.nix { };
   helix-nix = import ./pod-profiles/common/helix.nix { };
+  proton-mail = pkgs.callPackage ./proton-mail.nix { };
   inherit (pkgs) stdenv;
 in
 {
   imports = [
-    ./gnome.nix
-    #./hyprland.nix
-    #./proton-drive.nix
-    #./sops.nix
     ./pod-profiles/common/vim.nix
     ./pod-profiles/common/gpg.nix
     ./pod-profiles/common/shell-tools.nix

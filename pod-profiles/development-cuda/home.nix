@@ -123,7 +123,6 @@ in
     google-java-format
     ktlint
     rubyPackages.prettier
-    python312Packages.prettier
     prettierd
     stylua
     yamlfix
