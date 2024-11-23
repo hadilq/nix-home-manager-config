@@ -9,7 +9,7 @@ let
 in
 {
   inherit (common-pod-configs) nixEffectSource pkgsSource homeManagerSource
-    system podCommonDirPath channelsList username userHome mountingDir;
+    system podCommonDirPath channelsList uname userHome;
   inherit name podProfileDirPath etcActivation homeActivation
     nixosConfigurationSource homeManagerConfigurationSource;
 }

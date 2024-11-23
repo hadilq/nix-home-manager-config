@@ -2,7 +2,6 @@ let
   common-pod-configs = import ../common/common-pod-configs.nix;
   name = "dev-cuda-machine";
   podProfileDirPath = ./.;
-  etcActivation = false;
   homeActivation = true;
   nixosConfigurationSource = ./configuration.nix;
   homeManagerConfigurationSource = ./home.nix;
@@ -11,8 +10,8 @@ let
 in
 {
   inherit (common-pod-configs) nixEffectSource pkgsSource homeManagerSource
-    system podCommonDirPath channelsList username userHome mountingDir;
-  inherit name podProfileDirPath etcActivation homeActivation
+    system podCommonDirPath channelsList uname userHome;
+  inherit name podProfileDirPath homeActivation
     nixosConfigurationSource homeManagerConfigurationSource
     extraSubstituters extraTrustedPublicKeys;
 }

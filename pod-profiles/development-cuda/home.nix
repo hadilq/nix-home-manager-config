@@ -6,7 +6,15 @@
   ...
 }:
 let
-  zsh-nix = import ./../common/zsh.nix {};
+  zsh-nix = import ./../common/zsh.nix {
+    initExtra = ''
+      HISTSIZE=10000
+      export TERM=screen-256color
+      export LANG=en_US.UTF-8
+      export LC_CTYPE=en_US.UTF-8
+      export LC_ALL=en_US.UTF-8
+    '';
+  };
   neovim-nix = import ./../common/neovim.nix {
     extra-lua-config-files = [
       ./../common/neovim/nvim-config-development.lua

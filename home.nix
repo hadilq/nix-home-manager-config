@@ -84,6 +84,7 @@ in
     pulseaudioFull
     gsound
     libgda6
+    wl-clipboard-rs
   ] ++ pod-commands.commands;
 
   fonts.fontconfig.enable = true;

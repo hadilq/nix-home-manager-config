@@ -79,11 +79,11 @@ let
     '')
   ];
 
-  mkXauthDevContainerCommands = dir: name: [
+  mkXDevContainerCommands = dir: name: [
     (pkgs.writeShellScriptBin "launch-${name}-container" ''
 
       podman run -td --rm --volume=${dir}:/home/dev/src\
-        --volume=/tmp/.X11-unix/:/tmp/.X11-unix/ -e DISPLAY=$DISPLAY -e \
+        --volume=/tmp/.X11-unix/:/tmp/.X11-unix/ -e DISPLAY=$DISPLAY \
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
         --name=${name}-dev dev-machine:latest
 
@@ -132,9 +132,9 @@ in
   ++ (mkDevContainerCommands localConfig.cv-dir "cv")
   ++ (mkDevCudaContainerCommands localConfig.lightening-dir "lightening")
   ++ (mkDevContainerCommands localConfig.zig-metaphor-dir "zm")
-  ++ (mkXauthDevContainerCommands localConfig.hair-colorization-dir "hc")
-  ++ (mkXauthDevContainerCommands localConfig.note-dir "note")
+  ++ (mkXDevContainerCommands localConfig.hair-colorization-dir "hc")
+  ++ (mkXDevContainerCommands localConfig.note-dir "note")
   ++ (mkDevContainerCommands localConfig.opea-dir "opea")
-  ++ (mkDevContainerCommands localConfig.trustycity-dir "trustycity")
+  ++ (mkXDevContainerCommands localConfig.trustycity-dir "trustycity")
   ++ (mkDevCudaContainerCommands localConfig.health-data-nexus-dir "health-data-nexus");
 }

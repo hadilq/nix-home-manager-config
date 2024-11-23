@@ -9,7 +9,7 @@
 let
   pod-configs = import ./pod-configs.nix;
   configuration = import "${pod-configs.nixEffectSource}/configuration.nix" {
-    inherit (pod-configs) homeManagerConfigurationSource homeManagerSource username userHome;
+    inherit (pod-configs) homeManagerConfigurationSource homeManagerSource uname userHome;
   };
 in
 {
