@@ -12,7 +12,8 @@ let
   };
   neovim-nix = import ./pod-profiles/common/neovim.nix { };
   helix-nix = import ./pod-profiles/common/helix.nix { };
-  proton-mail = pkgs.callPackage ./proton-mail.nix { };
+  autostart-nix = import ./autostart.nix;
+  cosmic-applets-nix = import ./cosmic/applets.nix;
   inherit (pkgs) stdenv;
 in
 {
@@ -24,6 +25,9 @@ in
     zsh-nix
     neovim-nix
     helix-nix
+    autostart-nix
+    # cosmic-panel-config is depending on git+https! Waiting for the fix of https://github.com/pop-os/cosmic-panel/blob/1c9c4e2a2cf27efd0ca77b5ec21bc6f7fa92d9da/Cargo.lock#L4239
+    #cosmic-applets-nix
   ];
 
   # Let Home Manager install and manage itself.
@@ -84,7 +88,8 @@ in
     pulseaudioFull
     gsound
     libgda6
-    wl-clipboard-rs
+    wl-clipboard
+    signal-desktop
   ] ++ pod-commands.commands;
 
   fonts.fontconfig.enable = true;

@@ -136,5 +136,7 @@ in
   ++ (mkXDevContainerCommands localConfig.note-dir "note")
   ++ (mkDevContainerCommands localConfig.opea-dir "opea")
   ++ (mkXDevContainerCommands localConfig.trustycity-dir "trustycity")
-  ++ (mkDevCudaContainerCommands localConfig.health-data-nexus-dir "health-data-nexus");
+  ++ (mkDevCudaContainerCommands localConfig.health-data-nexus-dir "health-data-nexus")
+  ++ (mkDevContainerCommands localConfig.einstein-dir "einstein")
+  ++ (mkDevContainerCommands localConfig.clipboard-manager-dir "clipboard-manager");
 }
