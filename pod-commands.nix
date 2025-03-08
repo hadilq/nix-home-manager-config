@@ -1,22 +1,21 @@
 
 { pkgs, localConfig }:
 let
-  inherit (pkgs) stdenv;
-  firefox-commands = [
-    (pkgs.writeShellScriptBin "launch-firefox-container" ''
-      export DOWNLOAD_DIR=$(mktemp -d /tmp/firefox-download-XXXX)
+  browser-commands = name: [
+    (pkgs.writeShellScriptBin "launch-${name}-container" ''
+      export DOWNLOAD_DIR=$(mktemp -d /tmp/${name}-download-XXXX)
       echo "DOWNLOAD_DIR=$DOWNLOAD_DIR"
 
       podman run -td --rm --volume=''${DOWNLOAD_DIR}:/home/dev/Downloads\
         --volume=/tmp/.X11-unix/:/tmp/.X11-unix/ -e DISPLAY=$DISPLAY\
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
-        --name=firefox firefox-machine:latest
+        --name=${name} ${name}-machine:latest
 
-      podman exec -it firefox firefox 2>&1 &
+      podman exec -it ${name} ${name} 2>&1 &
     '')
 
-    (pkgs.writeShellScriptBin "stop-firefox-container" ''
-      podman stop firefox && podman rm firefox
+    (pkgs.writeShellScriptBin "stop-${name}-container" ''
+      podman stop ${name} && podman rm ${name}
     '')
   ];
 
@@ -100,6 +99,7 @@ let
     (pkgs.writeShellScriptBin "launch-${name}-container" ''
       podman run -td --rm --volume=${dir}:/home/dev/src \
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
+        --gpus all \
         --name=${name}-dev dev-cuda-machine:latest
 
       podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
@@ -127,7 +127,8 @@ let
   ];
 in
 {
-  commands = firefox-commands  ++ crawler-commands ++ tensorflow-commands
+  commands = crawler-commands ++ tensorflow-commands
+  ++ (browser-commands "firefox") ++ (browser-commands "librewolf")
   ++ (mkDevContainerCommands localConfig.ml-dir "ml")
   ++ (mkDevContainerCommands localConfig.cv-dir "cv")
   ++ (mkDevCudaContainerCommands localConfig.lightening-dir "lightening")
@@ -138,5 +139,13 @@ in
   ++ (mkXDevContainerCommands localConfig.trustycity-dir "trustycity")
   ++ (mkDevCudaContainerCommands localConfig.health-data-nexus-dir "health-data-nexus")
   ++ (mkDevContainerCommands localConfig.einstein-dir "einstein")
-  ++ (mkDevContainerCommands localConfig.clipboard-manager-dir "clipboard-manager");
+  ++ (mkXDevContainerCommands localConfig.tmp-android-dir "tmp-android")
+  ++ (mkDevContainerCommands localConfig.clipboard-manager-dir "clipboard-manager")
+  ++ (mkDevContainerCommands localConfig.limbo-dir "limbo")
+  ++ (mkDevContainerCommands localConfig.pubsubos-dir "pubsubos")
+  ++ (mkDevContainerCommands localConfig.spllog-dir "spllog")
+  ++ (mkDevContainerCommands localConfig.ollama-dir "ollama")
+  ++ (mkXDevContainerCommands localConfig.stable-diffusion-dir "stable-diffusion")
+  ++ (mkXDevContainerCommands localConfig.bevy-wasm-gallery-dir "bevy-wasm-gallery")
+  ++ (mkXDevContainerCommands localConfig.iced-wasm-gallery-dir "iced-wasm-gallery");
 }

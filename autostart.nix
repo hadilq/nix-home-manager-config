@@ -13,12 +13,13 @@ let
       fi
     done
 
-    # Firefox
+    # Browser
     tmux new-session -d -s firefox -n default
     tmux new-window -n proton -t firefox: 'firefox -P "proton" --no-remote'
     tmux new-window -n hadi-pro -t firefox: 'firefox -P "hadi.pro" --no-remote'
     tmux new-window -n ml -t firefox: 'firefox -P "ML" --no-remote'
-    tmux new-window -n container -t firefox: 'launch-firefox-container'
+    tmux new-window -n github -t firefox: 'firefox -P "github" --no-remote'
+    tmux new-window -n container -t librewolf: 'launch-librewolf-container'
 
     # Signal
     tmux new-session -d -s signal -n default

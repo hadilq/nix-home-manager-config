@@ -90,6 +90,8 @@ in
     libgda6
     wl-clipboard
     signal-desktop
+    libsForQt5.okular # remember https://askubuntu.com/questions/54794/cannot-view-pdf-files-with-fillable-fields-with-okular/298942#298942
+    speedcrunch
   ] ++ pod-commands.commands;
 
   fonts.fontconfig.enable = true;
@@ -134,6 +136,19 @@ in
         };
       };
     }];
+  };
+
+  programs.librewolf = {
+    enable = true;
+    settings = {
+      "webgl.disabled" = false;
+      "sidebar.verticalTabs" = true;
+      "prefers-color-scheme" = "dark";
+      "privacy.resistFingerprinting" = false;
+      "privacy.clearOnShutdown.history" = false;
+      "privacy.clearOnShutdown.cookies" = false;
+      "network.cookie.lifetimePolicy" = 0;
+    };
   };
 
   # This value determines the Home Manager release that your
