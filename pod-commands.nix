@@ -142,10 +142,11 @@ in
   ++ (mkXDevContainerCommands localConfig.tmp-android-dir "tmp-android")
   ++ (mkDevContainerCommands localConfig.clipboard-manager-dir "clipboard-manager")
   ++ (mkDevContainerCommands localConfig.limbo-dir "limbo")
-  ++ (mkDevContainerCommands localConfig.pubsubos-dir "pubsubos")
+  ++ (mkDevContainerCommands localConfig.had-on-dir "had-on")
   ++ (mkDevContainerCommands localConfig.spllog-dir "spllog")
   ++ (mkDevContainerCommands localConfig.ollama-dir "ollama")
   ++ (mkXDevContainerCommands localConfig.stable-diffusion-dir "stable-diffusion")
+  ++ (mkXDevContainerCommands localConfig.minimalitics-dir "minimalitics")
   ++ (mkXDevContainerCommands localConfig.bevy-wasm-gallery-dir "bevy-wasm-gallery")
   ++ (mkXDevContainerCommands localConfig.iced-wasm-gallery-dir "iced-wasm-gallery");
 }

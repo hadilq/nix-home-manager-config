@@ -10,7 +10,7 @@ in
   services.gpg-agent = lib.optionalAttrs stdenv.isLinux {
     enable = true;
     enableSshSupport = true;
-    pinentryPackage = pkgs.pinentry-tty;
+    pinentry.package = pkgs.pinentry-tty;
     defaultCacheTtl = 2592000;
     defaultCacheTtlSsh = 2592000;
     maxCacheTtl = 2592000;

@@ -15,11 +15,14 @@ let
 
     # Browser
     tmux new-session -d -s firefox -n default
-    tmux new-window -n proton -t firefox: 'firefox -P "proton" --no-remote'
     tmux new-window -n hadi-pro -t firefox: 'firefox -P "hadi.pro" --no-remote'
-    tmux new-window -n ml -t firefox: 'firefox -P "ML" --no-remote'
-    tmux new-window -n github -t firefox: 'firefox -P "github" --no-remote'
-    tmux new-window -n container -t librewolf: 'launch-librewolf-container'
+
+    tmux new-session -d -s librewolf -n default
+    tmux new-window -n proton -t librewolf: 'librewolf -P "proton" --no-remote'
+
+    tmux new-session -d -s zen-browser -n default
+    tmux new-window -n ml -t zen-browser: 'zen -P "ML" --no-remote'
+    tmux new-window -n github -t zen-browser: 'zen -P "github" --no-remote'
 
     # Signal
     tmux new-session -d -s signal -n default
@@ -28,6 +31,8 @@ let
     # home-manager
     tmux new-session -d -s home-manager -n default
     tmux new-window -n nvim -t home-manager: 'cd ~/.config/home-manager && nvim home.nix'
+    tmux new-window -n nvim -t home-manager: 'cd ${localConfig.nixpkgs-dir} && nvim flake.nix'
+    tmux new-window -n nvim -t home-manager: 'cd ${localConfig.nixos-config-dir} && nvim flake.nix'
   '';
 in
 {

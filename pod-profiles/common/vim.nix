@@ -19,6 +19,12 @@
       inoremap jj <Esc>
       let mapleader = ","
       nnoremap <leader>u :UndotreeToggle<CR>
+
+      if has('macunix')
+        vmap <leader>y :w !pbcopy<CR>
+      else
+        vmap <leader>y :w !wl-clip -in -selection clipboard<CR>
+      endif
     '';
   };
 }

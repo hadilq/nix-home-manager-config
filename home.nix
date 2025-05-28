@@ -1,4 +1,4 @@
-{ config, pkgs, lib, localConfig, ... }:
+{ config, pkgs, lib, localConfig, pkgs-unstable, ... }:
 let
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
@@ -14,6 +14,7 @@ let
   helix-nix = import ./pod-profiles/common/helix.nix { };
   autostart-nix = import ./autostart.nix;
   cosmic-applets-nix = import ./cosmic/applets.nix;
+
   inherit (pkgs) stdenv;
 in
 {
@@ -58,7 +59,7 @@ in
     git-crypt
     git-lfs
     gh
-    nerdfonts
+    #nerd-fonts
     imagemagick
     lua-language-server
     nixd # nix language server
@@ -78,23 +79,25 @@ in
     keepassxc
     libreoffice
     gimp
-    yakuake
     gdrive
     bitwarden
     virt-manager
-    krfb
+    kdePackages.krfb
     neovim-qt
     inkscape
     pulseaudioFull
     gsound
     libgda6
     wl-clipboard
-    signal-desktop
+    pkgs-unstable.signal-desktop
     libsForQt5.okular # remember https://askubuntu.com/questions/54794/cannot-view-pdf-files-with-fillable-fields-with-okular/298942#298942
     speedcrunch
+    loupe
+    (callPackage ./pod-profiles/common/zen.nix {})
   ] ++ pod-commands.commands;
 
   fonts.fontconfig.enable = true;
+  #fonts.fonts = [ ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 
   # The rest of the configurations are inside the zsh.nix file
   programs.zsh = {
@@ -147,6 +150,7 @@ in
       "privacy.resistFingerprinting" = false;
       "privacy.clearOnShutdown.history" = false;
       "privacy.clearOnShutdown.cookies" = false;
+      "privacy.clearOnShutdown_v2.cookiesAndStorage" = false;
       "network.cookie.lifetimePolicy" = 0;
     };
   };
