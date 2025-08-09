@@ -93,6 +93,9 @@ in
     libsForQt5.okular # remember https://askubuntu.com/questions/54794/cannot-view-pdf-files-with-fillable-fields-with-okular/298942#298942
     speedcrunch
     loupe
+    socat
+    age
+    sops
     (callPackage ./pod-profiles/common/zen.nix {})
   ] ++ pod-commands.commands;
 
