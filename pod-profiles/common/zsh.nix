@@ -1,4 +1,4 @@
-{ initExtra ? "HISTSIZE=20000" }:
+{ initContent ? "HISTSIZE=20000" }:
 { lib, ... }:
 {
   programs.zsh = {
@@ -7,7 +7,7 @@
     dotDir = ".config/zsh";
     enableCompletion = true;
     autosuggestion.enable = true;
-    initExtra = initExtra;
+    initContent = initContent;
 
     oh-my-zsh = {
       enable = true;

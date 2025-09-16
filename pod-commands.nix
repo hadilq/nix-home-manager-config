@@ -148,5 +148,6 @@ in
   ++ (mkXDevContainerCommands localConfig.stable-diffusion-dir "stable-diffusion")
   ++ (mkXDevContainerCommands localConfig.minimalitics-dir "minimalitics")
   ++ (mkXDevContainerCommands localConfig.bevy-wasm-gallery-dir "bevy-wasm-gallery")
-  ++ (mkXDevContainerCommands localConfig.iced-wasm-gallery-dir "iced-wasm-gallery");
+  ++ (mkXDevContainerCommands localConfig.iced-wasm-gallery-dir "iced-wasm-gallery")
+  ++ (mkXDevContainerCommands localConfig.aitinker-dir "aitinker");
 }
