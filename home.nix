@@ -1,26 +1,22 @@
 { config, pkgs, lib, localConfig, pkgs-unstable, ... }:
 let
+  inherit (pkgs) stdenv;
+
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
 
   pod-commands = import ./pod-commands.nix { inherit pkgs localConfig; };
-  zsh-nix = import ./pod-profiles/common/zsh.nix {
-    initExtra = lib.mkIf stdenv.isDarwin ''
-      export PATH=$PATH:/usr/local/bin
-      HISTSIZE=10000
-    '';
-  };
+  zsh-nix = import ./pod-profiles/common/zsh.nix { };
   neovim-nix = import ./pod-profiles/common/neovim.nix { };
   helix-nix = import ./pod-profiles/common/helix.nix { };
   autostart-nix = import ./autostart.nix;
   cosmic-applets-nix = import ./cosmic/applets.nix;
-
-  inherit (pkgs) stdenv;
 in
 {
   imports = [
     ./pod-profiles/common/vim.nix
     ./pod-profiles/common/gpg.nix
+    ./pod-profiles/common/git.nix
     ./pod-profiles/common/shell-tools.nix
     ./pod-profiles/common/tmux.nix
     zsh-nix
@@ -66,8 +62,6 @@ in
     chromium
     rclone
     pass
-  ] ++ lib.optionals stdenv.isDarwin [
-    (import ./brew-installer-derivation { inherit stdenv; inherit pkgs; } homeDirectory)
   ] ++ lib.optionals stdenv.isLinux [
     aspell
     aspellDicts.en
@@ -118,30 +112,6 @@ in
     initExtraBeforeCompInit = lib.mkIf stdenv.isDarwin ''
       . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
     '';
-  };
-
-  programs.git = {
-    enable = true;
-    extraConfig = {
-      core = {
-        editor = "hx";
-      };
-      credential.helper = lib.optionals stdenv.isDarwin "osxkeychain";
-    };
-
-    includes = [{
-      contents = {
-        init.defaultBranch = "main";
-        user = {
-          email = localConfig.gitEmail;
-          name = localConfig.gitName;
-          signingKey = localConfig.gitSigningKey;
-        };
-        commit = {
-          gpgSign = true;
-        };
-      };
-    }];
   };
 
   programs.librewolf = {

@@ -1,4 +1,4 @@
-{ initExtra ? "HISTSIZE=10000" }:
+{ initExtra ? "HISTSIZE=20000" }:
 { lib, ... }:
 {
   programs.zsh = {

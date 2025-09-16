@@ -20,5 +20,10 @@
     enableZshIntegration = true;
     enableBashIntegration = true;
   };
+
+  programs.jujutsu = {
+    enable = true;
+    ediff = true;
+  };
 }
 
