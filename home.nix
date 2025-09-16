@@ -79,7 +79,6 @@ in
     kdePackages.krfb
     neovim-qt
     inkscape
-    pulseaudioFull
     gsound
     libgda6
     wl-clipboard
