@@ -149,5 +149,5 @@ in
   ++ (mkXDevContainerCommands localConfig.minimalitics-dir "minimalitics")
   ++ (mkXDevContainerCommands localConfig.bevy-wasm-gallery-dir "bevy-wasm-gallery")
   ++ (mkXDevContainerCommands localConfig.iced-wasm-gallery-dir "iced-wasm-gallery")
-  ++ (mkXDevContainerCommands localConfig.aitinker-dir "aitinker");
+  ++ (mkDevContainerCommands localConfig.aitinker-dir "aitinker");
 }

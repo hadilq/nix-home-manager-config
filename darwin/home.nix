@@ -6,7 +6,7 @@ let
   homeDirectory = localConfig.homeDirectory;
 
   zsh-nix = import ./pod-profiles/common/zsh.nix {
-    initExtra = ''
+    initContent = ''
       export PATH=$PATH:/usr/local/bin
       HISTSIZE=20000
     '';

@@ -7,7 +7,7 @@
 }:
 let
   zsh-nix = import ./../common/zsh.nix {
-    initExtra = ''
+    initContent = ''
       HISTSIZE=10000
       export TERM=screen-256color
       export LANG=en_US.UTF-8
@@ -137,6 +137,7 @@ in
     tree-sitter
     powerline-fonts
     clang-tools # includes clangd
+    awscli2
   ];
 
   fonts.fontconfig.enable = true;
