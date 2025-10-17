@@ -1,6 +1,7 @@
 
 { pkgs, localConfig }:
 let
+  inherit (pkgs) lib;
   browser-commands = name: [
     (pkgs.writeShellScriptBin "launch-${name}-container" ''
       export DOWNLOAD_DIR=$(mktemp -d /tmp/${name}-download-XXXX)
@@ -111,6 +112,21 @@ let
     '')
   ];
 
+  mkDevPortsContainerCommands = dir: name: ports: [
+    (pkgs.writeShellScriptBin "launch-${name}-container" ''
+      podman run -td --volume=${dir}:/home/dev/src \
+        ${lib.strings.concatStrings (lib.map (p: " -p ${builtins.toString p}:${builtins.toString p}") ports)} --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
+        --name=${name}-dev dev-machine:latest
+
+      podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
+    '')
+
+    (pkgs.writeShellScriptBin "stop-${name}-container" ''
+      podman stop ${name}-dev || true
+      podman rm ${name}-dev || true
+    '')
+  ];
+
   mkDevContainerCommands = dir: name: [
     (pkgs.writeShellScriptBin "launch-${name}-container" ''
       podman run -td --volume=${dir}:/home/dev/src \
@@ -134,7 +150,7 @@ in
   ++ (mkDevCudaContainerCommands localConfig.lightening-dir "lightening")
   ++ (mkDevContainerCommands localConfig.zig-metaphor-dir "zm")
   ++ (mkXDevContainerCommands localConfig.hair-colorization-dir "hc")
-  ++ (mkXDevContainerCommands localConfig.note-dir "note")
+  ++ (mkDevPortsContainerCommands localConfig.note-dir "note" [ 1111 ])
   ++ (mkDevContainerCommands localConfig.opea-dir "opea")
   ++ (mkXDevContainerCommands localConfig.trustycity-dir "trustycity")
   ++ (mkDevCudaContainerCommands localConfig.health-data-nexus-dir "health-data-nexus")
@@ -149,5 +165,6 @@ in
   ++ (mkXDevContainerCommands localConfig.minimalitics-dir "minimalitics")
   ++ (mkXDevContainerCommands localConfig.bevy-wasm-gallery-dir "bevy-wasm-gallery")
   ++ (mkXDevContainerCommands localConfig.iced-wasm-gallery-dir "iced-wasm-gallery")
+  ++ (mkDevContainerCommands localConfig.noanalyt-dir "noanalyt")
   ++ (mkDevContainerCommands localConfig.aitinker-dir "aitinker");
 }
