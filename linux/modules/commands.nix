@@ -99,7 +99,9 @@ let
   mkDevPortsContainerCommands = ports: dir: name: [
     (pkgs.writeShellScriptBin "launch-${name}-container" ''
       podman run -td --volume=${dir}:/home/dev/src \
-        ${lib.strings.concatStrings (lib.map (p: " -p ${builtins.toString p}:${builtins.toString p}") ports)} --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
+        ${
+          lib.strings.concatStrings (lib.map (p: " -p ${builtins.toString p}:${builtins.toString p}") ports)
+        } --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
         --name=${name}-dev dev-machine:latest
 
       podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
@@ -126,12 +128,17 @@ let
     '')
   ];
 
-  checkDir = name: commands-fn:
-    (lib.optionals (builtins.hasAttr "${name}-dir" local-projects) (commands-fn local-projects.${"${name}-dir" } name));
+  checkDir =
+    name: commands-fn:
+    (lib.optionals (builtins.hasAttr "${name}-dir" local-projects) (
+      commands-fn local-projects.${"${name}-dir"} name
+    ));
 in
 {
-  home.packages = []
-    ++ (browser-commands "firefox") ++ (browser-commands "librewolf")
+  home.packages =
+    [ ]
+    ++ (browser-commands "firefox")
+    ++ (browser-commands "librewolf")
     ++ (lib.optionals (builtins.hasAttr "crawler-dir" local-projects) crawler-commands)
     ++ (lib.optionals (builtins.hasAttr "tensorflow-dir" local-projects) tensorflow-commands)
     ++ (checkDir "ml" mkDevContainerCommands)

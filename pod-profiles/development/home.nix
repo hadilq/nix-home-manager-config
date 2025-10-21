@@ -22,7 +22,7 @@ let
       ./../modules/neovim/nvim-rustaceanvim.lua
       ./../modules/neovim/nvim-clangd.lua
     ];
-    extra-plugins =  with pkgs.vimPlugins; [
+    extra-plugins = with pkgs.vimPlugins; [
       grammar-guard-nvim
       vim-abolish
       refactoring-nvim
@@ -31,22 +31,22 @@ let
       clangd_extensions-nvim
     ];
     extra-treesitter-plugins = p: [
-        p.c
-        p.javascript
-        p.java
-        p.json
-        p.vim
-        p.html
-        p.yaml
-        p.dockerfile
-        p.java
-        p.kotlin
-        p.rust
-        p.zig
-        p.kotlin
-        p.ruby
-        p.python
-      ];
+      p.c
+      p.javascript
+      p.java
+      p.json
+      p.vim
+      p.html
+      p.yaml
+      p.dockerfile
+      p.java
+      p.kotlin
+      p.rust
+      p.zig
+      p.kotlin
+      p.ruby
+      p.python
+    ];
   };
 
   helix-nix = import ./../modules/helix.nix {
@@ -79,7 +79,10 @@ let
         }
         {
           name = "java";
-          file-types = [ "java" "gradle" ];
+          file-types = [
+            "java"
+            "gradle"
+          ];
           language-servers = [ "jdt-language-server" ];
         }
         {
@@ -145,11 +148,12 @@ in
   programs.git = {
     enable = true;
 
-    includes = [{
-      contents = {
-        init.defaultBranch = "main";
-      };
-    }];
+    includes = [
+      {
+        contents = {
+          init.defaultBranch = "main";
+        };
+      }
+    ];
   };
 }
-

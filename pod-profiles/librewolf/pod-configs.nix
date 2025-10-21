@@ -7,9 +7,19 @@ let
   homeManagerConfigurationSource = ./home.nix;
 in
 {
-  inherit (common-pod-configs) pkgsSource homeManagerSource
-    system channelsList uname userHome;
-  inherit name etcActivation homeActivation
-    nixosConfigurationSource homeManagerConfigurationSource;
+  inherit (common-pod-configs)
+    pkgsSource
+    homeManagerSource
+    system
+    channelsList
+    uname
+    userHome
+    ;
+  inherit
+    name
+    etcActivation
+    homeActivation
+    nixosConfigurationSource
+    homeManagerConfigurationSource
+    ;
 }
-

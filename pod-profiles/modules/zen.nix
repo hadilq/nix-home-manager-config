@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   inherit (pkgs) fetchurl appimageTools;
 
@@ -28,4 +33,3 @@ appimageTools.wrapType2 {
     platforms = [ "x86_64-linux" ];
   };
 }
-

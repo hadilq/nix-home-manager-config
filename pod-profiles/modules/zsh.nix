@@ -1,4 +1,6 @@
-{ initContent ? "HISTSIZE=20000" }:
+{
+  initContent ? "HISTSIZE=20000",
+}:
 { lib, ... }:
 {
   programs.zsh = {
@@ -12,7 +14,11 @@
     oh-my-zsh = {
       enable = true;
       theme = "amuse";
-      plugins = [ "git" "docker" "kubectl" ];
+      plugins = [
+        "git"
+        "docker"
+        "kubectl"
+      ];
     };
   };
 }

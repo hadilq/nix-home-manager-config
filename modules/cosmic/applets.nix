@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   inherit (pkgs) stdenv;
 
@@ -35,25 +40,42 @@ let
     };
 
     nativeBuildInputs = with pkgs; [
-      sqlite.dev sqlite just libxkbcommon
-      just pkg-config util-linuxMinimal
+      sqlite.dev
+      sqlite
+      just
+      libxkbcommon
+      just
+      pkg-config
+      util-linuxMinimal
     ];
-    buildInputs = with pkgs; [ dbus glib libinput libxkbcommon wayland udev ];
+    buildInputs = with pkgs; [
+      dbus
+      glib
+      libinput
+      libxkbcommon
+      wayland
+      udev
+    ];
 
     dontUseJustBuild = true;
 
     justFlags = [
-      "--set" "prefix" (placeholder "out")
-      "--set" "target" "${stdenv.hostPlatform.rust.cargoShortTarget}/release"
+      "--set"
+      "prefix"
+      (placeholder "out")
+      "--set"
+      "target"
+      "${stdenv.hostPlatform.rust.cargoShortTarget}/release"
     ];
 
     # Force linking to libwayland-client, which is always dlopen()ed.
     "CARGO_TARGET_${stdenv.hostPlatform.rust.cargoEnvVarTarget}_RUSTFLAGS" =
-      map (a: "-C link-arg=${a}") [
-        "-Wl,--push-state,--no-as-needed"
-        "-lwayland-client"
-        "-Wl,--pop-state"
-      ];
+      map (a: "-C link-arg=${a}")
+        [
+          "-Wl,--push-state,--no-as-needed"
+          "-lwayland-client"
+          "-Wl,--pop-state"
+        ];
   };
 in
 {

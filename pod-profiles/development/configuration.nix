@@ -18,4 +18,3 @@ in
     git.enable = true;
   };
 }
-

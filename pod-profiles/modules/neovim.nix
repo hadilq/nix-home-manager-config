@@ -1,8 +1,14 @@
-{ extra-lua-config-files ? []
-, extra-plugins ? []
-, extra-treesitter-plugins ? p: []
+{
+  extra-lua-config-files ? [ ],
+  extra-plugins ? [ ],
+  extra-treesitter-plugins ? p: [ ],
 }:
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
   programs.neovim = {
     enable = true;
@@ -22,25 +28,32 @@
       ''
     ];
 
-    plugins = with pkgs.vimPlugins; [
-      telescope-nvim
-      telescope-fzy-native-nvim
-      trouble-nvim
-      vim-fugitive
-      undotree
-      nvim-cmp
-      vim-vsnip
-      cmp-buffer
-      cmp-nvim-lsp
-      nvim-lspconfig
-      conform-nvim
-      rose-pine
-      lsp-inlayhints-nvim
-      (nvim-treesitter.withPlugins (p: [
-        p.lua
-        p.nix
-      ] ++ (extra-treesitter-plugins p)))
-    ] ++ extra-plugins;
+    plugins =
+      with pkgs.vimPlugins;
+      [
+        telescope-nvim
+        telescope-fzy-native-nvim
+        trouble-nvim
+        vim-fugitive
+        undotree
+        nvim-cmp
+        vim-vsnip
+        cmp-buffer
+        cmp-nvim-lsp
+        nvim-lspconfig
+        conform-nvim
+        rose-pine
+        lsp-inlayhints-nvim
+        (nvim-treesitter.withPlugins (
+          p:
+          [
+            p.lua
+            p.nix
+          ]
+          ++ (extra-treesitter-plugins p)
+        ))
+      ]
+      ++ extra-plugins;
   };
 
 }

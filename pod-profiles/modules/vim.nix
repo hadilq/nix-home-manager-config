@@ -1,11 +1,18 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
   programs.vim = {
     enable = true;
     plugins = with pkgs.vimPlugins; [
       undotree
     ];
-    settings = { ignorecase = true; };
+    settings = {
+      ignorecase = true;
+    };
     extraConfig = ''
       syntax on
       filetype plugin indent on

@@ -1,8 +1,16 @@
-{ config, pkgs, lib, localConfig, pkgs-unstable, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  localConfig,
+  pkgs-unstable,
+  ...
+}:
 let
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
-in {
+in
+{
   nixpkgs.config = {
     allowUnfree = true;
     packageOverrides = pkgs: {
@@ -29,4 +37,3 @@ in {
 
   system.stateVersion = 4;
 }
-

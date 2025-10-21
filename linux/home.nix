@@ -1,4 +1,9 @@
-{ config, pkgs, pkgs-unstable, ... }:
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 let
   cosmic-applets-nix = import ../modules/cosmic/applets.nix;
 in
@@ -38,7 +43,6 @@ in
     socat
     age
     sops
-    (callPackage ../pod-profiles/modules/zen.nix {})
+    (callPackage ../pod-profiles/modules/zen.nix { })
   ];
 }
-

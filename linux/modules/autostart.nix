@@ -1,4 +1,9 @@
-{ localConfig, pkgs, lib, ... }:
+{
+  localConfig,
+  pkgs,
+  lib,
+  ...
+}:
 let
   inherit (localConfig) local-projects;
   autostart-command = pkgs.writeShellScriptBin "autostart-command" ''
@@ -30,18 +35,10 @@ let
 
     # home-manager
     tmux new-session -d -s home-manager -n default
-    ${lib.optionalString (builtins.hasAttr "home-manager-config-dir" local-projects)
-      "tmux new-window -n nvim -t home-manager: 'cd ${local-projects.home-manager-config-dir} && nvim home.nix'"
-    }
-    ${lib.optionalString (builtins.hasAttr "nixpkgs-dir" local-projects)
-      "tmux new-window -n nvim -t home-manager: 'cd ${local-projects.nixpkgs-dir} && nvim flake.nix'"
-    }
-    ${lib.optionalString (builtins.hasAttr "home-manager-dir" local-projects)
-      "tmux new-window -n nvim -t home-manager: 'cd ${local-projects.home-manager-dir} && nvim flake.nix'"
-    }
-    ${lib.optionalString (builtins.hasAttr "nixos-config-dir" local-projects)
-      "tmux new-window -n nvim -t home-manager: 'cd ${local-projects.nixos-config-dir} && nvim flake.nix'"
-    }
+    ${lib.optionalString (builtins.hasAttr "home-manager-config-dir" local-projects) "tmux new-window -n nvim -t home-manager: 'cd ${local-projects.home-manager-config-dir} && nvim home.nix'"}
+    ${lib.optionalString (builtins.hasAttr "nixpkgs-dir" local-projects) "tmux new-window -n nvim -t home-manager: 'cd ${local-projects.nixpkgs-dir} && nvim flake.nix'"}
+    ${lib.optionalString (builtins.hasAttr "home-manager-dir" local-projects) "tmux new-window -n nvim -t home-manager: 'cd ${local-projects.home-manager-dir} && nvim flake.nix'"}
+    ${lib.optionalString (builtins.hasAttr "nixos-config-dir" local-projects) "tmux new-window -n nvim -t home-manager: 'cd ${local-projects.nixos-config-dir} && nvim flake.nix'"}
   '';
 in
 {

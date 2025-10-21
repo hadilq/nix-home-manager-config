@@ -1,7 +1,13 @@
-{ pkgs, lib, localConfig, ... }:
+{
+  pkgs,
+  lib,
+  localConfig,
+  ...
+}:
 let
   inherit (pkgs) stdenv;
-in {
+in
+{
   programs.git = {
     enable = true;
     extraConfig = {
@@ -12,19 +18,21 @@ in {
       credential.helper = lib.optionals stdenv.isDarwin "osxkeychain";
     };
 
-    includes = [{
-      contents = {
-        init.defaultBranch = "main";
-        user = {
-          email = localConfig.gitEmail;
-          name = localConfig.gitName;
-          signingKey = localConfig.gitSigningKey;
+    includes = [
+      {
+        contents = {
+          init.defaultBranch = "main";
+          user = {
+            email = localConfig.gitEmail;
+            name = localConfig.gitName;
+            signingKey = localConfig.gitSigningKey;
+          };
+          commit = {
+            gpgSign = true;
+          };
         };
-        commit = {
-          gpgSign = true;
-        };
-      };
-    }];
+      }
+    ];
   };
 
 }

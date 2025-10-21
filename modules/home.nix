@@ -1,4 +1,11 @@
-{ config, pkgs, lib, localConfig, pkgs-unstable, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  localConfig,
+  pkgs-unstable,
+  ...
+}:
 let
   inherit (pkgs) stdenv;
 
@@ -27,7 +34,10 @@ in
 
   nix = {
     package = pkgs.nix;
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
 
   # Home Manager needs a bit of information about you and the
@@ -72,4 +82,3 @@ in
   # changes in each release.
   home.stateVersion = "23.11";
 }
-

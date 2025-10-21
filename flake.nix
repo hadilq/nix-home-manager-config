@@ -18,24 +18,27 @@
     nix-effect-pod.url = "github:hadilq/nix-effect-pod/main";
   };
 
-  outputs = inputs@{
-    determinate,
-    nixpkgs,
-    home-manager,
-    darwin,
-    nixpkgs-unstable,
-    nix-effect-pod,
-    ...
-  }:
+  outputs =
+    inputs@{
+      determinate,
+      nixpkgs,
+      home-manager,
+      darwin,
+      nixpkgs-unstable,
+      nix-effect-pod,
+      ...
+    }:
     let
       localConfig = import ./.local/config.nix { };
       inherit (localConfig) system;
-      mkHomeConfig = system:
+      mkHomeConfig =
+        system:
         let
           pkgs-unstable = import nixpkgs-unstable {
             inherit system;
           };
-        in home-manager.lib.homeManagerConfiguration {
+        in
+        home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             inherit system;
           };
@@ -49,32 +52,34 @@
           } // { inherit localConfig pkgs-unstable; };
         };
 
-      mkDarwinConfig = system:
+      mkDarwinConfig =
+        system:
         let
           pkgs-unstable = import nixpkgs-unstable {
             inherit system;
           };
           userName = localConfig.userName;
-        in darwin.lib.darwinSystem {
-            system = "aarch64-darwin";
-            specialArgs = {
-              inherit nixpkgs pkgs-unstable;
-            };
-
-            modules = [
-              ./darwin/configuration.nix
-              determinate.darwinModules.default
-              home-manager.darwinModules.home-manager
-              {
-                home-manager.useUserPackages = true;
-                home-manager.users.${userName} = import ./darwin/home.nix;
-
-                home-manager.extraSpecialArgs = {
-                  inherit nixpkgs pkgs-unstable;
-                };
-              }
-            ];
+        in
+        darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          specialArgs = {
+            inherit nixpkgs pkgs-unstable;
           };
+
+          modules = [
+            ./darwin/configuration.nix
+            determinate.darwinModules.default
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useUserPackages = true;
+              home-manager.users.${userName} = import ./darwin/home.nix;
+
+              home-manager.extraSpecialArgs = {
+                inherit nixpkgs pkgs-unstable;
+              };
+            }
+          ];
+        };
 
       pod-args = {
         nixEffectSource = "${nix-effect-pod}";
@@ -84,7 +89,8 @@
       development-pod = import ./pod-profiles/development/pod.nix pod-args;
       librewolf-pod = import ./pod-profiles/librewolf/pod.nix pod-args;
 
-    in {
+    in
+    {
       homeConfigurations."${localConfig.userName}" = mkHomeConfig system;
       darwinConfigurations."${localConfig.userName}" = mkDarwinConfig system;
 
@@ -94,4 +100,3 @@
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
     };
 }
-
