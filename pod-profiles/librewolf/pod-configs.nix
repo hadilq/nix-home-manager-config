@@ -1,16 +1,15 @@
 let
-  common-pod-configs = import ../common/common-pod-configs.nix;
+  common-pod-configs = import ../modules/common-pod-configs.nix;
   name = "librewolf-machine";
-  podProfileDirPath = ./.;
   etcActivation = true;
   homeActivation = true;
   nixosConfigurationSource = ./configuration.nix;
   homeManagerConfigurationSource = ./home.nix;
 in
 {
-  inherit (common-pod-configs) nixEffectSource pkgsSource homeManagerSource
-    system podCommonDirPath channelsList uname userHome;
-  inherit name podProfileDirPath etcActivation homeActivation
+  inherit (common-pod-configs) pkgsSource homeManagerSource
+    system channelsList uname userHome;
+  inherit name etcActivation homeActivation
     nixosConfigurationSource homeManagerConfigurationSource;
 }
 

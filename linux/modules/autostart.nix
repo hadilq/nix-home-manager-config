@@ -1,6 +1,6 @@
 { localConfig, pkgs, lib, ... }:
 let
-  inherit (pkgs) stdenv;
+  inherit (localConfig) local-projects;
   autostart-command = pkgs.writeShellScriptBin "autostart-command" ''
     count=1
     while ! ping -c 1 -W 1 172.217.165.14; do # google.com
@@ -19,10 +19,10 @@ let
 
     tmux new-session -d -s librewolf -n default
     tmux new-window -n proton -t librewolf: 'librewolf -P "proton" --no-remote'
+    tmux new-window -n github -t  librewolf: ' librewolf -P "github" --no-remote'
 
     tmux new-session -d -s zen-browser -n default
     tmux new-window -n ml -t zen-browser: 'zen -P "ML" --no-remote'
-    tmux new-window -n github -t zen-browser: 'zen -P "github" --no-remote'
 
     # Signal
     tmux new-session -d -s signal -n default
@@ -30,14 +30,24 @@ let
 
     # home-manager
     tmux new-session -d -s home-manager -n default
-    tmux new-window -n nvim -t home-manager: 'cd ~/.config/home-manager && nvim home.nix'
-    tmux new-window -n nvim -t home-manager: 'cd ${localConfig.nixpkgs-dir} && nvim flake.nix'
-    tmux new-window -n nvim -t home-manager: 'cd ${localConfig.nixos-config-dir} && nvim flake.nix'
+    ${lib.optionalString (builtins.hasAttr "home-manager-config-dir" local-projects)
+      "tmux new-window -n nvim -t home-manager: 'cd ${local-projects.home-manager-config-dir} && nvim home.nix'"
+    }
+    ${lib.optionalString (builtins.hasAttr "nixpkgs-dir" local-projects)
+      "tmux new-window -n nvim -t home-manager: 'cd ${local-projects.nixpkgs-dir} && nvim flake.nix'"
+    }
+    ${lib.optionalString (builtins.hasAttr "home-manager-dir" local-projects)
+      "tmux new-window -n nvim -t home-manager: 'cd ${local-projects.home-manager-dir} && nvim flake.nix'"
+    }
+    ${lib.optionalString (builtins.hasAttr "nixos-config-dir" local-projects)
+      "tmux new-window -n nvim -t home-manager: 'cd ${local-projects.nixos-config-dir} && nvim flake.nix'"
+    }
   '';
 in
 {
   home.activation.autostart-command = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run ln -sfn  $VERBOSE_ARG \
+    mkdir -p /home/${localConfig.userName}/.config/autostart
+    ln -sfn  $VERBOSE_ARG \
       ${autostart-command}/bin/autostart-command \
       /home/${localConfig.userName}/.config/autostart/autostart-command
   '';

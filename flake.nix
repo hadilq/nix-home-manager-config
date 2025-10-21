@@ -15,11 +15,21 @@
       url = "github:lnl7/nix-darwin/nix-darwin-25.05";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
+    nix-effect-pod.url = "github:hadilq/nix-effect-pod/main";
   };
 
-  outputs = inputs@{ determinate, nixpkgs, home-manager, darwin, nixpkgs-unstable, ... }:
+  outputs = inputs@{
+    determinate,
+    nixpkgs,
+    home-manager,
+    darwin,
+    nixpkgs-unstable,
+    nix-effect-pod,
+    ...
+  }:
     let
       localConfig = import ./.local/config.nix { };
+      inherit (localConfig) system;
       mkHomeConfig = system:
         let
           pkgs-unstable = import nixpkgs-unstable {
@@ -31,7 +41,7 @@
           };
 
           modules = [
-            ./home.nix
+            ./linux/home.nix
           ];
 
           extraSpecialArgs = {
@@ -66,9 +76,22 @@
             ];
           };
 
+      pod-args = {
+        nixEffectSource = "${nix-effect-pod}";
+        pkgsSource = "${nixpkgs}";
+        homeManagerSource = "${home-manager}";
+      };
+      development-pod = import ./pod-profiles/development/pod.nix pod-args;
+      librewolf-pod = import ./pod-profiles/librewolf/pod.nix pod-args;
+
     in {
-      homeConfigurations."${localConfig.userName}" = mkHomeConfig localConfig.system;
-      darwinConfigurations."${localConfig.userName}" = mkDarwinConfig localConfig.system;
+      homeConfigurations."${localConfig.userName}" = mkHomeConfig system;
+      darwinConfigurations."${localConfig.userName}" = mkDarwinConfig system;
+
+      pod.development = development-pod;
+      pod.librewolf = librewolf-pod;
+
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
     };
 }
 

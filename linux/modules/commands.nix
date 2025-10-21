@@ -1,7 +1,7 @@
-
-{ pkgs, localConfig }:
+{ pkgs, localConfig, ... }:
 let
   inherit (pkgs) lib;
+  inherit (localConfig) local-projects;
   browser-commands = name: [
     (pkgs.writeShellScriptBin "launch-${name}-container" ''
       export DOWNLOAD_DIR=$(mktemp -d /tmp/${name}-download-XXXX)
@@ -22,11 +22,11 @@ let
 
   crawler-commands = [
     (pkgs.writeShellScriptBin "launch-crawler-container" ''
-      podman run -td --rm --pod new:crawler-pod  --volume=${localConfig.crawler-dir}:/home/dev/src \
+      podman run -td --rm --pod new:crawler-pod  --volume=${local-projects.crawler-dir}:/home/dev/src \
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
         --name=crawler-dev dev-machine:latest
 
-      cd ${localConfig.crawler-dir}/container
+      cd ${local-projects.crawler-dir}/container
       source .env
       podman run --pod crawler-pod\
         --volume=$PWD/data:$DB_DATA\
@@ -53,20 +53,20 @@ let
 
   tensorflow-commands = [
     (pkgs.writeShellScriptBin "launch-tensorflow-container" ''
-      podman run -td --rm --pod new:tensorflow-pod --volume=${localConfig.tensorflow-dir}:/home/dev/src \
+      podman run -td --rm --pod new:tensorflow-pod --volume=${local-projects.tensorflow-dir}:/home/dev/src \
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
         --name=tensorflow-dev dev-machine:latest
 
       podman exec -it --user root tensorflow-dev nix-daemon &>/dev/null &
 
-      mkdir -p ${localConfig.tensorflow-dir}/.packages
-      mkdir -p ${localConfig.tensorflow-dir}/.bazelcache
+      mkdir -p ${local-projects.tensorflow-dir}/.packages
+      mkdir -p ${local-projects.tensorflow-dir}/.bazelcache
 
       podman run -td --rm --pod tensorflow-pod --name=tf-sig -w /tf/tensorflow -d \
         --env TF_PYTHON_VERSION=3.9 \
-        -v "${localConfig.tensorflow-dir}/.packages:/tf/pkg" \
-        -v "${localConfig.tensorflow-dir}:/tf/tensorflow" \
-        -v "${localConfig.tensorflow-dir}/.bazelcache:/tf/cache" \
+        -v "${local-projects.tensorflow-dir}/.packages:/tf/pkg" \
+        -v "${local-projects.tensorflow-dir}:/tf/tensorflow" \
+        -v "${local-projects.tensorflow-dir}/.bazelcache:/tf/cache" \
         tf-sig-devel
     '')
 
@@ -96,23 +96,7 @@ let
     '')
   ];
 
-  mkDevCudaContainerCommands = dir: name: [
-    (pkgs.writeShellScriptBin "launch-${name}-container" ''
-      podman run -td --rm --volume=${dir}:/home/dev/src \
-        --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
-        --gpus all \
-        --name=${name}-dev dev-cuda-machine:latest
-
-      podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
-    '')
-
-    (pkgs.writeShellScriptBin "stop-${name}-container" ''
-      podman stop ${name}-dev || true
-      podman rm ${name}-dev || true
-    '')
-  ];
-
-  mkDevPortsContainerCommands = dir: name: ports: [
+  mkDevPortsContainerCommands = ports: dir: name: [
     (pkgs.writeShellScriptBin "launch-${name}-container" ''
       podman run -td --volume=${dir}:/home/dev/src \
         ${lib.strings.concatStrings (lib.map (p: " -p ${builtins.toString p}:${builtins.toString p}") ports)} --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
@@ -141,30 +125,20 @@ let
       podman rm ${name}-dev || true
     '')
   ];
+
+  checkDir = name: commands-fn:
+    (lib.optionals (builtins.hasAttr "${name}-dir" local-projects) (commands-fn local-projects.${"${name}-dir" } name));
 in
 {
-  commands = crawler-commands ++ tensorflow-commands
-  ++ (browser-commands "firefox") ++ (browser-commands "librewolf")
-  ++ (mkDevContainerCommands localConfig.ml-dir "ml")
-  ++ (mkDevContainerCommands localConfig.cv-dir "cv")
-  ++ (mkDevCudaContainerCommands localConfig.lightening-dir "lightening")
-  ++ (mkDevContainerCommands localConfig.zig-metaphor-dir "zm")
-  ++ (mkXDevContainerCommands localConfig.hair-colorization-dir "hc")
-  ++ (mkDevPortsContainerCommands localConfig.note-dir "note" [ 1111 ])
-  ++ (mkDevContainerCommands localConfig.opea-dir "opea")
-  ++ (mkXDevContainerCommands localConfig.trustycity-dir "trustycity")
-  ++ (mkDevCudaContainerCommands localConfig.health-data-nexus-dir "health-data-nexus")
-  ++ (mkDevContainerCommands localConfig.einstein-dir "einstein")
-  ++ (mkXDevContainerCommands localConfig.tmp-android-dir "tmp-android")
-  ++ (mkDevContainerCommands localConfig.clipboard-manager-dir "clipboard-manager")
-  ++ (mkDevContainerCommands localConfig.limbo-dir "limbo")
-  ++ (mkDevContainerCommands localConfig.had-on-dir "had-on")
-  ++ (mkDevContainerCommands localConfig.spllog-dir "spllog")
-  ++ (mkDevContainerCommands localConfig.ollama-dir "ollama")
-  ++ (mkXDevContainerCommands localConfig.stable-diffusion-dir "stable-diffusion")
-  ++ (mkXDevContainerCommands localConfig.minimalitics-dir "minimalitics")
-  ++ (mkXDevContainerCommands localConfig.bevy-wasm-gallery-dir "bevy-wasm-gallery")
-  ++ (mkXDevContainerCommands localConfig.iced-wasm-gallery-dir "iced-wasm-gallery")
-  ++ (mkDevContainerCommands localConfig.noanalyt-dir "noanalyt")
-  ++ (mkDevContainerCommands localConfig.aitinker-dir "aitinker");
+  home.packages = []
+    ++ (browser-commands "firefox") ++ (browser-commands "librewolf")
+    ++ (lib.optionals (builtins.hasAttr "crawler-dir" local-projects) crawler-commands)
+    ++ (lib.optionals (builtins.hasAttr "tensorflow-dir" local-projects) tensorflow-commands)
+    ++ (checkDir "ml" mkDevContainerCommands)
+    ++ (checkDir "cv" (mkDevPortsContainerCommands [ 1111 ]))
+    ++ (checkDir "trustycity" mkDevContainerCommands)
+    ++ (checkDir "einstein" mkDevContainerCommands)
+    ++ (checkDir "tmp-android" mkXDevContainerCommands)
+    ++ (checkDir "clipboard-manager" mkDevContainerCommands)
+    ++ (checkDir "had-on" mkDevContainerCommands);
 }

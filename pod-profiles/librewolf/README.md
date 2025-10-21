@@ -6,7 +6,8 @@ and home-manager, into it. The way I use it is explained below.
 Run
 
 ```shell
-$ nix-build pod.nix &&\
+$ cd ROOT_OF_THIS_PROJECT
+$ nix build .#pod.librewolf &&\
   podman load < result
 ```
 

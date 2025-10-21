@@ -1,15 +1,13 @@
-## This file will be copied to the /etc/nixos directory of the image,
-## so it cannot have dependencies out of nixpkgs, home-manager, nix-effect-pod, and pod-configs.
 {
-  config,
-  pkgs,
-  lib,
+  nixEffectSource,
+  homeManagerSource,
   ...
 }:
 let
   pod-configs = import ./pod-configs.nix;
-  configuration = import "${pod-configs.nixEffectSource}/configuration.nix" {
-    inherit (pod-configs) homeManagerConfigurationSource homeManagerSource uname userHome;
+  configuration = import "${nixEffectSource}/configuration.nix" {
+    inherit (pod-configs) homeManagerConfigurationSource uname userHome;
+    inherit homeManagerSource;
   };
 in
 {

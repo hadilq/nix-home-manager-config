@@ -6,7 +6,7 @@
   ...
 }:
 let
-  zsh-nix = import ./../common/zsh.nix {
+  zsh-nix = import ./../modules/zsh.nix {
     initContent = ''
       HISTSIZE=10000
       export TERM=screen-256color
@@ -15,12 +15,12 @@ let
       export LC_ALL=en_US.UTF-8
     '';
   };
-  neovim-nix = import ./../common/neovim.nix {
+  neovim-nix = import ./../modules/neovim.nix {
     extra-lua-config-files = [
-      ./../common/neovim/nvim-config-development.lua
-      ./../common/neovim/nvim-lsp-development-lang-setup.lua
-      ./../common/neovim/nvim-rustaceanvim.lua
-      ./../common/neovim/nvim-clangd.lua
+      ./../modules/neovim/nvim-config-development.lua
+      ./../modules/neovim/nvim-lsp-development-lang-setup.lua
+      ./../modules/neovim/nvim-rustaceanvim.lua
+      ./../modules/neovim/nvim-clangd.lua
     ];
     extra-plugins =  with pkgs.vimPlugins; [
       grammar-guard-nvim
@@ -49,7 +49,7 @@ let
       ];
   };
 
-  helix-nix = import ./../common/helix.nix {
+  helix-nix = import ./../modules/helix.nix {
     languages = {
       language = [
         {
@@ -94,9 +94,9 @@ in
 {
 
   imports = [
-    ./../common/vim.nix
-    ./../common/shell-tools.nix
-    ./../common/tmux.nix
+    ./../modules/vim.nix
+    ./../modules/shell-tools.nix
+    ./../modules/tmux.nix
     zsh-nix
     neovim-nix
     helix-nix
