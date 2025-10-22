@@ -24,6 +24,7 @@
       nixpkgs,
       home-manager,
       darwin,
+      nixpkgs-darwin,
       nixpkgs-unstable,
       nix-effect-pod,
       ...
@@ -63,7 +64,8 @@
         darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           specialArgs = {
-            inherit nixpkgs pkgs-unstable;
+            nixpkgs = nixpkgs-darwin;
+            inherit pkgs-unstable localConfig;
           };
 
           modules = [
@@ -73,10 +75,6 @@
             {
               home-manager.useUserPackages = true;
               home-manager.users.${userName} = import ./darwin/home.nix;
-
-              home-manager.extraSpecialArgs = {
-                inherit nixpkgs pkgs-unstable;
-              };
             }
           ];
         };

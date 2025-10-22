@@ -13,7 +13,7 @@ nix build .#homeConfigurations.hadi.activationPackage && ./result/activate
 Just run
 ```
 cd TO_THE_LOCAL_PATH_OF_THIS_REPO
-nix run nix-darwin -- switch --flake .#hadi
+nix run nix-darwin -- switch --flake .#hadi && sudo ./result/activate
 ```
 
 
@@ -25,14 +25,14 @@ file with your username and home directory with a content similar to the followi
 ```
 {}:
 let
-  userName = "your user name";
-in {
   userName = "hadi";
+in {
+  inherit userName;
   gitEmail = "your git email";
   gitName = "your git name";
   gitSigningKey = "your siging key for git";
   homeDirectory =  "/Users/${userName}";
-  system = "x86_64-linux"; # or the darwin one accordingly
+  system = "x86_64-linux"; # or aarch64-darwin
   local-projects = {
     ml-dir = "/home/hadi/...";
     crawler-dir = "/home/hadi/...";

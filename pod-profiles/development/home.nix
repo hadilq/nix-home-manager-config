@@ -15,12 +15,13 @@ let
       export LC_ALL=en_US.UTF-8
     '';
   };
-  neovim-nix = import ./../modules/neovim.nix {
+
+  neovim-nix = import ../modules/neovim.nix {
     extra-lua-config-files = [
-      ./../modules/neovim/nvim-config-development.lua
-      ./../modules/neovim/nvim-lsp-development-lang-setup.lua
-      ./../modules/neovim/nvim-rustaceanvim.lua
-      ./../modules/neovim/nvim-clangd.lua
+      ../modules/neovim/nvim-config-development.lua
+      ../modules/neovim/nvim-lsp-development-lang-setup.lua
+      ../modules/neovim/nvim-rustaceanvim.lua
+      ../modules/neovim/nvim-clangd.lua
     ];
     extra-plugins = with pkgs.vimPlugins; [
       grammar-guard-nvim
@@ -46,6 +47,7 @@ let
       p.kotlin
       p.ruby
       p.python
+      p.swift
     ];
   };
 
@@ -128,6 +130,7 @@ in
     ltex-ls # markdown language server
     taplo-lsp # toml lanugae server
     solargraph # ruby language server
+    sourcekit-lsp # swift
     python312Packages.python-lsp-server
     nodePackages.bash-language-server
     nodePackages.nodejs

@@ -36,14 +36,7 @@
         trouble-nvim
         vim-fugitive
         undotree
-        nvim-cmp
-        vim-vsnip
-        cmp-buffer
-        cmp-nvim-lsp
-        nvim-lspconfig
-        conform-nvim
         rose-pine
-        lsp-inlayhints-nvim
         (nvim-treesitter.withPlugins (
           p:
           [
@@ -52,6 +45,12 @@
           ]
           ++ (extra-treesitter-plugins p)
         ))
+        nvim-lspconfig
+        cmp-nvim-lsp
+        cmp-buffer
+        cmp-path
+        cmp-cmdline
+        nvim-cmp
       ]
       ++ extra-plugins;
   };

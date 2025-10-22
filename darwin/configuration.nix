@@ -26,11 +26,10 @@ in
 
   nix = {
     settings = {
+      experimental-features = [ "nix-command" "flakes" ];
       ssl-cert-file = "/etc/nix/ca_cert.pem";
+      auto-optimize-store = true;
     };
-    extraOptions = ''
-      auto-optimize-store = true
-    '';
   };
 
   programs.zsh.enable = true;
