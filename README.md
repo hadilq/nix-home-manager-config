@@ -13,7 +13,7 @@ nix build .#homeConfigurations.hadi.activationPackage && ./result/activate
 Just run
 ```
 cd TO_THE_LOCAL_PATH_OF_THIS_REPO
-nix run nix-darwin -- switch --flake .#hadi && sudo ./result/activate
+nix build .#darwinConfigurations.hadi.config.system.build.toplevel && sudo ./result/activate
 ```
 
 
@@ -41,4 +41,19 @@ in {
 ```
 
 Then run `home-manager switch` and done! All the packages/apps are in new machine with the same configuration.
+
+# Containers
+I have some containers in this repository that I use mostly for development and browsing internet
+for isolation purposes.
+You can build them by running
+
+```
+nix build .#pod.development && podman load < result
+```
+
+or
+
+```
+nix build .#pod.librewolf && podman load < result
+```
 

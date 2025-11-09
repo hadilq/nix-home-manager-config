@@ -26,7 +26,10 @@ in
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       ssl-cert-file = "/etc/nix/ca_cert.pem";
       auto-optimize-store = true;
     };

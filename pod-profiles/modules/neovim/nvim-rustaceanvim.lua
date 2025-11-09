@@ -9,7 +9,6 @@ vim.g.rustaceanvim = {
   },
   server = {
     on_attach = function(client, bufnr)
-      require("lsp-inlayhints").on_attach(client, bufnr)
 
       local opts = {buffer = bufnr, remap = false, silent=true}
       vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
@@ -41,6 +40,4 @@ vim.g.rustaceanvim = {
     },
   }
 }
-
-require("lsp-inlayhints").setup()
 
