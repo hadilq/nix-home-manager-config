@@ -25,6 +25,7 @@ in
   ids.gids.nixbld = 350;
 
   nix = {
+    enable = false;
     settings = {
       experimental-features = [
         "nix-command"
