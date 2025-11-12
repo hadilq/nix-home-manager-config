@@ -84,6 +84,7 @@
         };
 
       pod-args = {
+        inherit system;
         nixEffectSource = "${nix-effect-pod}";
         pkgsSource = "${nixpkgs}";
         homeManagerSource = "${home-manager}";

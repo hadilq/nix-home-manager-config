@@ -1,5 +1,4 @@
 let
-  system = "x86_64-linux";
   channelsList = [
     {
       name = "nixpkgs";
@@ -16,7 +15,6 @@ let
 in
 {
   inherit
-    system
     channelsList
     uname
     userHome

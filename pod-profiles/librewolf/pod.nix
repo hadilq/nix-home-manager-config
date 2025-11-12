@@ -1,4 +1,5 @@
 {
+  system,
   nixEffectSource,
   pkgsSource,
   homeManagerSource,
@@ -8,7 +9,6 @@ let
   image = (
     import "${nixEffectSource}/pod.nix" {
       inherit (pod-configs)
-        system
         name
         nixosConfigurationSource
         channelsList
@@ -17,7 +17,7 @@ let
         etcActivation
         homeActivation
         ;
-      inherit nixEffectSource pkgsSource homeManagerSource;
+      inherit system nixEffectSource pkgsSource homeManagerSource;
     }
   );
 in
