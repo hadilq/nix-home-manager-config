@@ -75,6 +75,10 @@
             {
               home-manager.useUserPackages = true;
               home-manager.users.${userName} = import ./darwin/home.nix;
+              home-manager.extraSpecialArgs = {
+                nixpkgs = nixpkgs-darwin;
+                inherit pkgs-unstable localConfig;
+              };
             }
           ];
         };
