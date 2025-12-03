@@ -30,7 +30,6 @@ in
     libreoffice
     gimp
     gdrive
-    bitwarden
     bitwarden-cli
     imagemagick
     virt-manager
@@ -43,7 +42,7 @@ in
     libgda6
     wl-clipboard
     pkgs-unstable.signal-desktop
-    libsForQt5.okular # remember https://askubuntu.com/questions/54794/cannot-view-pdf-files-with-fillable-fields-with-okular/298942#298942
+    kdePackages.okular # remember https://askubuntu.com/questions/54794/cannot-view-pdf-files-with-fillable-fields-with-okular/298942#298942
     speedcrunch
     loupe
     socat
