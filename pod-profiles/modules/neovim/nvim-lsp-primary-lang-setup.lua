@@ -16,7 +16,6 @@ local function on_attach(client, bufnr)
   vim.keymap.set("n", "[|", vim.diagnostic.goto_prev)
 end
 
-local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lspconfig_opts = {
@@ -24,6 +23,6 @@ local lspconfig_opts = {
   capabilities = capabilities,
 }
 
-lspconfig.nixd.setup(lspconfig_opts)
-lspconfig.lua_ls.setup(lspconfig_opts)
+vim.lsp.config("nixd", lspconfig_opts)
+vim.lsp.config("lua_ls", lspconfig_opts)
 

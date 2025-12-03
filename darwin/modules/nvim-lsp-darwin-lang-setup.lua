@@ -16,14 +16,14 @@ local function on_attach(client, bufnr)
   vim.keymap.set("n", "[|", vim.diagnostic.goto_prev)
 end
 
-local lspconfig = require('lspconfig')
+
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lspconfig_opts = {
   on_attach = on_attach,
   capabilities = capabilities,
 }
-lspconfig.kotlin_language_server.setup(lspconfig_opts)
-lspconfig.jdtls.setup(lspconfig_opts)
-lspconfig.sourcekit.setup(lspconfig_opts)
+vim.lsp.config("kotlin_language_server", lspconfig_opts)
+vim.lsp.config("jdtls", lspconfig_opts)
+vim.lsp.config("sourcekit", lspconfig_opts)
 

@@ -15,25 +15,24 @@ local function on_attach(client, bufnr)
   vim.keymap.set("n", "[|", vim.diagnostic.goto_prev)
 end
 
-local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lspconfig_opts = {
   on_attach = on_attach,
   capabilities = capabilities,
 }
-lspconfig.pylsp.setup(lspconfig_opts)
-lspconfig.kotlin_language_server.setup(lspconfig_opts)
-lspconfig.jdtls.setup(lspconfig_opts)
-lspconfig.ltex.setup(lspconfig_opts)
-lspconfig.bashls.setup(lspconfig_opts)
-lspconfig.jsonls.setup(lspconfig_opts)
-lspconfig.zls.setup(lspconfig_opts)
-lspconfig.sourcekit.setup(lspconfig_opts)
+vim.lsp.config("pylsp", lspconfig_opts)
+vim.lsp.config("kotlin_language_server", lspconfig_opts)
+vim.lsp.config("jdtls", lspconfig_opts)
+vim.lsp.config("ltex", lspconfig_opts)
+vim.lsp.config("bashls", lspconfig_opts)
+vim.lsp.config("jsonls", lspconfig_opts)
+vim.lsp.config("zls", lspconfig_opts)
+vim.lsp.config("sourcekit", lspconfig_opts)
 
 require('grammar-guard').init()
 
-lspconfig.grammar_guard.setup({
+vim.lsp.config("grammar_guard", {
   on_attach = on_attach,
   capabilities = capabilities,
   cmd = { "/home/dev/.nix-profile/bin/ltex-ls" },
