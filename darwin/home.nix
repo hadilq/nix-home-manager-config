@@ -1,9 +1,7 @@
 { pkgs, ... }:
 let
   neovim-nix = import ../pod-profiles/modules/neovim.nix {
-    extra-lua-config-files = [
-      ./modules/neovim/nvim-lsp-darwin-lang-setup.lua
-    ];
+    extra-lua-config-files = [ ];
     extra-treesitter-plugins = p: [
       p.java
       p.json
@@ -32,6 +30,8 @@ in
     openssl
     nodejs
     zulu17
+    podman
+    qemu_full
     alacritty
     kotlin-language-server
     jdt-language-server # java
