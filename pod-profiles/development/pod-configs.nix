@@ -1,6 +1,6 @@
 let
   common-pod-configs = import ../modules/common-pod-configs.nix;
-  name = "dev-machine";
+  name = "dev-pod";
   homeActivation = true;
   nixosConfigurationSource = ./configuration.nix;
   homeManagerConfigurationSource = ./home.nix;

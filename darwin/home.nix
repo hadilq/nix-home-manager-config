@@ -18,11 +18,13 @@ let
     ];
   };
 
+  zsh-nix = import ../pod-profiles/modules/zsh.nix { };
 in
 {
   imports = [
     ../modules/home.nix
     neovim-nix
+    zsh-nix
   ];
 
   home.packages = with pkgs; [

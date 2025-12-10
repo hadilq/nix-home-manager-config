@@ -1,6 +1,6 @@
 let
   common-pod-configs = import ../modules/common-pod-configs.nix;
-  name = "librewolf-machine";
+  name = "librewolf-pod";
   etcActivation = true;
   homeActivation = true;
   nixosConfigurationSource = ./configuration.nix;

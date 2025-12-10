@@ -8,7 +8,6 @@ let
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
 
-  zsh-nix = import ../pod-profiles/modules/zsh.nix { };
   helix-nix = import ../pod-profiles/modules/helix.nix { };
 in
 {
@@ -19,7 +18,6 @@ in
     ../pod-profiles/modules/shell-tools.nix
     ../pod-profiles/modules/tmux.nix
     ./librewolf.nix
-    zsh-nix
     helix-nix
   ];
 

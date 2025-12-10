@@ -1,13 +1,17 @@
 {
   initContent ? "HISTSIZE=20000",
 }:
-{ lib, ... }:
+{ localConfig, ... }:
+let
+  homeDirectory = localConfig.homeDirectory;
+in
 {
   programs.zsh = {
     enable = true;
     autocd = true;
     enableCompletion = true;
     autosuggestion.enable = true;
+    dotDir = "${homeDirectory}/.config/zsh";
     initContent = initContent;
 
     oh-my-zsh = {

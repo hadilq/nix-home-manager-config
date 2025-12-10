@@ -74,7 +74,7 @@
             home-manager.darwinModules.home-manager
             {
               home-manager.useUserPackages = true;
-              home-manager.users.${userName} = import ./darwin/home.nix;
+              home-manager.users.${userName} = ./darwin/home.nix;
               home-manager.extraSpecialArgs = {
                 nixpkgs = nixpkgs-darwin;
                 inherit pkgs-unstable localConfig;
