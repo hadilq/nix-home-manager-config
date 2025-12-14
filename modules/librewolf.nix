@@ -1,11 +1,13 @@
 {
   config,
   pkgs,
+  pkgs-unstable,
   lib,
   ...
 }:
 {
   programs.librewolf = {
+    package = pkgs-unstable.librewolf;
     enable = true;
     settings = {
       "webgl.disabled" = false;

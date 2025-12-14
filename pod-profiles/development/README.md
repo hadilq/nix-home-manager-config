@@ -16,7 +16,7 @@ To build the image. To launch the container use the following:
 ```shell
 $ podman run -td --rm --volume=${PWD}:/home/dev/src \
   --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
-  --name=dev dev-machine:latest
+  --name=dev dev-pod:latest
 ```
 
 I prefer to have my development environment in tmux, so I usually run

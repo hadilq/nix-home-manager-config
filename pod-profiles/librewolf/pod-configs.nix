@@ -1,25 +1,7 @@
-let
-  common-pod-configs = import ../modules/common-pod-configs.nix;
-  name = "librewolf-pod";
-  etcActivation = true;
-  homeActivation = true;
+{
+  podName = "librewolf-pod";
   nixosConfigurationSource = ./configuration.nix;
   homeManagerConfigurationSource = ./home.nix;
-in
-{
-  inherit (common-pod-configs)
-    pkgsSource
-    homeManagerSource
-    system
-    channelsList
-    uname
-    userHome
-    ;
-  inherit
-    name
-    etcActivation
-    homeActivation
-    nixosConfigurationSource
-    homeManagerConfigurationSource
-    ;
+  etcActivation = true;
+  homeActivation = true;
 }

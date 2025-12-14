@@ -27,7 +27,7 @@ $ podman run -td --rm --volume=${DOWNLOAD_DIR}:/home/dev/Downloads\
   --volume=/tmp/.X11-unix/:/tmp/.X11-unix/ --volume="$XAUTH:$XAUTH"\
   -e DISPLAY=$DISPLAY -e XAUTHORITY="$XAUTH"\
   --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
-  --name=librewolf librewolf-machine:latest
+  --name=librewolf librewolf-pod:latest
 ```
 
 To launch the Librewolf run

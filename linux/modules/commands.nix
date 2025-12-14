@@ -10,7 +10,7 @@ let
       podman run -td --rm --volume=''${DOWNLOAD_DIR}:/home/dev/Downloads\
         --volume=/tmp/.X11-unix/:/tmp/.X11-unix/ -e DISPLAY=$DISPLAY\
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
-        --name=${name} ${name}-machine:latest
+        --name=${name} ${name}-pod:latest
 
       podman exec -it ${name} ${name} 2>&1 &
     '')
@@ -24,7 +24,7 @@ let
     (pkgs.writeShellScriptBin "launch-crawler-container" ''
       podman run -td --rm --pod new:crawler-pod  --volume=${local-projects.crawler-dir}:/home/dev/src \
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
-        --name=crawler-dev dev-machine:latest
+        --name=crawler-dev dev-pod:latest
 
       cd ${local-projects.crawler-dir}/container
       source .env
@@ -55,7 +55,7 @@ let
     (pkgs.writeShellScriptBin "launch-tensorflow-container" ''
       podman run -td --rm --pod new:tensorflow-pod --volume=${local-projects.tensorflow-dir}:/home/dev/src \
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
-        --name=tensorflow-dev dev-machine:latest
+        --name=tensorflow-dev dev-pod:latest
 
       podman exec -it --user root tensorflow-dev nix-daemon &>/dev/null &
 
@@ -85,7 +85,7 @@ let
       podman run -td --rm --volume=${dir}:/home/dev/src\
         --volume=/tmp/.X11-unix/:/tmp/.X11-unix/ -e DISPLAY=$DISPLAY \
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
-        --name=${name}-dev dev-machine:latest
+        --name=${name}-dev dev-pod:latest
 
       podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
     '')
@@ -102,7 +102,7 @@ let
         ${
           lib.strings.concatStrings (lib.map (p: " -p ${builtins.toString p}:${builtins.toString p}") ports)
         } --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
-        --name=${name}-dev dev-machine:latest
+        --name=${name}-dev dev-pod:latest
 
       podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
     '')
@@ -117,7 +117,7 @@ let
     (pkgs.writeShellScriptBin "launch-${name}-container" ''
       podman run -td --volume=${dir}:/home/dev/src \
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
-        --name=${name}-dev dev-machine:latest
+        --name=${name}-dev dev-pod:latest
 
       podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
     '')
@@ -142,7 +142,8 @@ in
     ++ (lib.optionals (builtins.hasAttr "crawler-dir" local-projects) crawler-commands)
     ++ (lib.optionals (builtins.hasAttr "tensorflow-dir" local-projects) tensorflow-commands)
     ++ (checkDir "ml" mkDevContainerCommands)
-    ++ (checkDir "cv" (mkDevPortsContainerCommands [ 1111 ]))
+    ++ (checkDir "cv" mkDevContainerCommands)
+    ++ (checkDir "note" (mkDevPortsContainerCommands [ 1111 ]))
     ++ (checkDir "trustycity" mkDevContainerCommands)
     ++ (checkDir "einstein" mkDevContainerCommands)
     ++ (checkDir "tmp-android" mkXDevContainerCommands)

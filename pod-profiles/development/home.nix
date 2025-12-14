@@ -128,7 +128,7 @@ in
     yaml-language-server
     texlab # latex language server
     ltex-ls # markdown language server
-    taplo-lsp # toml lanugae server
+    taplo # toml lanugae server
     solargraph # ruby language server
     sourcekit-lsp # swift
     python312Packages.python-lsp-server

@@ -24,7 +24,7 @@ in
     aspell
     aspellDicts.en
     aspellDicts.ca
-    firefox
+    pkgs-unstable.firefox
     thunderbird
     vlc
     audacity

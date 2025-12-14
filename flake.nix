@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/789dbebe144b5f7d29197d27de9a01125ffb2e4b";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/6b5469f86e53faaf791b701edfff668a86417252";
 
     darwin = {
       url = "github:lnl7/nix-darwin/nix-darwin-25.11";
@@ -31,6 +31,7 @@
     }:
     let
       localConfig = import ./.local/config.nix { };
+      commonPodConfigs = import ./pod-profiles/modules/common-pod-configs.nix;
       inherit (localConfig) system;
       mkHomeConfig =
         system:
@@ -50,7 +51,10 @@
 
           extraSpecialArgs = {
             inherit inputs system;
-          } // { inherit localConfig pkgs-unstable; };
+          }
+          // {
+            inherit localConfig pkgs-unstable;
+          };
         };
 
       mkDarwinConfig =
@@ -83,15 +87,19 @@
           ];
         };
 
-      pod-args = {
+      pod-configs = {
         inherit system;
-        nixEffectSource = "${nix-effect-pod}";
+        nixEffectSource = nix-effect-pod.path;
         pkgsSource = "${nixpkgs}";
         homeManagerSource = "${home-manager}";
       };
-      development-pod = import ./pod-profiles/development/pod.nix pod-args;
-      librewolf-pod = import ./pod-profiles/librewolf/pod.nix pod-args;
 
+      development-pod = import "${pod-configs.nixEffectSource}/modules/pod.nix" (
+        pod-configs // commonPodConfigs // import ./pod-profiles/development/pod-configs.nix
+      );
+      librewolf-pod = import "${pod-configs.nixEffectSource}/modules/pod.nix" (
+        pod-configs // commonPodConfigs // import ./pod-profiles/librewolf/pod-configs.nix
+      );
     in
     {
       homeConfigurations."${localConfig.userName}" = mkHomeConfig system;
