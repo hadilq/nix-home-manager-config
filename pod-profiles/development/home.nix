@@ -130,7 +130,6 @@ in
     ltex-ls # markdown language server
     taplo # toml lanugae server
     solargraph # ruby language server
-    sourcekit-lsp # swift
     python312Packages.python-lsp-server
     nodePackages.bash-language-server
     nodePackages.nodejs

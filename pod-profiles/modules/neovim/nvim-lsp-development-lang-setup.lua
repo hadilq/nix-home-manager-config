@@ -28,7 +28,6 @@ vim.lsp.config("ltex", lspconfig_opts)
 vim.lsp.config("bashls", lspconfig_opts)
 vim.lsp.config("jsonls", lspconfig_opts)
 vim.lsp.config("zls", lspconfig_opts)
-vim.lsp.config("sourcekit", lspconfig_opts)
 
 require('grammar-guard').init()
 
