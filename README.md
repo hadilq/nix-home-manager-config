@@ -1,26 +1,11 @@
 # nix-home-manager-config
 
-This is my configuration of nix package manager in MacOS and NixOS.
-
-## NixOS
-Just run
-```
-cd TO_THE_LOCAL_PATH_OF_THIS_REPO
-nix build .#homeConfigurations.hadi.activationPackage && ./result/activate
-```
-
-## MacOS
-Just run
-```
-cd TO_THE_LOCAL_PATH_OF_THIS_REPO
-nix build .#darwinConfigurations.hadi.config.system.build.toplevel && sudo ./result/activate
-```
-
+This is my home configuration of nix package manager in MacOS and NixOS.
+My NixOS configuration is kept in another repository, [NixOS configuration](https://github.com/hadilq/nixos-configuration).
 
 ## Both NixOS and MacOS
-After installing [home-manager](https://github.com/nix-community/home-manager),
-clone this repository into `~/.config/nixpkgs`. Next step is creating `.local/config.nix`
-file with your username and home directory with a content similar to the following one.
+First of all create `.local/config.nix` file
+with your username and home directory with a content similar to the following one.
 
 ```
 {}:
@@ -40,7 +25,23 @@ in {
 }
 ```
 
-Then run `home-manager switch` and done! All the packages/apps are in new machine with the same configuration.
+Then run `git add -f .local/config.nix`!
+Then run below commands to switch your configuration.
+
+## NixOS
+Just run
+```
+cd TO_THE_LOCAL_PATH_OF_THIS_REPO
+nix build .#homeConfigurations.hadi.activationPackage && ./result/activate
+```
+
+## MacOS
+Just run
+```
+cd TO_THE_LOCAL_PATH_OF_THIS_REPO
+nix build .#darwinConfigurations.hadi.config.system.build.toplevel && sudo ./result/activate
+```
+
 
 # Containers
 I have some containers in this repository that I use mostly for development and browsing internet
