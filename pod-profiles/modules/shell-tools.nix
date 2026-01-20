@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  localConfig,
   ...
 }:
 {
@@ -29,5 +30,14 @@
   programs.jujutsu = {
     enable = true;
     ediff = true;
+    settings = {
+      user = {
+        email = localConfig.gitEmail;
+        name = localConfig.gitName;
+      };
+      ui = {
+        editor = "vim";
+      };
+    };
   };
 }

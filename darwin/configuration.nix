@@ -36,6 +36,17 @@ in
     };
   };
 
+  system.primaryUser = userName;
+  homebrew = {
+    enable = true;
+
+    taps = [ ];
+    brews = [ ];
+    casks = [
+      "docker-desktop" "jetbrain-toolbox"
+    ];
+  };
+
   programs.zsh.enable = true;
 
   system.stateVersion = 4;
