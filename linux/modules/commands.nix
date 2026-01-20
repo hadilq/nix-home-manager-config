@@ -100,7 +100,7 @@ let
     (pkgs.writeShellScriptBin "launch-${name}-container" ''
       podman run -td --volume=${dir}:/home/dev/src \
         ${
-          lib.strings.concatStrings (lib.map (p: " -p ${builtins.toString p}:${builtins.toString p}") ports)
+          lib.strings.concatStrings (lib.map (p: " -p 127.0.0.1:${builtins.toString p}:${builtins.toString p}") ports)
         } --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
         --name=${name}-dev dev-pod:latest
 
@@ -148,5 +148,6 @@ in
     ++ (checkDir "einstein" mkDevContainerCommands)
     ++ (checkDir "tmp-android" mkXDevContainerCommands)
     ++ (checkDir "clipboard-manager" mkDevContainerCommands)
+    ++ (checkDir "rqbit" mkDevContainerCommands)
     ++ (checkDir "had-on" mkDevContainerCommands);
 }
