@@ -113,6 +113,23 @@ let
     '')
   ];
 
+  mkDevCacheWithPortsContainerCommands = ports: dir: name: [
+    (pkgs.writeShellScriptBin "launch-${name}-container" ''
+      podman run -td --volume=${dir}:/home/dev/src --volume=${dir}/cache:/home/dev/.cache\
+        ${
+          lib.strings.concatStrings (lib.map (p: " -p ${builtins.toString p}:${builtins.toString p}") ports)
+        } --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
+        --name=${name}-dev dev-pod:latest
+
+      podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
+    '')
+
+    (pkgs.writeShellScriptBin "stop-${name}-container" ''
+      podman stop ${name}-dev || true
+      podman rm ${name}-dev || true
+    '')
+  ];
+
   mkDevContainerCommands = dir: name: [
     (pkgs.writeShellScriptBin "launch-${name}-container" ''
       podman run -td --volume=${dir}:/home/dev/src \
@@ -149,5 +166,6 @@ in
     ++ (checkDir "tmp-android" mkXDevContainerCommands)
     ++ (checkDir "clipboard-manager" mkDevContainerCommands)
     ++ (checkDir "rqbit" mkDevContainerCommands)
-    ++ (checkDir "had-on" mkDevContainerCommands);
+    ++ (checkDir "had-on" (mkDevPortsContainerCommands [ 1111 ]))
+    ++ (checkDir "local-llm" (mkDevCacheWithPortsContainerCommands [ 8083 ]));
 }
