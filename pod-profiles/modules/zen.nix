@@ -8,11 +8,11 @@ let
   inherit (pkgs) fetchurl appimageTools;
 
   pname = "zen";
-  version = "latest";
+  version = "1.19b";
 
   src = fetchurl {
-    url = "https://github.com/zen-browser/desktop/releases/latest/download/zen-x86_64.AppImage";
-    sha256 = "sha256-kJ5sPFyOku7qkoGHPl4/18lsQ/8RU6dLeBSykjDJsF4=";
+    url = "https://github.com/zen-browser/desktop/releases/download/1.19b/zen-x86_64.AppImage";
+    sha256 = "sha256-3GzfseCGc67HmRzmfcDxJmKstqUJUAJbIFhe4FQw87I=";
   };
 
   appimageContents = appimageTools.extract {
