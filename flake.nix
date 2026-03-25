@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/6b5469f86e53faaf791b701edfff668a86417252";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/16fe302dbbe623329e96b2f0b33dc4d557803aaa";
 
     darwin = {
       url = "github:lnl7/nix-darwin/nix-darwin-25.11";

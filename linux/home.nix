@@ -21,6 +21,7 @@ in
   ];
 
   home.packages = with pkgs; [
+    system76-firmware
     aspell
     aspellDicts.en
     aspellDicts.ca

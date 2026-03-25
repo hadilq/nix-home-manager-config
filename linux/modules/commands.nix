@@ -87,7 +87,12 @@ let
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
         --name=${name}-dev dev-pod:latest
 
-      podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
+      podman exec -it --user root ${name}-dev nix-daemon < /dev/null > /dev/null 2>&1 &
+    '')
+
+    (pkgs.writeShellScriptBin "start-${name}-container" ''
+      podman start ${name}-dev
+      podman exec -it --user root ${name}-dev nix-daemon < /dev/null > /dev/null 2>&1 &
     '')
 
     (pkgs.writeShellScriptBin "stop-${name}-container" ''
@@ -104,7 +109,12 @@ let
         } --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
         --name=${name}-dev dev-pod:latest
 
-      podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
+      podman exec -it --user root ${name}-dev nix-daemon < /dev/null > /dev/null 2>&1 &
+    '')
+
+    (pkgs.writeShellScriptBin "start-${name}-container" ''
+      podman start ${name}-dev
+      podman exec -it --user root ${name}-dev nix-daemon < /dev/null > /dev/null 2>&1 &
     '')
 
     (pkgs.writeShellScriptBin "stop-${name}-container" ''
@@ -121,7 +131,12 @@ let
         } --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
         --name=${name}-dev dev-pod:latest
 
-      podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
+      podman exec -it --user root ${name}-dev nix-daemon < /dev/null > /dev/null 2>&1 &
+    '')
+
+    (pkgs.writeShellScriptBin "start-${name}-container" ''
+      podman start ${name}-dev
+      podman exec -it --user root ${name}-dev nix-daemon < /dev/null > /dev/null 2>&1 &
     '')
 
     (pkgs.writeShellScriptBin "stop-${name}-container" ''
@@ -136,7 +151,12 @@ let
         --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
         --name=${name}-dev dev-pod:latest
 
-      podman exec -it --user root ${name}-dev nix-daemon &>/dev/null &
+      podman exec -it --user root ${name}-dev nix-daemon < /dev/null > /dev/null 2>&1 &
+    '')
+
+    (pkgs.writeShellScriptBin "start-${name}-container" ''
+      podman start ${name}-dev
+      podman exec -it --user root ${name}-dev nix-daemon < /dev/null > /dev/null 2>&1 &
     '')
 
     (pkgs.writeShellScriptBin "stop-${name}-container" ''
