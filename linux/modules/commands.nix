@@ -145,6 +145,29 @@ let
     '')
   ];
 
+  mkDevCacheWithPortsAndGpuContainerCommands = ports: dir: name: [
+    (pkgs.writeShellScriptBin "launch-${name}-container" ''
+      podman run -td --volume=${dir}:/home/dev/src --volume=${dir}/cache:/home/dev/.cache\
+        ${
+          lib.strings.concatStrings (lib.map (p: " -p ${builtins.toString p}:${builtins.toString p}") ports)
+        } --user $(id -u):$(id -g) --userns keep-id:uid=$(id -u),gid=$(id -g)\
+        --device=nvidia.com/gpu=all \
+        --name=${name}-dev dev-gpu-pod:latest
+
+      podman exec -it --user root ${name}-dev nix-daemon < /dev/null > /dev/null 2>&1 &
+    '')
+
+    (pkgs.writeShellScriptBin "start-${name}-container" ''
+      podman start ${name}-dev
+      podman exec -it --user root ${name}-dev nix-daemon < /dev/null > /dev/null 2>&1 &
+    '')
+
+    (pkgs.writeShellScriptBin "stop-${name}-container" ''
+      podman stop ${name}-dev || true
+      podman rm ${name}-dev || true
+    '')
+  ];
+
   mkDevContainerCommands = dir: name: [
     (pkgs.writeShellScriptBin "launch-${name}-container" ''
       podman run -td --volume=${dir}:/home/dev/src \

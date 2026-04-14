@@ -13,6 +13,9 @@ in
     autosuggestion.enable = true;
     dotDir = "${homeDirectory}/.config/zsh";
     initContent = initContent;
+    shellAliases = {
+      hn = "hostname";
+    };
 
     oh-my-zsh = {
       enable = true;
