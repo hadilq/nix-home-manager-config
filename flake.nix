@@ -92,10 +92,15 @@
         nixEffectSource = nix-effect-pod.path;
         pkgsSource = "${nixpkgs}";
         homeManagerSource = "${home-manager}";
+        gitEmail = localConfig.gitEmail;
+        gitName = localConfig.gitName;
       };
 
       development-pod = import "${pod-configs.nixEffectSource}/modules/pod.nix" (
         pod-configs // commonPodConfigs // import ./pod-profiles/development/pod-configs.nix
+      );
+      development-gpu-pod = import "${pod-configs.nixEffectSource}/modules/pod.nix" (
+        pod-configs // commonPodConfigs // import ./pod-profiles/development-gpu/pod-configs.nix
       );
       librewolf-pod = import "${pod-configs.nixEffectSource}/modules/pod.nix" (
         pod-configs // commonPodConfigs // import ./pod-profiles/librewolf/pod-configs.nix
@@ -106,6 +111,7 @@
       darwinConfigurations."${localConfig.userName}" = mkDarwinConfig system;
 
       pod.development = development-pod;
+      pod.development-gpu = development-gpu-pod;
       pod.librewolf = librewolf-pod;
 
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
