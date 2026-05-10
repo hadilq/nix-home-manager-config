@@ -15,5 +15,4 @@ in
     defaultCacheTtlSsh = 2592000;
     maxCacheTtl = 2592000;
   };
-
 }
