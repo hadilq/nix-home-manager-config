@@ -9,8 +9,13 @@
 let
   userName = localConfig.userName;
   homeDirectory = localConfig.homeDirectory;
+  sops-nix = import ../pod-profiles/modules/sops.nix { };
 in
 {
+  imports = [
+      # sops-nix
+  ];
+
   nixpkgs.config = {
     allowUnfree = true;
     packageOverrides = pkgs: {
@@ -43,7 +48,7 @@ in
     taps = [ ];
     brews = [ ];
     casks = [
-      "docker-desktop" "jetbrain-toolbox"
+      "google--chrome" "jetbrain-toolbox"
     ];
   };
 

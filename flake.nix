@@ -16,6 +16,10 @@
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
     nix-effect-pod.url = "github:hadilq/nix-effect-pod/main";
+    sops-nix = {
+      url = "github:Mic92/sops-nix/c591bf665727040c6cc5cb409079acb22dcce33c";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -27,6 +31,7 @@
       nixpkgs-darwin,
       nixpkgs-unstable,
       nix-effect-pod,
+      sops-nix,
       ...
     }:
     let
@@ -84,6 +89,7 @@
                 inherit pkgs-unstable localConfig;
               };
             }
+            sops-nix.darwinModules.sops
           ];
         };
 

@@ -18,7 +18,11 @@ let
     ];
   };
 
-  zsh-nix = import ../pod-profiles/modules/zsh.nix { };
+  zsh-nix = import ../pod-profiles/modules/zsh.nix {
+    initContent = ''
+      EDITOR="vim"
+    '';
+  };
 in
 {
   imports = [
@@ -33,10 +37,28 @@ in
     nodejs
     zulu17
     podman
+    podman-desktop
     qemu_full
     alacritty
     kotlin-language-server
     jdt-language-server # java
     sourcekit-lsp # swift
+    sops
+    awscli2
+    ssm-session-manager-plugin
+    yamlfmt
+    glab
+    ktlint
+    claude-code
+    xcodegent
+    yq
   ];
+
+  home.file.".ideavimrc" = {
+    text = ''
+      imap jj <Esc>
+      set timeoutlen=500
+    '';
+  };
+
 }
