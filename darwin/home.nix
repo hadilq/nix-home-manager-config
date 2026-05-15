@@ -50,7 +50,7 @@ in
     glab
     ktlint
     claude-code
-    xcodegent
+    xcodegen
     yq
   ];
 
