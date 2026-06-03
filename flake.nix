@@ -2,17 +2,17 @@
   description = "Nix desktop configs";
 
   inputs = {
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3.13";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3.21";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/16fe302dbbe623329e96b2f0b33dc4d557803aaa";
+    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/10ceced5b3376c78e98a8d678ab75d3be1c7cbcf";
 
     darwin = {
-      url = "github:lnl7/nix-darwin/nix-darwin-25.11";
+      url = "github:lnl7/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
     nix-effect-pod.url = "github:hadilq/nix-effect-pod/main";
