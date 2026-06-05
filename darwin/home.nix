@@ -60,5 +60,4 @@ in
       set timeoutlen=500
     '';
   };
-
 }

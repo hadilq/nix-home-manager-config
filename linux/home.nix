@@ -45,6 +45,7 @@ in
     libgda6
     wl-clipboard
     pkgs-unstable.signal-desktop
+    pkgs-unstable.ladybird
     kdePackages.okular # remember https://askubuntu.com/questions/54794/cannot-view-pdf-files-with-fillable-fields-with-okular/298942#298942
     speedcrunch
     loupe
