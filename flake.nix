@@ -35,7 +35,7 @@
       ...
     }:
     let
-      localConfig = import ./.local/config.nix { };
+      localConfig = import .local-config.nix { };
       commonPodConfigs = import ./pod-profiles/modules/common-pod-configs.nix;
       inherit (localConfig) system;
       mkHomeConfig =

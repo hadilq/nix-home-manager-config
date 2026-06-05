@@ -4,11 +4,11 @@ This is my home configuration of nix package manager in MacOS and NixOS.
 My NixOS configuration is kept in another repository, [NixOS configuration](https://github.com/hadilq/nixos-configuration).
 
 ## Both NixOS and MacOS
-First of all create `.local/config.nix` file
+First of all create `.local-config.nix` file
 with your username and home directory with a content similar to the following one.
 
 ```
-{}:
+{ }:
 let
   userName = "hadi";
 in {
