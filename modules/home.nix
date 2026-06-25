@@ -41,7 +41,6 @@ in
     ripgrep
     glab
     git-crypt
-    git-lfs
     gh
     lua-language-server
     nixd # nix language server
