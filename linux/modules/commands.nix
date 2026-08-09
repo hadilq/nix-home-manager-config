@@ -203,7 +203,7 @@ in
     ++ (lib.optionals (builtins.hasAttr "tensorflow-dir" local-projects) tensorflow-commands)
     ++ (checkDir "ml" mkDevContainerCommands)
     ++ (checkDir "cv" mkDevContainerCommands)
-    ++ (checkDir "note" (mkDevPortsContainerCommands [ 1111 ]))
+    ++ (checkDir "note" (mkDevPortsContainerCommands [ 1112 ]))
     ++ (checkDir "trustycity" mkDevContainerCommands)
     ++ (checkDir "einstein" mkDevContainerCommands)
     ++ (checkDir "tmp-android" mkXDevContainerCommands)

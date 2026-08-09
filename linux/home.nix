@@ -8,6 +8,7 @@ let
   zsh-nix = import ../pod-profiles/modules/zsh.nix { };
   neovim-nix = import ../pod-profiles/modules/neovim.nix { };
   cosmic-applets-nix = import ../modules/cosmic/applets.nix;
+  wolfram-script-nix = pkgs.callPackage ../pod-profiles/modules/wolfram/wolfram-script.nix;
 in
 {
   imports = [
@@ -18,6 +19,7 @@ in
     neovim-nix
     # cosmic-panel-config is depending on git+https! Waiting for the fix of https://github.com/pop-os/cosmic-panel/blob/1c9c4e2a2cf27efd0ca77b5ec21bc6f7fa92d9da/Cargo.lock#L4239
     #cosmic-applets-nix
+    #wolfram-script-nix
   ];
 
   home.packages = with pkgs; [
@@ -53,5 +55,6 @@ in
     age
     sops
     (callPackage ../pod-profiles/modules/zen.nix { })
+    git-lfs-transfer
   ];
 }

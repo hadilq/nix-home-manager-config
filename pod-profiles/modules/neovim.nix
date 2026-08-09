@@ -32,6 +32,7 @@
       with pkgs.vimPlugins;
       [
         telescope-nvim
+        fff-nvim
         telescope-fzy-native-nvim
         trouble-nvim
         vim-fugitive

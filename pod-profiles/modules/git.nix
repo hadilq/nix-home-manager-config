@@ -10,7 +10,10 @@ in
 {
   programs.git = {
     enable = true;
-    lfs.enable = true;
+    lfs = {
+      enable = true;
+      skipSmudge = true;
+    };
     settings = {
       core = {
         editor = "vim";

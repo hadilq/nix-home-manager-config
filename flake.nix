@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/10ceced5b3376c78e98a8d678ab75d3be1c7cbcf";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/d105ddcdd6ad5ce4628596fe4309ecd14702de94";
 
     darwin = {
       url = "github:lnl7/nix-darwin/nix-darwin-26.05";
@@ -35,9 +35,12 @@
       ...
     }:
     let
-      localConfig = import .local-config.nix { };
-      commonPodConfigs = import ./pod-profiles/modules/common-pod-configs.nix;
+      localConfig = import ./.local-config.nix;
       inherit (localConfig) system;
+      pkgs = import nixpkgs {
+        inherit system;
+      };
+      commonPodConfigs = import ./pod-profiles/modules/common-pod-configs.nix;
       mkHomeConfig =
         system:
         let
@@ -46,9 +49,7 @@
           };
         in
         home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            inherit system;
-          };
+          inherit pkgs;
 
           modules = [
             ./linux/home.nix
