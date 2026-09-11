@@ -131,8 +131,8 @@ in
     taplo # toml lanugae server
     solargraph # ruby language server
     python312Packages.python-lsp-server
-    nodePackages.bash-language-server
-    nodePackages.nodejs
+    bash-language-server
+    nodejs
     google-java-format
     ktlint
     rubyPackages.prettier

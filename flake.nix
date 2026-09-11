@@ -99,8 +99,6 @@
         nixEffectSource = nix-effect-pod.path;
         pkgsSource = "${nixpkgs}";
         homeManagerSource = "${home-manager}";
-        gitEmail = localConfig.gitEmail;
-        gitName = localConfig.gitName;
       };
 
       development-pod = import "${pod-configs.nixEffectSource}/modules/pod.nix" (

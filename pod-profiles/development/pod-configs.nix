@@ -12,6 +12,9 @@ in
   extraSpecialArgs = {
     localConfig = {
       inherit homeDirectory;
+      # you should never commit inside the pod!
+      gitName = "dev";
+      gitEmail = "dev@nix-effect-pod.com";
     };
   };
 }
