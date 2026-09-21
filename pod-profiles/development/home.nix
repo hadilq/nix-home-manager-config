@@ -26,7 +26,6 @@ let
     extra-plugins = with pkgs.vimPlugins; [
       grammar-guard-nvim
       vim-abolish
-      refactoring-nvim
       nvim-lint
       rustaceanvim
       clangd_extensions-nvim

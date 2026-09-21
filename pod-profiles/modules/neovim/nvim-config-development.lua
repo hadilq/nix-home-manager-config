@@ -1,7 +1,4 @@
 
--- Setup refactoring
-require('refactoring').setup({})
-
 -- Setup nvim-lint
 require('lint').linters_by_ft = {
   markdown = { 'vale' },
