@@ -5,6 +5,12 @@ My NixOS configuration is kept in another repository, [NixOS configuration](http
 
 ## Both NixOS and MacOS
 First of all fill `.local-config.nix` file, which is a template in this repo.
+I usually do
+```
+git update-index --assume-unchanged .local-config.nix
+git update-index --skip-worktree .local-config.nix
+```
+to avoid committing or resetting it!
 Then run below commands to switch your configuration.
 
 ## NixOS
