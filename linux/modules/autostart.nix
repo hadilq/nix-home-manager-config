@@ -23,7 +23,7 @@ let
       [Desktop Entry]
       Type=Application
       Name=Zen ML autostart
-      Exec=zen -P "ML" --no-remote
+      Exec=zen-beta -P "ML" --no-remote
       Comment=Start Zen ML on desktop start
     '';
   };
@@ -62,12 +62,12 @@ let
   };
 
   terminal = pkgs.writeTextFile {
-    name = "terminal-desktop";
+    name = "alacritty";
     text = ''
       [Desktop Entry]
       Type=Application
       Name=Terminal autostart
-      Exec=cosmic-term
+      Exec=alacritty
       Comment=Start Terminal on desktop start
     '';
   };

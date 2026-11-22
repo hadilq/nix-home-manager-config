@@ -35,7 +35,6 @@ in
   home.packages = with pkgs; [
     curl
     nmap
-    inetutils # telnet
     htop
     fd
     ripgrep

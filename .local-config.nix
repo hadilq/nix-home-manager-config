@@ -1,19 +1,12 @@
-{ }:
 let
   userName = "hadi";
-  # gitEmail = "your git email";
-  # gitName = "your git name";
-  # gitSigningKey = "your git signature key";
+  gitEmail = "hadilq.dev@gmail.com";
+  gitName = "Hadi";
+  gitSigningKey = "EA378A19A23CF576";
 in {
-  inherit userName;
-  userName = userName;
-  gitEmail = gitEmail;
-  gitName = gitName;
-  gitSigningKey = gitSigningKey;
+  inherit userName gitEmail gitName gitSigningKey;
   homeDirectory = "/home/${userName}"; # or "/Users/${userName}"
   system = "x86_64-linux"; # or aarch64-darwin
   local-projects = {
-    ml-dir = "/home/hadi/...";
-    crawler-dir = "/home/hadi/...";
   };
 }

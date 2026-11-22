@@ -11,8 +11,12 @@ in
     enable = true;
     enableSshSupport = true;
     pinentry.package = if stdenv.isDarwin then pkgs.pinentry_mac else pkgs.pinentry-tty;
-    defaultCacheTtl = 2592000;
-    defaultCacheTtlSsh = 2592000;
-    maxCacheTtl = 2592000;
+    # Short passphrase caches: a warm cache lets any process running as this
+    # user decrypt or sign silently (secret-broker also refuses to unlock
+    # above these limits).
+    defaultCacheTtl = 900;
+    maxCacheTtl = 7200;
+    defaultCacheTtlSsh = 900;
+    maxCacheTtlSsh = 7200;
   };
 }

@@ -4,57 +4,101 @@
   extra-treesitter-plugins ? p: [ ],
 }:
 {
-  config,
   pkgs,
   lib,
   ...
 }:
 let
-  plugins = with pkgs.vimPlugins; [
-    telescope-nvim
-    fff-nvim
-    telescope-fzy-native-nvim
-    trouble-nvim
-    vim-fugitive
-    undotree
-    rose-pine
-    (nvim-treesitter.withPlugins (
-      p: [ p.lua p.nix ] ++ extra-treesitter-plugins p
-    ))
-    nvim-lspconfig
-    cmp-nvim-lsp
-    cmp-buffer
-    cmp-path
-    cmp-cmdline
-    nvim-cmp
-  ] ++ extra-plugins;
-
-  pluginPkgs = map (p: if p ? plugin then p.plugin else p) plugins;
-
-  rtpPrepend = lib.concatMapStrings (p: ''
-    vim.opt.runtimepath:prepend("${p}")
-    vim.opt.packpath:prepend("${p}")
-  '') pluginPkgs;
+  luaDir = ./neovim;
+  readLua = rel: builtins.readFile (luaDir + "/${rel}");
+  # Order matters: leader in options.lua must run before any <leader> maps.
+  initFiles = [
+    "options.lua"
+    "theme.lua"
+    "plugins/treesitter.lua"
+    "plugins/cmp.lua"
+    "lsp.lua"
+    "plugins/telescope.lua"
+    "plugins/fff.lua"
+    "plugins/fugitive.lua"
+    "plugins/undotree.lua"
+    "plugins/trouble.lua"
+    "keymaps.lua"
+  ];
+  extraLua = lib.concatMapStringsSep "\n" lib.strings.fileContents extra-lua-config-files;
 in
 {
+  # Nix-only Neovim: every plugin, grammar, LSP server and tool comes from
+  # nixpkgs via home-manager's programs.neovim. Nothing is fetched at runtime.
+  # extra-lua-config-files / extra-plugins / extra-treesitter-plugins are
+  # appended so darwin and the development pods can extend this module.
   programs.neovim = {
     enable = true;
-    plugins = plugins;
-    extraConfig = builtins.concatStringsSep "\n" [
-      (lib.strings.fileContents ./neovim/nvim-config.vim)
-      ''
-        lua << EOF
-        ${rtpPrepend}
-        ${lib.strings.fileContents ./neovim/nvim-colors.lua}
-        ${lib.strings.fileContents ./neovim/nvim-config-primary.lua}
-        ${lib.strings.fileContents ./neovim/nvim-fugitive.lua}
-        ${lib.strings.fileContents ./neovim/nvim-lsp.lua}
-        ${lib.strings.fileContents ./neovim/nvim-lsp-primary-lang-setup.lua}
-        ${lib.strings.fileContents ./neovim/nvim-telescope.lua}
-        ${lib.strings.fileContents ./neovim/nvim-treesitter.lua}
-        ${lib.concatStringsSep "\n" (map lib.strings.fileContents extra-lua-config-files)}
-        EOF
-      ''
+    defaultEditor = true;
+    # home.stateVersion is 23.11, which still implies the old defaults.
+    # Adopt the current lean ones: no Ruby or Python provider.
+    withRuby = false;
+    withPython3 = false;
+    extraPackages = with pkgs; [
+      nixd
+      lua-language-server
     ];
+    plugins =
+      with pkgs.vimPlugins;
+      [
+        plenary-nvim
+        nvim-web-devicons
+        tokyonight-nvim
+        catppuccin-nvim
+        rose-pine
+        kanagawa-nvim
+        nord-nvim
+        everforest
+        gruvbox-nvim
+        telescope-nvim
+        telescope-fzy-native-nvim
+        fff-nvim
+        nvim-cmp
+        cmp-nvim-lsp
+        cmp-buffer
+        cmp-path
+        cmp-cmdline
+        luasnip
+        cmp_luasnip
+        nvim-lspconfig
+        (nvim-treesitter.withPlugins (
+          p:
+          [
+            p.bash
+            p.c
+            p.cpp
+            p.css
+            p.html
+            p.javascript
+            p.json
+            p.lua
+            p.markdown
+            p.markdown_inline
+            p.nix
+            p.python
+            p.query
+            p.rust
+            p.toml
+            p.tsx
+            p.typescript
+            p.vim
+            p.vimdoc
+            p.yaml
+          ]
+          ++ extra-treesitter-plugins p
+        ))
+        vim-fugitive
+        undotree
+        trouble-nvim
+      ]
+      ++ extra-plugins;
+    initLua =
+      (lib.concatMapStringsSep "\n" (f: "-- ${f}\n${readLua f}") initFiles)
+      + lib.optionalString (extraLua != "") "\n-- extra-lua-config-files\n${extraLua}";
   };
 }

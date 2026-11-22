@@ -1,0 +1,3 @@
+creation_rules:
+  - path_regex: agent\.sops\.json$
+    pgp: "7C16C663EAED24BD96A571FC2D3E7E085E9AB8D5"
