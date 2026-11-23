@@ -1775,14 +1775,18 @@
         ]
       },
       "locked": {
-        "lastModified": 1795399332,
-        "narHash": "sha256-kL62v4B0NK36uR7sc5vrUPu+shr9xXse8/v4rDKmogk=",
-        "path": "/home/hadi/dev/secret-broker",
-        "type": "path"
+        "lastModified": 1795397927,
+        "narHash": "sha256-0bIGqJ/0ZQ/H/OqLPyFzIik0qX1XDbbtoPTuOA2p8B4=",
+        "owner": "hadilq",
+        "repo": "secret-broker",
+        "rev": "ba1066ed77d7a3bfa8a170b070985a97b8edd7e4",
+        "type": "github"
       },
       "original": {
-        "path": "/home/hadi/dev/secret-broker",
-        "type": "path"
+        "owner": "hadilq",
+        "ref": "main",
+        "repo": "secret-broker",
+        "type": "github"
       }
     },
     "sops-nix": {

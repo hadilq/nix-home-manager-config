@@ -32,10 +32,8 @@
       url = "github:jordangarrison/grok-bot-flake/0a550659fae0e9bc0f2b8d7eb4722e82042583f0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # Local checkout for now; once pushed, switch to e.g.
-    #   url = "github:hadilq/secret-broker";
     secret-broker = {
-      url = "path:/home/hadi/dev/secret-broker";
+      url = "github:hadilq/secret-broker/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
