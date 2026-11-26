@@ -22,6 +22,7 @@ in
     neovim-nix
     ../nixarchy/modules/hypr.nix
     ../nixarchy/modules/fonts.nix
+    ../nixarchy/modules/idle-sleep.nix
     ../nixarchy/modules/apps.nix
     # cosmic-panel-config is depending on git+https! Waiting for the fix of https://github.com/pop-os/cosmic-panel/blob/1c9c4e2a2cf27efd0ca77b5ec21bc6f7fa92d9da/Cargo.lock#L4239
     #cosmic-applets-nix

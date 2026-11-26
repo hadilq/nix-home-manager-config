@@ -11,3 +11,4 @@
 require("hypr.user.input")
 require("hypr.user.fonts")
 require("hypr.user.brightness")
+require("hypr.user.idle")
