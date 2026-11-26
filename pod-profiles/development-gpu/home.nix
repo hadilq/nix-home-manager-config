@@ -69,10 +69,6 @@ let
           name = "bash";
         }
         {
-          name = "markdown";
-          language-servers = [ "ltex-ls" ];
-        }
-        {
           name = "toml";
         }
         {
@@ -126,7 +122,6 @@ in
     cmake-language-server
     yaml-language-server
     texlab # latex language server
-    ltex-ls # markdown language server
     taplo # toml lanugae server
     solargraph # ruby language server
     python312Packages.python-lsp-server

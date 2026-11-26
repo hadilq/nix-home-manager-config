@@ -24,27 +24,9 @@ local lspconfig_opts = {
 vim.lsp.config("pylsp", lspconfig_opts)
 vim.lsp.config("kotlin_language_server", lspconfig_opts)
 vim.lsp.config("jdtls", lspconfig_opts)
-vim.lsp.config("ltex", lspconfig_opts)
 vim.lsp.config("bashls", lspconfig_opts)
 vim.lsp.config("jsonls", lspconfig_opts)
 vim.lsp.config("zls", lspconfig_opts)
 
 require('grammar-guard').init()
-
-vim.lsp.config("grammar_guard", {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  cmd = { "/home/dev/.nix-profile/bin/ltex-ls" },
-  settings = {
-    ltex = {
-      enabled = { "latex", "tex", "bib", "markdown" },
-      language = "en-GB",
-      diagnosticSeverity = "info",
-      checkFrequency = "save",
-      additionalRules = {
-        enablePickyRules = false,
-      },
-    },
-  },
-})
 
