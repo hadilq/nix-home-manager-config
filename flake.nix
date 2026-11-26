@@ -61,7 +61,10 @@
       };
       commonPodConfigs = import ./pod-profiles/modules/common-pod-configs.nix;
       mkHomeConfig =
-        system:
+        {
+          system,
+          hostModule,
+        }:
         let
           pkgs-unstable = import nixpkgs-unstable {
             inherit system;
@@ -72,6 +75,7 @@
 
           modules = [
             ./linux/home.nix
+            hostModule
             nixarchy.homeManagerModules.nixarchy
             secret-broker.homeManagerModules.default
           ];
@@ -133,7 +137,14 @@
       );
     in
     {
-      homeConfigurations."${localConfig.userName}" = mkHomeConfig system;
+      homeConfigurations."${localConfig.userName}@darter" = mkHomeConfig {
+        inherit system;
+        hostModule = ./linux/darter.nix;
+      };
+      homeConfigurations."${localConfig.userName}@macy" = mkHomeConfig {
+        inherit system;
+        hostModule = ./linux/macy.nix;
+      };
       darwinConfigurations."${localConfig.userName}" = mkDarwinConfig system;
 
       pod.development = development-pod;

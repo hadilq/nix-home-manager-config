@@ -14,10 +14,10 @@ to avoid committing or resetting it!
 Then run below commands to switch your configuration.
 
 ## NixOS
-Just run
+Linux homes are per host (`hadi@darter` and `hadi@macy`), run
 ```
 cd TO_THE_LOCAL_PATH_OF_THIS_REPO
-nix build .#homeConfigurations.hadi.activationPackage && ./result/activate
+nix build ".#homeConfigurations.hadi@$(hostname).activationPackage" && ./result/activate
 ```
 
 ## MacOS
