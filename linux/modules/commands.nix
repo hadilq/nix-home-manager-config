@@ -208,6 +208,7 @@ in
     ++ (checkDir "einstein" mkDevContainerCommands)
     ++ (checkDir "tmp-android" mkXDevContainerCommands)
     ++ (checkDir "clipboard-manager" mkDevContainerCommands)
+    ++ (checkDir "bevy-wasm-gallery"(mkDevPortsContainerCommands [ 1115 ]))
     ++ (checkDir "rqbit" mkDevContainerCommands)
     ++ (checkDir "had-on" (mkDevPortsContainerCommands [ 1111 ]))
     ++ (checkDir "local-llm" (mkDevCacheWithPortsContainerCommands [ 8083 ]));
