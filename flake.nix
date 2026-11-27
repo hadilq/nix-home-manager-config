@@ -23,7 +23,11 @@
       url = "github:lnl7/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
-    nix-effect-pod.url = "github:hadilq/nix-effect-pod/main";
+    nix-effect-pod = {
+      url = "github:hadilq/nix-effect-pod/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix/c591bf665727040c6cc5cb409079acb22dcce33c";
       inputs.nixpkgs.follows = "nixpkgs";

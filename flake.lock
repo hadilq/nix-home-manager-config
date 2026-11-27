@@ -406,28 +406,6 @@
     "home-manager_2": {
       "inputs": {
         "nixpkgs": [
-          "nix-effect-pod",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1795366757,
-        "narHash": "sha256-Tp4Kh4R7ID1f2mMCDlb2PiFQ/DZZsnXB2u2juWN+TT4=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "3b8140d21fa0a70b1b38c2ed29853dfe686234a6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "ref": "master",
-        "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "home-manager_3": {
-      "inputs": {
-        "nixpkgs": [
           "nixarchy",
           "nixpkgs"
         ]
@@ -446,7 +424,7 @@
         "type": "github"
       }
     },
-    "home-manager_4": {
+    "home-manager_3": {
       "inputs": {
         "nixpkgs": [
           "nixarchy",
@@ -469,7 +447,7 @@
         "type": "github"
       }
     },
-    "home-manager_5": {
+    "home-manager_4": {
       "inputs": {
         "nixpkgs": [
           "nixarchy",
@@ -491,7 +469,7 @@
         "type": "github"
       }
     },
-    "home-manager_6": {
+    "home-manager_5": {
       "inputs": {
         "nixpkgs": [
           "nixarchy",
@@ -957,8 +935,12 @@
     },
     "nix-effect-pod": {
       "inputs": {
-        "home-manager": "home-manager_2",
-        "nixpkgs": "nixpkgs_3"
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1795404135,
@@ -1015,7 +997,7 @@
     },
     "nix-skills": {
       "inputs": {
-        "home-manager": "home-manager_4",
+        "home-manager": "home-manager_3",
         "nixpkgs": [
           "nixarchy",
           "nixpkgs"
@@ -1065,7 +1047,7 @@
         "ai-mirror": "ai-mirror",
         "disko": "disko",
         "gliff": "gliff",
-        "home-manager": "home-manager_3",
+        "home-manager": "home-manager_2",
         "home-manager-stable": "home-manager-stable",
         "hyprland": "hyprland",
         "mcp-nixarchy": "mcp-nixarchy",
@@ -1438,7 +1420,7 @@
           "nixarchy",
           "ai-mirror"
         ],
-        "home-manager": "home-manager_5",
+        "home-manager": "home-manager_4",
         "nixpkgs": [
           "nixarchy",
           "nixpkgs"
@@ -1667,22 +1649,6 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1795401279,
-        "narHash": "sha256-9Tjaop6QYWM6znzrxVrgCqI9sTth7PA3n1N/qGJ9YX8=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "29484b5a5502bc40b65b210790f89c5cf355d8a6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "master",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_4": {
-      "locked": {
         "lastModified": 1795663451,
         "narHash": "sha256-hJ8CpJKO3iZjIJ1N+KSw+iEj0Bi562ZsFNA0TTKNg0g=",
         "owner": "NixOS",
@@ -1761,7 +1727,7 @@
         "home-manager": "home-manager",
         "nix-effect-pod": "nix-effect-pod",
         "nixarchy": "nixarchy",
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": "nixpkgs_3",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "secret-broker": "secret-broker",
@@ -1957,7 +1923,7 @@
     },
     "zen-browser": {
       "inputs": {
-        "home-manager": "home-manager_6",
+        "home-manager": "home-manager_5",
         "nixpkgs": [
           "nixarchy",
           "nixpkgs"
