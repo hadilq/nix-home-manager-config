@@ -8,7 +8,7 @@
 # overrides win. nixarchySeed uses `cp --update=none` and does not
 # ship layouts.lua or hypr/user/, so it will not collide with the
 # home-manager symlinks (which linkGeneration creates first).
-{ lib, ... }:
+{ lib, config, ... }:
 let
   toConfigFile = rel: {
     name = "hypr/${rel}";
@@ -20,8 +20,21 @@ let
     "layouts.lua"
     "user/input.lua"
     "user/brightness.lua"
+  ]
+  ++ lib.optionals config.my.hypr.swapAltWin [
+    "user/keyboard.lua"
   ];
 in
 {
-  xdg.configFile = lib.listToAttrs (map toConfigFile files);
+  options.my.hypr.swapAltWin = lib.mkEnableOption ''
+    Swap Alt and Super at the XKB level (`altwin:swap_alt_win`).
+    On an Apple keyboard this makes Option the Omarchy lead key
+    (the same physical place as Super on a PC keyboard) and Command
+    send Alt, so application Alt shortcuts still work. Only enable
+    this on hosts with that keyboard layout; leave it off elsewhere.
+  '';
+
+  config = {
+    xdg.configFile = lib.listToAttrs (map toConfigFile files);
+  };
 }
