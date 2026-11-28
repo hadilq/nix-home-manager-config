@@ -18,6 +18,7 @@ in
     ../modules/home.nix
     ./modules/autostart.nix
     ./modules/commands.nix
+    ./modules/password-store.nix
     zsh-nix
     neovim-nix
     ../nixarchy/modules/hypr.nix
@@ -89,7 +90,6 @@ in
     rclone
     inkscape
     wl-clipboard
-    pkgs-unstable.signal-desktop
     pkgs-unstable.ladybird
     kdePackages.okular # remember https://askubuntu.com/questions/54794/cannot-view-pdf-files-with-fillable-fields-with-okular/298942#298942
     speedcrunch
