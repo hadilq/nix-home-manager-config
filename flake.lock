@@ -1741,11 +1741,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795664560,
-        "narHash": "sha256-oyXFwU8SfdnqSL4GaUPtMvs9J/kljWbvijE8ivYVklk=",
+        "lastModified": 1795828467,
+        "narHash": "sha256-GB8Hj8J3DXiO2v/FVllN8FuOPhKijYxZPH4IkAGm3f8=",
         "owner": "hadilq",
         "repo": "secret-broker",
-        "rev": "604d75bb2a9a74f2a2ff6914d368971cfdee5cf6",
+        "rev": "bf20b60c32a9ab841b0cb02b156725e89d3973a7",
         "type": "github"
       },
       "original": {
