@@ -8,7 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
-    nixpkgs.url = "github:NixOS/nixpkgs/master";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
     nixarchy = {
       url = "github:olafkfreund/nixarchy/release";
